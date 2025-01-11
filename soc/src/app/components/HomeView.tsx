@@ -52,16 +52,12 @@ const HomeView = ({ data }: HomeViewProps) => {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
-      {/* Hero Section */}
       <div className="text-center flex flex-col items-center pt-2">
-        {" "}
-        {/* Reduced to pt-2 */}
-        {/* Main question - explicit zero margins/padding */}
         <h1 className="text-7xl font-bold flex items-center justify-center m-0 p-0">
           <div className="flex items-center">
-            <div className="relative w-[350px] h-[120px]">
+            <div className="relative w-[350px] h-[120px] flex justify-end">
               {" "}
-              {/* Increased height significantly */}
+              {/* Added flex justify-end */}
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={wordIndex}
@@ -80,19 +76,22 @@ const HomeView = ({ data }: HomeViewProps) => {
                       ease: "easeInOut",
                     },
                   }}
-                  className="absolute w-full h-full flex items-center"
+                  className="absolute right-0 h-full flex items-center" /* Changed to right-0 */
                 >
                   <span
                     className="bg-clip-text text-transparent 
                              bg-gradient-to-r from-red-500 to-red-800
-                             leading-relaxed pb-4" /* Added padding-bottom and line height */
+                             leading-relaxed pb-4 text-right" /* Added text-right */
                   >
                     {words[wordIndex]}
                   </span>
                 </motion.div>
               </AnimatePresence>
             </div>
-            <span className="text-white ml-4 flex-shrink-0">GPUs?</span>
+            <span className="text-white ml-4 flex-shrink-0 min-w-fit">
+              GPUs?
+            </span>{" "}
+            {/* Added min-w-fit */}
           </div>
         </h1>
         {/* Quok it! text with enhanced metallic effect */}
@@ -100,7 +99,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4 }}
-          className="relative group -mt-6 text-center" /* Changed to negative margin-top */
+          className="relative group -mt-6 text-center"
         >
           <span className="text-6xl font-bold inline-block metallic-text transition-transform duration-300">
             Quok it!
