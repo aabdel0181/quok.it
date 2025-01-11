@@ -14,7 +14,7 @@ export const Navbar = () => {
             href="/" 
             className="text-xl font-bold text-white hover:text-red-500 transition-colors"
           >
-            DePIN Analytics
+            Quok.it
           </Link>
           
           <div className="flex gap-8">
@@ -24,7 +24,7 @@ export const Navbar = () => {
                 pathname === '/app' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
-              Dashboard
+              Waitlist
             </Link>
             <Link 
               href="/learn" 
@@ -32,7 +32,7 @@ export const Navbar = () => {
                 pathname === '/learn' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
-              Learn More
+              Contact
             </Link>
           </div>
         </div>
