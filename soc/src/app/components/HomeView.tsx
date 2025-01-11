@@ -57,9 +57,11 @@ const HomeView = ({ data }: HomeViewProps) => {
         {" "}
         {/* Reduced to pt-2 */}
         {/* Main question - explicit zero margins/padding */}
-        <h1 className="text-6xl font-bold flex items-center justify-center m-0 p-0">
+        <h1 className="text-7xl font-bold flex items-center justify-center m-0 p-0">
           <div className="flex items-center">
-            <div className="relative w-[300px] h-[72px]">
+            <div className="relative w-[350px] h-[120px]">
+              {" "}
+              {/* Increased height significantly */}
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={wordIndex}
@@ -82,7 +84,8 @@ const HomeView = ({ data }: HomeViewProps) => {
                 >
                   <span
                     className="bg-clip-text text-transparent 
-                                 bg-gradient-to-r from-red-500 to-red-800"
+                             bg-gradient-to-r from-red-500 to-red-800
+                             leading-relaxed pb-4" /* Added padding-bottom and line height */
                   >
                     {words[wordIndex]}
                   </span>
@@ -97,9 +100,9 @@ const HomeView = ({ data }: HomeViewProps) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4 }}
-          className="relative group mt-6 text-center"
+          className="relative group -mt-6 text-center" /* Changed to negative margin-top */
         >
-          <span className="text-5xl font-bold inline-block metallic-text transition-transform duration-300">
+          <span className="text-6xl font-bold inline-block metallic-text transition-transform duration-300">
             Quok it!
           </span>
         </motion.div>
