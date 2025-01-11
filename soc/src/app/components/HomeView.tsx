@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Globe } from "./Globe";
 import { MetricCounter } from "./MetricCounter";
@@ -33,7 +33,7 @@ const HomeView = ({ data }: HomeViewProps) => {
     }, 500);
     const interval = setInterval(() => {
       setWordIndex((current) => (current + 1) % words.length);
-    }, 2500);
+    }, 3500); // Increased from 2500 to 3500 for slower cycling
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
@@ -58,38 +58,47 @@ const HomeView = ({ data }: HomeViewProps) => {
           {/* Main question */}
           <h1 className="text-6xl font-bold flex items-center justify-center">
             <div className="flex items-center">
-              <div className="relative w-[300px] h-[72px] overflow-hidden">
-                <motion.div
-                  animate={{ y: -wordIndex * 72 }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeInOut",
-                  }}
-                  className="flex flex-col items-start" // Changed from items-end to items-start
-                >
-                  {words.map((word) => (
+              <div className="relative w-[300px] h-[72px]">
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={wordIndex}
+                    initial={{ y: 40, opacity: 0 }} // Reduced distance from 50 to 40
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -40, opacity: 0 }} // Reduced distance from -50 to -40
+                    transition={{
+                      y: {
+                        type: "spring",
+                        stiffness: 200, // Reduced from 300 for smoother motion
+                        damping: 25, // Adjusted for better bounce
+                        duration: 0.5, // Added duration control
+                      },
+                      opacity: {
+                        duration: 0.3, // Increased from 0.2 for smoother fade
+                        ease: "easeInOut",
+                      },
+                    }}
+                    className="absolute w-full h-full flex items-center"
+                  >
                     <span
-                      key={word}
-                      className="h-[72px] w-full flex items-center
-                      bg-clip-text text-transparent 
-                      bg-gradient-to-r from-red-500 to-red-800"
+                      className="bg-clip-text text-transparent 
+                          bg-gradient-to-r from-red-500 to-red-800"
                     >
-                      {word}
+                      {words[wordIndex]}
                     </span>
-                  ))}
-                </motion.div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
               <span className="text-white ml-4 flex-shrink-0">GPUs?</span>
             </div>
           </h1>
-          {/* Quok it! text centered below */}
+          {/* Quok it! text with enhanced metallic effect */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 1.6, delay: 0.4 }}
             className="relative group mt-6 text-center"
           >
-            <span className="text-5xl font-bold inline-block metallic-text select-none">
+            <span className="text-5xl font-bold inline-block metallic-text transition-transform duration-300">
               Quok it!
             </span>
           </motion.div>
