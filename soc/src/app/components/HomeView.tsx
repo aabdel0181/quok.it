@@ -79,7 +79,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="absolute left-16 top-[-80px] z-10 flex flex-col gap-6 w-72"
+            className="absolute left-16 top-[-80px] z-10 flex flex-col gap-8 w-72"
           >
             <MetricCounter
               label="Total GPUs"
