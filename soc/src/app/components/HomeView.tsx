@@ -180,7 +180,7 @@ const HomeView = ({ data }: HomeViewProps) => {
         </motion.p>
       </div>
       {/* Content Container with Metrics and Globe */}
-      <div className="absolute top-[5%] left-0 right-0 bottom-0">
+      <div className="absolute top-[1%] left-0 right-0 bottom-0">
         {/* Metrics Column with Coming Soon Badge */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -188,18 +188,28 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="absolute left-16 top-0 z-10"
         >
-          {/* Coming Soon Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-6 ml-1 inline-flex items-center 
-                     text-red-500 text-sm font-medium
-                     opacity-80"
-          >
-            <span className="mr-2 h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
-            Coming Soon
-          </motion.div>
+          {/* State of Compute and Coming Soon Badge */}
+          <div className="mb-8">
+            {/* <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-2xl font-bold mb-2 text-white"
+            >
+              The State of Compute
+            </motion.h2> */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="inline-flex items-center 
+                 text-red-500 text-xl font-semibold
+                 opacity-90"
+            >
+              <span className="mr-3 h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              Coming Soon
+            </motion.div>
+          </div>
 
           {/* Metrics Container */}
           <div className="flex flex-col gap-6 w-72">

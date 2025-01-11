@@ -36,8 +36,6 @@ export const TabsWithDescription = () => {
   return (
     <div className="w-full max-w-3xl mx-auto">
       <div className="flex justify-center gap-8">
-        {" "}
-        {/* Increased gap from 4 to 8 */}
         {tabs.map((tab) => (
           <motion.div
             key={tab.id}
@@ -45,34 +43,43 @@ export const TabsWithDescription = () => {
             onHoverStart={() => setActiveTab(tab.id)}
             onHoverEnd={() => setActiveTab(null)}
           >
-            <button
-              className={`px-8 py-3 text-lg font-medium rounded-lg transition-all
-                          ${
-                            activeTab === tab.id
-                              ? "bg-red-500/10 text-red-500"
-                              : "text-white hover:text-red-500"
-                          }`}
+            <div
+              className={`
+                relative
+                ${activeTab === tab.id ? "z-50" : "z-0"}
+              `}
             >
-              {tab.title}
-            </button>
+              <AnimatePresence>
+                {activeTab === tab.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute bottom-full w-full bg-black/90 border border-white/10 border-b-0 rounded-t-lg overflow-hidden"
+                  >
+                    <div className="p-4 text-sm text-gray-300">
+                      {tab.description}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            <AnimatePresence>
-              {activeTab === tab.id && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: "auto" }}
-                  exit={{ opacity: 0, y: -10, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-72
-                              bg-black/90 backdrop-blur-lg border border-white/10
-                              p-4 rounded-lg shadow-xl z-50"
-                >
-                  <div className="text-sm text-gray-300 text-center">
-                    {tab.description}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              <button
+                className={`
+                    px-8 py-3 text-lg font-medium
+                    transition-all
+                    border border-white/10
+                    ${
+                      activeTab === tab.id
+                        ? "bg-black/90 text-red-500 rounded-b-lg border-t-0"
+                        : "rounded-lg text-white hover:text-red-500"
+                    }
+                  `}
+              >
+                {tab.title}
+              </button>
+            </div>
           </motion.div>
         ))}
       </div>
