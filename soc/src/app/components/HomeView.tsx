@@ -33,7 +33,7 @@ const HomeView = ({ data }: HomeViewProps) => {
     }, 500);
     const interval = setInterval(() => {
       setWordIndex((current) => (current + 1) % words.length);
-    }, 3500); // Increased from 2500 to 3500 for slower cycling
+    }, 3000); // Increased from 2500 to 3500 for slower cycling
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
