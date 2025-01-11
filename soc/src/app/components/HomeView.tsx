@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Globe } from "./Globe";
 import { MetricCounter } from "./MetricCounter";
-import { ParticleBackground } from "./ParticleBackground";
+import { TabsWithDescription } from "./TabsWithDescription";
 
 interface HomeViewProps {
   data: Array<{
@@ -176,10 +176,9 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg text-gray-400 max-w-2xl mx-auto mt-6"
         >
-          The intelligent platform for decentralized GPU infrastructure
+          The trust layer for decentralized compute
         </motion.p>
       </div>
-
       {/* Content Container with Metrics and Globe */}
       <div className="absolute top-[5%] left-0 right-0 bottom-0">
         {/* Metrics Column with Coming Soon Badge */}
@@ -236,37 +235,29 @@ const HomeView = ({ data }: HomeViewProps) => {
         <div className="absolute inset-0 top-[5%] flex items-center justify-center">
           <Globe data={data} />
         </div>
-        {/* Action Buttons */}
+        {/* New bottom section with tabs and button */}
         <motion.div
-          className="absolute bottom-24 left-0 right-0 z-20 flex justify-center gap-6"
+          className="absolute bottom-24 left-0 right-0 z-20 flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <button
+          <TabsWithDescription />
+
+          <motion.button
             onClick={() => router.push("/app")}
-            className="px-10 py-3 text-xl font-semibold
-             bg-[#cc0000] text-white
-             rounded-full
-             shadow-[0_0_15px_rgba(204,0,0,0.5)]
-             hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
-             transform hover:scale-105 
-             transition-all duration-300"
+            className="px-16 py-4 text-xl font-semibold
+                      bg-[#cc0000] text-white
+                      rounded-full
+                      shadow-[0_0_15px_rgba(204,0,0,0.5)]
+                      hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+                      transform hover:scale-105 
+                      transition-all duration-300
+                      w-[280px]
+                      mt-8" // Added margin top for spacing from tabs
           >
             Join Waitlist
-          </button>
-
-          <button
-            onClick={() => router.push("/learn")}
-            className="px-10 py-3 text-xl font-semibold
-             border-2 border-[#cc0000] text-[#cc0000]
-             rounded-full
-             hover:bg-[#cc0000] hover:text-white
-             transform hover:scale-105 
-             transition-all duration-300"
-          >
-            Learn More
-          </button>
+          </motion.button>
         </motion.div>
       </div>
     </div>
