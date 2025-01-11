@@ -1,34 +1,60 @@
-"use client";
-
-import { motion, animate } from "framer-motion";
-import { useState, useEffect } from "react";
 import {
   HiOutlineChip,
   HiOutlineCube,
   HiOutlineChartBar,
   HiOutlineCurrencyDollar,
 } from "react-icons/hi";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface MetricCounterProps {
   label: string;
-  value?: number;
-  loading?: boolean;
-  suffix?: string;
-  prefix?: string;
-  theme?: string;
   metricType: "total" | "available" | "utilization" | "revenue";
 }
 
 export const MetricCounter: React.FC<MetricCounterProps> = ({
   label,
-  value = 0,
-  loading,
-  suffix = "",
-  prefix = "",
-  theme = "glass",
   metricType,
 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
+  const [glitchText, setGlitchText] = useState("----");
+  const [isGlitching, setIsGlitching] = useState(false);
+
+  // Generate random characters for glitch effect
+  const generateGlitchText = () => {
+    const chars = "01234567890ABCDEF※#@$";
+    return Array(4)
+      .fill(0)
+      .map(() => chars[Math.floor(Math.random() * chars.length)])
+      .join("");
+  };
+
+  // Glitch animation effect
+  useEffect(() => {
+    const triggerGlitch = () => {
+      setIsGlitching(true);
+
+      // Rapid text changes during glitch
+      let glitchCount = 0;
+      const glitchInterval = setInterval(() => {
+        setGlitchText(generateGlitchText());
+        glitchCount++;
+
+        if (glitchCount > 5) {
+          clearInterval(glitchInterval);
+          setGlitchText("----");
+          setIsGlitching(false);
+        }
+      }, 100);
+    };
+
+    const interval = setInterval(() => {
+      if (Math.random() > 0.7) {
+        triggerGlitch();
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const getIcon = () => {
     const iconClass =
@@ -57,10 +83,6 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
                  transition-all duration-300
                  shadow-[0_0_20px_rgba(204,0,0,0.15)]
                  hover:shadow-[0_0_30px_rgba(204,0,0,0.3)]
-                 before:content-[''] before:absolute before:inset-0 
-                 before:rounded-xl before:bg-gradient-to-r 
-                 before:from-red-900/10 before:to-transparent 
-                 before:opacity-50 before:pointer-events-none
                  group"
     >
       <div className="relative flex items-center gap-3 mb-2">
@@ -69,19 +91,46 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
           {label}
         </h3>
       </div>
+
+      {/* Glitch text container */}
       <div
-        className="relative text-2xl font-bold bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent
-                      group-hover:from-red-400 group-hover:to-red-700 transition-all duration-300"
+        className={`relative font-mono ${
+          isGlitching ? "glitch-container" : ""
+        }`}
       >
-        {prefix}
-        {Math.round(displayValue).toLocaleString()}
-        {suffix}
+        <div className="text-2xl font-bold">
+          {/* Base text */}
+          <span className="relative z-10 bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent">
+            {glitchText}
+          </span>
+
+          {/* Glitch effects - only visible during glitch */}
+          {isGlitching && (
+            <>
+              <span
+                className="glitch-layer absolute inset-0 text-red-500"
+                aria-hidden="true"
+              >
+                {glitchText}
+              </span>
+              <span
+                className="glitch-layer absolute inset-0 text-blue-500"
+                aria-hidden="true"
+              >
+                {glitchText}
+              </span>
+            </>
+          )}
+        </div>
       </div>
 
+      {/* Coming Soon Badge */}
       <div
-        className="absolute -inset-[1px] bg-gradient-to-r from-red-900/50 to-transparent 
-                      rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm"
-      />
+        className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full 
+                      shadow-lg animate-pulse"
+      >
+        Coming Soon
+      </div>
     </motion.div>
   );
 };

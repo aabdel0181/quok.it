@@ -20,6 +20,21 @@ export default {
       },
       borderColor: {
         'gray-800': 'rgba(31, 41, 55, 1)',
+      },keyframes: {
+        'glitch-1': {
+          '0%, 100%': { opacity: '0' },
+          '50%': { opacity: '0.25' },
+          '25%, 75%': { opacity: '0.5' },
+        },
+        'glitch-2': {
+          '0%, 100%': { opacity: '0' },
+          '25%': { opacity: '0.25' },
+          '50%, 75%': { opacity: '0.5' },
+        },
+      },
+      animation: {
+        'glitch-1': 'glitch-1 4s infinite',
+        'glitch-2': 'glitch-2 4s infinite',
       },
     },
   },

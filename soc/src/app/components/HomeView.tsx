@@ -56,36 +56,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
               Network Stats
             </h2>
             <p className="text-sm text-gray-400">
-              Real-time metrics from our GPU network
+              Join the waitlist for access to real-time metrics
             </p>
           </div>
 
-          <MetricCounter
-            label="Total GPUs"
-            value={totalGPUs}
-            theme="glass"
-            metricType="total"
-          />
-          <MetricCounter
-            label="Available GPUs"
-            value={availableGPUs}
-            theme="glass"
-            metricType="available"
-          />
-          <MetricCounter
-            label="Network Utilization"
-            value={utilization}
-            suffix="%"
-            theme="glass"
-            metricType="utilization"
-          />
-          <MetricCounter
-            label="Daily Revenue"
-            value={dailyEarnings}
-            prefix="$"
-            theme="glass"
-            metricType="revenue"
-          />
+          <MetricCounter label="Total GPUs" metricType="total" />
+          <MetricCounter label="Available GPUs" metricType="available" />
+          <MetricCounter label="Network Utilization" metricType="utilization" />
+          <MetricCounter label="Daily Revenue" metricType="revenue" />
         </div>
       </motion.div>
 
