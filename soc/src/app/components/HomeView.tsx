@@ -19,16 +19,21 @@ interface HomeViewProps {
     protocol_earnings: number;
   }>;
 }
+const words = ["Hosting", "Renting", "Managing"];
 
 export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
   const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const [globalGlitch, setGlobalGlitch] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowContent(true);
     }, 500);
+    const interval = setInterval(() => {
+      setWordIndex((current) => (current + 1) % words.length);
+    }, 2500);
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
@@ -39,6 +44,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
     }, 2000);
 
     return () => {
+      clearInterval(interval);
+
       clearTimeout(timer);
       clearInterval(glitchInterval);
     };
@@ -46,8 +53,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
-      <ParticleBackground />
-
       {/* Main Content */}
       <div className="flex flex-col h-screen">
         {/* Hero Section */}
@@ -57,18 +62,64 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center pt-2 pb-8"
         >
-          <h1 className="text-5xl font-bold mb-2">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
-              The State of Compute
-            </span>
+          <h1 className="text-6xl font-bold mb-2 flex items-center justify-center gap-4">
+            <div className="flex items-center">
+              {/* Fixed-width container for changing words */}
+              <div className="relative w-[300px] h-[72px] overflow-hidden">
+                {" "}
+                {/* Fixed width */}
+                <motion.div
+                  animate={{ y: -wordIndex * 72 }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut",
+                  }}
+                  className="flex flex-col items-end" // Right-align the text
+                >
+                  {words.map((word) => (
+                    <span
+                      key={word}
+                      className="h-[72px] w-full flex items-center justify-end
+                          bg-clip-text text-transparent 
+                          bg-gradient-to-r from-red-500 to-red-800"
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Fixed-position question mark */}
+              <span className="text-white ml-4 flex-shrink-0">GPUs?</span>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex items-center gap-2"
+            >
+              <span
+                className="bg-gradient-to-r from-red-500 to-red-800 
+                       text-white px-6 py-2 rounded-lg 
+                       font-bold text-4xl
+                       shadow-[0_0_30px_rgba(204,0,0,0.3)]
+                       hover:shadow-[0_0_40px_rgba(204,0,0,0.4)]
+                       transition-all duration-300
+                       cursor-pointer"
+              >
+                Quok it!
+              </span>
+            </motion.div>
           </h1>
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-gray-400"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-lg text-gray-400 max-w-2xl mx-auto mt-6"
           >
-            Real-time analytics of decentralized GPU networks
+            The intelligent platform for decentralized GPU infrastructure
           </motion.p>
         </motion.div>
 
