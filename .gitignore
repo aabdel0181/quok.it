@@ -1,5 +1,5 @@
 venv/
 *.env
-api/
-data/
-data-room/
+*api/
+*data/
+*data-room/
