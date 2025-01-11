@@ -1,11 +1,10 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Globe } from "./Globe";
 import { MetricCounter } from "./MetricCounter";
-
 import { ParticleBackground } from "./ParticleBackground";
 
 interface HomeViewProps {
@@ -22,6 +21,7 @@ interface HomeViewProps {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
+  const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const [globalGlitch, setGlobalGlitch] = useState(false);
 
@@ -32,8 +32,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.6) {
-        // Increased frequency (40% chance)
+      if (Math.random() > 0.25) {
         setGlobalGlitch(true);
         setTimeout(() => setGlobalGlitch(false), 500);
       }
@@ -50,13 +49,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
       <ParticleBackground />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col h-screen">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-center pt-24 pb-8"
+          className="text-center pt-8 pb-8"
         >
           <h1 className="text-5xl font-bold mb-2">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
@@ -67,61 +66,80 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-gray-400 max-w-2xl mx-auto"
+            className="text-lg text-gray-400"
           >
             Real-time analytics of decentralized GPU networks
           </motion.p>
         </motion.div>
 
         {/* Content Container */}
-        <div className="relative w-full max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between">
-            {/* Metrics Column */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col gap-6 w-72"
-            >
-              <MetricCounter
-                label="Total GPUs"
-                metricType="total"
-                isGlitching={globalGlitch}
-              />
-              <MetricCounter
-                label="Available GPUs"
-                metricType="available"
-                isGlitching={globalGlitch}
-              />
-              <MetricCounter
-                label="Network Utilization"
-                metricType="utilization"
-                isGlitching={globalGlitch}
-              />
-              <MetricCounter
-                label="Daily Revenue"
-                metricType="revenue"
-                isGlitching={globalGlitch}
-              />
-            </motion.div>
+        <div className="flex-1 relative">
+          {/* Metrics Column */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="absolute left-16 top-[-80px] z-10 flex flex-col gap-6 w-72"
+          >
+            <MetricCounter
+              label="Total GPUs"
+              metricType="total"
+              isGlitching={globalGlitch}
+            />
+            <MetricCounter
+              label="Available GPUs"
+              metricType="available"
+              isGlitching={globalGlitch}
+            />
+            <MetricCounter
+              label="Network Utilization"
+              metricType="utilization"
+              isGlitching={globalGlitch}
+            />
+            <MetricCounter
+              label="Daily Revenue"
+              metricType="revenue"
+              isGlitching={globalGlitch}
+            />
+          </motion.div>
 
-            {/* Globe Container */}
-            <div
-              className="flex-1 relative"
-              style={{ height: "calc(100vh - 300px)" }}
-            >
+          {/* Globe Container */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="mt-[-200px]">
               <Globe data={data} />
             </div>
           </div>
 
           {/* Action Buttons */}
           <motion.div
-            className="absolute bottom-16 left-0 right-0 z-20 flex justify-center gap-6"
+            className="absolute bottom-40 left-0 right-0 z-20 flex justify-center gap-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            {/* ... buttons ... */}
+            <button
+              className="px-10 py-3 text-xl font-semibold
+                         bg-[#cc0000] text-white
+                         rounded-full
+                         shadow-[0_0_15px_rgba(204,0,0,0.5)]
+                         hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+                         transform hover:scale-105 
+                         transition-all duration-300"
+              onClick={() => router.push("/app")}
+            >
+              Join Waitlist
+            </button>
+
+            <button
+              className="px-10 py-3 text-xl font-semibold rounded-full
+                         border-2 border-[#cc0000] text-[#cc0000]
+                         hover:bg-[#cc0000] hover:text-white
+                         transform hover:scale-105 
+                         transition-all duration-300"
+              onClick={() => router.push("/learn")}
+            >
+              Learn More
+            </button>
           </motion.div>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { useEffect, useRef, useMemo } from 'react';
-import dynamic from 'next/dynamic';
-import type { GPUMetrics } from '../types/metrics';
+import { useEffect, useRef, useMemo } from "react";
+import dynamic from "next/dynamic";
+import type { GPUMetrics } from "../types/metrics";
 
-const GlobeGL = dynamic(() => import('react-globe.gl'), {
+const GlobeGL = dynamic(() => import("react-globe.gl"), {
   ssr: false,
   loading: () => (
     <div className="h-full w-full flex items-center justify-center">
@@ -62,16 +62,16 @@ export const Globe: React.FC<GlobeProps> = ({ data }) => {
 
   const getColorByStatus = (metric: any) => {
     if (metric.utilization_gpu > 70) {
-      return '#FFD700'; // Yellow for high utilization
+      return "#FFD700"; // Yellow for high utilization
     }
-    return '#00cc00'; // Green for normal utilization
+    return "#00cc00"; // Green for normal utilization
   };
 
   const globeData = useMemo(() => {
-    console.log('Total data points:', data.length);
+    console.log("Total data points:", data.length);
     return data
-      .filter(metric => metric.location) // Ensure location exists
-      .map(metric => ({
+      .filter((metric) => metric.location) // Ensure location exists
+      .map((metric) => ({
         lat: metric.location!.latitude,
         lng: metric.location!.longitude,
         size: 0.5,
@@ -91,8 +91,8 @@ export const Globe: React.FC<GlobeProps> = ({ data }) => {
         atmosphereColor="#cc0000"
         atmosphereAltitude={0.15}
         backgroundColor="rgba(0,0,0,0)"
-        width={900}
-        height={900}
+        width={800}
+        height={800}
         enablePointerInteraction={false}
       />
     </div>
