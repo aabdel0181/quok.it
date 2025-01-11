@@ -91,8 +91,8 @@ export const Globe: React.FC<GlobeProps> = ({ data }) => {
         atmosphereColor="#cc0000"
         atmosphereAltitude={0.15}
         backgroundColor="rgba(0,0,0,0)"
-        width={800}
-        height={800}
+        width={600}
+        height={600}
         enablePointerInteraction={false}
       />
     </div>

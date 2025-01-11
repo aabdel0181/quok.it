@@ -233,7 +233,7 @@ const HomeView = ({ data }: HomeViewProps) => {
         </motion.div>
 
         {/* Globe Container */}
-        <div className="absolute inset-0 top-[10%] flex items-center justify-center">
+        <div className="absolute inset-0 top-[5%] flex items-center justify-center">
           <Globe data={data} />
         </div>
         {/* Action Buttons */}
