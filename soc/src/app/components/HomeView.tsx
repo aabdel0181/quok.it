@@ -65,14 +65,14 @@ const HomeView = ({ data }: HomeViewProps) => {
                     duration: 0.8,
                     ease: "easeInOut",
                   }}
-                  className="flex flex-col items-end"
+                  className="flex flex-col items-start" // Changed from items-end to items-start
                 >
                   {words.map((word) => (
                     <span
                       key={word}
-                      className="h-[72px] w-full flex items-center justify-end
-                                bg-clip-text text-transparent 
-                                bg-gradient-to-r from-red-500 to-red-800"
+                      className="h-[72px] w-full flex items-center
+                      bg-clip-text text-transparent 
+                      bg-gradient-to-r from-red-500 to-red-800"
                     >
                       {word}
                     </span>
@@ -82,14 +82,14 @@ const HomeView = ({ data }: HomeViewProps) => {
               <span className="text-white ml-4 flex-shrink-0">GPUs?</span>
             </div>
           </h1>
-          {/* Quok it! text with enhanced metallic effect */}
+          {/* Quok it! text centered below */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
             className="relative group mt-6 text-center"
           >
-            <span className="text-5xl font-bold inline-block metallic-text transition-transform duration-300">
+            <span className="text-5xl font-bold inline-block metallic-text select-none">
               Quok it!
             </span>
           </motion.div>
