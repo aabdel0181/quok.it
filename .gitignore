@@ -1,2 +1,5 @@
 venv/
 *.env
+api/
+data/
+data-room/
