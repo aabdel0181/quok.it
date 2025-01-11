@@ -1,5 +1,6 @@
 import {
   HiOutlineChip,
+  HiOutlineGlobeAlt,
   HiOutlineCube,
   HiOutlineChartBar,
   HiOutlineCurrencyDollar,
@@ -9,7 +10,7 @@ import { motion } from "framer-motion";
 
 interface MetricCounterProps {
   label: string;
-  metricType: "total" | "available" | "utilization" | "revenue";
+  metricType: "networks" | "total" | "available" | "utilization" | "revenue";
   isGlitching: boolean;
 }
 
@@ -44,11 +45,14 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
     }
   }, [isGlitching]);
 
+  // Update the getIcon function to include the new networks icon
   const getIcon = () => {
     const iconClass =
       "w-5 h-5 text-red-500 group-hover:text-red-400 transition-colors duration-300";
 
     switch (metricType) {
+      case "networks":
+        return <HiOutlineGlobeAlt className={iconClass} />; // Add this import from react-icons/hi
       case "total":
         return <HiOutlineChip className={iconClass} />;
       case "available":
@@ -110,14 +114,6 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
             </>
           )}
         </div>
-      </div>
-
-      {/* Coming Soon Badge */}
-      <div
-        className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full 
-                      shadow-lg animate-pulse"
-      >
-        Coming Soon
       </div>
     </motion.div>
   );

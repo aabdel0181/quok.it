@@ -55,7 +55,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-center pt-8 pb-8"
+          className="text-center pt-2 pb-8"
         >
           <h1 className="text-5xl font-bold mb-2">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
@@ -74,33 +74,54 @@ export const HomeView: React.FC<HomeViewProps> = ({ data }) => {
 
         {/* Content Container */}
         <div className="flex-1 relative">
-          {/* Metrics Column */}
+          {/* Metrics Column with Coming Soon Badge */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="absolute left-16 top-[-80px] z-10 flex flex-col gap-8 w-72"
+            className="absolute left-16 top-[-100px] z-10"
           >
-            <MetricCounter
-              label="Total GPUs"
-              metricType="total"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Available GPUs"
-              metricType="available"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Network Utilization"
-              metricType="utilization"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Daily Revenue"
-              metricType="revenue"
-              isGlitching={globalGlitch}
-            />
+            {/* Coming Soon Badge - More subtle version */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mb-6 ml-1 inline-flex items-center 
+               text-red-500 text-sm font-medium
+               opacity-80"
+            >
+              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+              Coming Soon
+            </motion.div>
+
+            {/* Metrics Container */}
+            <div className="flex flex-col gap-4 w-72">
+              <MetricCounter
+                label="Networks Tracked"
+                metricType="networks"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Total GPUs"
+                metricType="total"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Available GPUs"
+                metricType="available"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Network Utilization"
+                metricType="utilization"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Daily Revenue"
+                metricType="revenue"
+                isGlitching={globalGlitch}
+              />
+            </div>
           </motion.div>
 
           {/* Globe Container */}
