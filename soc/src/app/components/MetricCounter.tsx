@@ -10,14 +10,15 @@ import { motion } from "framer-motion";
 interface MetricCounterProps {
   label: string;
   metricType: "total" | "available" | "utilization" | "revenue";
+  isGlitching: boolean;
 }
 
 export const MetricCounter: React.FC<MetricCounterProps> = ({
   label,
   metricType,
+  isGlitching,
 }) => {
   const [glitchText, setGlitchText] = useState("----");
-  const [isGlitching, setIsGlitching] = useState(false);
 
   // Generate random characters for glitch effect
   const generateGlitchText = () => {
@@ -28,33 +29,20 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
       .join("");
   };
 
-  // Glitch animation effect
   useEffect(() => {
-    const triggerGlitch = () => {
-      setIsGlitching(true);
-
-      // Rapid text changes during glitch
-      let glitchCount = 0;
+    if (isGlitching) {
       const glitchInterval = setInterval(() => {
         setGlitchText(generateGlitchText());
-        glitchCount++;
-
-        if (glitchCount > 5) {
-          clearInterval(glitchInterval);
-          setGlitchText("----");
-          setIsGlitching(false);
-        }
       }, 100);
-    };
 
-    const interval = setInterval(() => {
-      if (Math.random() > 0.7) {
-        triggerGlitch();
-      }
-    }, 3000);
+      setTimeout(() => {
+        clearInterval(glitchInterval);
+        setGlitchText("----");
+      }, 500);
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(glitchInterval);
+    }
+  }, [isGlitching]);
 
   const getIcon = () => {
     const iconClass =
