@@ -12,13 +12,7 @@
   --text-secondary: #999999;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Inter', sans-serif;
-}
-
-/* Add container styles */
+/* Responsive container */
 .container {
   width: 100%;
   max-width: 1280px;
@@ -28,6 +22,34 @@ body {
   padding-right: 1rem;
 }
 
+/* Responsive text sizes */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem !important;
+  }
+  
+  .dashboard-container {
+    padding-top: 5rem;
+  }
+}
+
+/* Smooth scrolling and better mobile touch */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Better mobile text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 .glass-card {
   background: rgba(17, 17, 17, 0.7);
   backdrop-filter: blur(8px);

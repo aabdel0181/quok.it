@@ -54,14 +54,13 @@ const HomeView = ({ data }: HomeViewProps) => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-black text-white">
-      <div className="text-center flex flex-col items-center pt-2">
-        <h1 className="text-8xl font-bold flex items-center justify-center m-0 p-0">
-          <div className="flex items-center">
-            <div
-              className="relative flex items-center justify-center"
-              style={{ width: `${adjustedWidth}px`, height: "1.5em" }}
-            >
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <div className="text-center flex flex-col items-center px-4 pt-20 md:pt-24">
+        {/* Responsive Header */}
+        <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+            {/* Carousel container - uses relative sizing */}
+            <div className="relative flex items-center justify-center">
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={wordIndex}
@@ -72,19 +71,13 @@ const HomeView = ({ data }: HomeViewProps) => {
                     y: { type: "spring", stiffness: 200, damping: 25 },
                     opacity: { duration: 0.3 },
                   }}
-                  className="absolute flex items-center justify-center w-full h-full"
-                  style={{
-                    lineHeight: "1.2",
-                    paddingBottom: "0.1em",
-                    fontSize: "1em", // Explicit font size
-                  }}
+                  className="flex items-center justify-center whitespace-nowrap"
                 >
                   <span
-                    className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800"
+                    className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 whitespace-nowrap leading-relaxed"
                     style={{
-                      fontSize:
-                        words[wordIndex] === "Managing" ? "0.9em" : "1em",
-                      display: "block",
+                      lineHeight: "1.3", // Provides space for descenders
+                      padding: "0.1em 0", // Extra padding for safety
                     }}
                   >
                     {words[wordIndex]}
@@ -92,178 +85,92 @@ const HomeView = ({ data }: HomeViewProps) => {
                 </motion.div>
               </AnimatePresence>
             </div>
-            <span
-              className="text-white ml-12 flex items-center"
-              style={{
-                lineHeight: "1.2",
-                paddingBottom: "0.1em",
-                fontSize: "1em", // Matching font size
-              }}
-            >
-              GPUs?
-            </span>
+
+            {/* Question mark - uses inherited font size */}
+            <span className="text-white whitespace-nowrap">GPUs?</span>
           </div>
         </h1>
-        {/* Quok it! text with enhanced metallic effect */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.6, delay: 0.4 }}
-          className="relative group -mt-2 text-center"
-        >
-          <span className="text-6xl font-bold inline-block metallic-text transition-transform duration-300">
-            Quok it!
-          </span>
-        </motion.div> */}
-        {/* VARIATIONS BEGIN  */}
-        {/* Option 1: Modern Chrome Effect */}
-        {/* <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative group mt-6 text-center"
-          >
-            <span className="text-5xl font-bold inline-block chrome-text cursor-pointer hover:scale-105 transition-transform duration-300">
-              Quok it!
-            </span>
-          </motion.div> */}
-        {/* Option 2: Glossy Effect */}
-        {/* <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative group mt-6 text-center"
-          >
-            <span className="text-5xl font-bold inline-block glossy-text cursor-pointer hover:scale-105 transition-transform duration-300">
-              Quok it!
-            </span>
-          </motion.div> */}
-        {/* Option 3: Neon Glow */}
-        {/* <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative group mt-6 text-center"
-          >
-            <span className="text-5xl font-bold inline-block neon-text cursor-pointer hover:scale-105 transition-transform duration-300">
-              Quok it!
-            </span>
-          </motion.div> */}
-        {/* Laser Outline Trace Effect */}
-        {/* <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative group mt-6 text-center"
-          >
-            <svg
-              className="absolute top-0 left-0 w-full h-full"
-              width="0"
-              height="0"
-            >
-              <defs>
-                <linearGradient
-                  id="laser-gradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-                  <stop offset="50%" stopColor="rgba(255,255,255,0.9)" />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span className="text-5xl font-bold inline-block laser-outline-text cursor-pointer">
-              Quok it!
-            </span>
-          </motion.div> */}
+
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-lg text-gray-400 max-w-2xl mx-auto mt-6"
+          className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mt-6 px-4"
         >
           Quok.it: The trust layer for decentralized compute
         </motion.p>
-        {/* Metrics Section */}
+
         {/* Metrics Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center max-w-7xl mx-auto mt-16"
+          className="w-full max-w-7xl mx-auto mt-8 md:mt-16 px-4"
         >
-          <div className="inline-flex bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-10">
-            <div className="flex divide-x divide-white/10">
-              {/* Each metric gets equal width */}
-              <div className="w-64 px-8 first:pl-0 last:pr-0 flex justify-center">
+          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10 overflow-x-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 min-w-[300px]">
+              {/* Responsive metric cards */}
+              <div className="flex flex-col items-center p-4">
                 <MetricCounter
                   label="Networks Tracked"
                   metricType="networks"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="w-64 px-8 flex justify-center">
+              <div className="flex flex-col items-center p-4">
                 <MetricCounter
                   label="Total GPUs"
                   metricType="total"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="w-64 px-8 flex justify-center">
+              <div className="flex flex-col items-center p-4">
                 <MetricCounter
                   label="Available GPUs"
                   metricType="available"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="w-64 px-8 flex justify-center">
+              <div className="flex flex-col items-center p-4">
                 <MetricCounter
                   label="Network Utilization"
                   metricType="utilization"
                   isGlitching={globalGlitch}
                 />
               </div>
-              {/* <div className="w-64 px-8 flex justify-center">
-                <MetricCounter
-                  label="Daily Revenue"
-                  metricType="revenue"
-                  isGlitching={globalGlitch}
-                />
-              </div> */}
             </div>
           </div>
         </motion.div>
-        {/* Globe Container */}
-        {/* <div className="absolute inset-0 flex items-center justify-center">
-          <Globe data={data} />
-        </div> */}
-        {/* New bottom section with tabs and button */}
+
+        {/* Tabs and Button Section */}
         <motion.div
-          className="absolute bottom-24 left-0 right-0 z-20 flex flex-col items-center"
+          className="w-full mt-8 md:mt-16 flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <TabsWithDescription />
+          <div className="w-full max-w-7xl px-4">
+            <TabsWithDescription />
+          </div>
 
-          <motion.button
-            onClick={() => router.push("/app")}
-            className="px-16 py-4 text-xl font-semibold
-                      bg-[#cc0000] text-white
-                      rounded-full
-                      shadow-[0_0_15px_rgba(204,0,0,0.5)]
-                      hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
-                      transform hover:scale-105 
-                      transition-all duration-300
-                      w-[3000px]
-                      mt-8" // Added margin top for spacing from tabs
+          {/* Full-width button container */}
+          <motion.div
+            className="w-full bg-[#cc0000] mt-8 md:mt-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
           >
-            Join The Waitlist
-          </motion.button>
+            <button
+              onClick={() => router.push("/app")}
+              className="w-full py-6 md:py-8 text-lg md:text-xl font-semibold
+                      text-white
+                      hover:bg-red-700
+                      transition-all duration-300"
+            >
+              Join The Waitlist
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     </div>
