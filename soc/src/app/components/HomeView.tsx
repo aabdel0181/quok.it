@@ -91,7 +91,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           </div>
         </h1>
         {/* Quok it! text with enhanced metallic effect */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4 }}
@@ -100,7 +100,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           <span className="text-6xl font-bold inline-block metallic-text transition-transform duration-300">
             Quok it!
           </span>
-        </motion.div>
+        </motion.div> */}
         {/* VARIATIONS BEGIN  */}
         {/* Option 1: Modern Chrome Effect */}
         {/* <motion.div
@@ -172,7 +172,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg text-gray-400 max-w-2xl mx-auto mt-6"
         >
-          The trust layer for decentralized compute
+          Quok.it: The trust layer for decentralized compute
         </motion.p>
         {/* Metrics Section */}
         {/* Metrics Section */}
