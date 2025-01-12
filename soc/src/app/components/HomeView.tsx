@@ -54,10 +54,12 @@ const HomeView = ({ data }: HomeViewProps) => {
     <div className="relative min-h-screen bg-black text-white">
       <div className="text-center flex flex-col items-center pt-2">
         <h1 className="text-7xl font-bold flex items-center justify-center m-0 p-0">
-          <div className="flex items-center">
-            <div className="relative w-[350px] h-[120px] flex justify-end">
+          <div className="flex items-center justify-center w-[600px]">
+            {" "}
+            {/* Container for both elements */}
+            <div className="relative w-[300px] flex justify-end">
               {" "}
-              {/* Added flex justify-end */}
+              {/* Container for animated word */}
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={wordIndex}
@@ -71,27 +73,21 @@ const HomeView = ({ data }: HomeViewProps) => {
                       damping: 25,
                       duration: 0.5,
                     },
-                    opacity: {
-                      duration: 0.3,
-                      ease: "easeInOut",
-                    },
+                    opacity: { duration: 0.3, ease: "easeInOut" },
                   }}
-                  className="absolute right-0 h-full flex items-center" /* Changed to right-0 */
+                  className="absolute right-0 h-full flex items-center"
                 >
                   <span
                     className="bg-clip-text text-transparent 
-                             bg-gradient-to-r from-red-500 to-red-800
-                             leading-relaxed pb-4 text-right" /* Added text-right */
+                     bg-gradient-to-r from-red-500 to-red-800
+                     leading-relaxed pb-4"
                   >
                     {words[wordIndex]}
                   </span>
                 </motion.div>
               </AnimatePresence>
             </div>
-            <span className="text-white ml-4 flex-shrink-0 min-w-fit">
-              GPUs?
-            </span>{" "}
-            {/* Added min-w-fit */}
+            <span className="text-white w-[300px] text-left pl-4">GPUs?</span>
           </div>
         </h1>
         {/* Quok it! text with enhanced metallic effect */}
@@ -99,7 +95,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.6, delay: 0.4 }}
-          className="relative group -mt-6 text-center"
+          className="relative group -mt-2 text-center"
         >
           <span className="text-6xl font-bold inline-block metallic-text transition-transform duration-300">
             Quok it!
@@ -178,54 +174,55 @@ const HomeView = ({ data }: HomeViewProps) => {
         >
           The trust layer for decentralized compute
         </motion.p>
-        {/* Content Container with Metrics and Globe */}
+        {/* Metrics Section */}
+        {/* Metrics Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center max-w-6xl mx-auto mt-8" // Reduced from mt-8 to mt-4
+          className="text-center max-w-7xl mx-auto mt-8"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex items-center justify-center gap-2 
-               text-red-500 text-3xl font-bold mb-12" // Reduced from mb-12 to mb-8
-          >
-            <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse" />
-            Coming Soon
-          </motion.div>
-
-          {/* Metrics in horizontal layout */}
-          <div className="flex justify-center gap-16">
-            <MetricCounter
-              label="Networks Tracked"
-              metricType="networks"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Total GPUs"
-              metricType="total"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Available GPUs"
-              metricType="available"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Network Utilization"
-              metricType="utilization"
-              isGlitching={globalGlitch}
-            />
-            <MetricCounter
-              label="Daily Revenue"
-              metricType="revenue"
-              isGlitching={globalGlitch}
-            />
+          <div className="inline-flex bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-10">
+            <div className="flex divide-x divide-white/10">
+              {/* Each metric gets equal width */}
+              <div className="w-64 px-8 first:pl-0 last:pr-0 flex justify-center">
+                <MetricCounter
+                  label="Networks Tracked"
+                  metricType="networks"
+                  isGlitching={globalGlitch}
+                />
+              </div>
+              <div className="w-64 px-8 flex justify-center">
+                <MetricCounter
+                  label="Total GPUs"
+                  metricType="total"
+                  isGlitching={globalGlitch}
+                />
+              </div>
+              <div className="w-64 px-8 flex justify-center">
+                <MetricCounter
+                  label="Available GPUs"
+                  metricType="available"
+                  isGlitching={globalGlitch}
+                />
+              </div>
+              <div className="w-64 px-8 flex justify-center">
+                <MetricCounter
+                  label="Network Utilization"
+                  metricType="utilization"
+                  isGlitching={globalGlitch}
+                />
+              </div>
+              {/* <div className="w-64 px-8 flex justify-center">
+                <MetricCounter
+                  label="Daily Revenue"
+                  metricType="revenue"
+                  isGlitching={globalGlitch}
+                />
+              </div> */}
+            </div>
           </div>
         </motion.div>
-
         {/* Globe Container */}
         {/* <div className="absolute inset-0 flex items-center justify-center">
           <Globe data={data} />
@@ -248,10 +245,10 @@ const HomeView = ({ data }: HomeViewProps) => {
                       hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
                       transform hover:scale-105 
                       transition-all duration-300
-                      w-[280px]
+                      w-[3000px]
                       mt-8" // Added margin top for spacing from tabs
           >
-            Join Waitlist
+            Join The Waitlist
           </motion.button>
         </motion.div>
       </div>

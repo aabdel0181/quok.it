@@ -12,13 +12,14 @@ interface MetricCounterProps {
   label: string;
   metricType: "networks" | "total" | "available" | "utilization" | "revenue";
   isGlitching: boolean;
+  className?: string;
 }
-
-export const MetricCounter: React.FC<MetricCounterProps> = ({
+export const MetricCounter = ({
   label,
   metricType,
   isGlitching,
-}) => {
+  className = "",
+}: MetricCounterProps) => {
   const [glitchText, setGlitchText] = useState("----");
 
   // Generate random characters for glitch effect
@@ -48,11 +49,11 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
   // Update the getIcon function to include the new networks icon
   const getIcon = () => {
     const iconClass =
-      "w-5 h-5 text-red-500 group-hover:text-red-400 transition-colors duration-300";
+      "w-12 h-12 text-red-500 group-hover:text-red-400 transition-colors"; // Adjusted size
 
     switch (metricType) {
       case "networks":
-        return <HiOutlineGlobeAlt className={iconClass} />; // Add this import from react-icons/hi
+        return <HiOutlineGlobeAlt className={iconClass} />;
       case "total":
         return <HiOutlineChip className={iconClass} />;
       case "available":
@@ -67,36 +68,25 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="relative p-4 rounded-xl 
-                 bg-black/40 backdrop-blur-md
-                 border-2 border-red-900/50 hover:border-red-500/70
-                 transition-all duration-300
-                 shadow-[0_0_20px_rgba(204,0,0,0.15)]
-                 hover:shadow-[0_0_30px_rgba(204,0,0,0.3)]
-                 group"
-    >
-      <div className="relative flex items-center gap-3 mb-2">
-        {getIcon()}
-        <h3 className="text-sm font-medium text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+    <div className={`flex flex-col items-center justify-center ${className}`}>
+      <div className="flex flex-col items-center justify-center">
+        <div className="mb-2">{getIcon()}</div>
+        <div className="text-base text-gray-400 uppercase tracking-wider font-medium">
           {label}
-        </h3>
+        </div>
       </div>
 
       {/* Glitch text container */}
       <div
-        className={`relative font-mono ${
+        className={`relative font-mono mt-3 ${
           isGlitching ? "glitch-container" : ""
         }`}
       >
-        <div className="text-2xl font-bold">
-          {/* Base text */}
+        <div className="text-3xl font-bold">
           <span className="relative z-10 bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent">
             {glitchText}
           </span>
 
-          {/* Glitch effects - only visible during glitch */}
           {isGlitching && (
             <>
               <span
@@ -115,6 +105,6 @@ export const MetricCounter: React.FC<MetricCounterProps> = ({
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
