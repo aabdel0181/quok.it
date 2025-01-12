@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Globe } from "./Globe";
 import { MetricCounter } from "./MetricCounter";
 import { TabsWithDescription } from "./TabsWithDescription";
 
@@ -37,11 +36,11 @@ const HomeView = ({ data }: HomeViewProps) => {
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.6) {
+      if (Math.random() > 0) {
         setGlobalGlitch(true);
         setTimeout(() => setGlobalGlitch(false), 500);
       }
-    }, 2000);
+    }, 2500);
 
     return () => {
       clearInterval(interval);
@@ -53,13 +52,15 @@ const HomeView = ({ data }: HomeViewProps) => {
   return (
     <div className="relative min-h-screen bg-black text-white">
       <div className="text-center flex flex-col items-center pt-2">
-        <h1 className="text-7xl font-bold flex items-center justify-center m-0 p-0">
-          <div className="flex items-center justify-center w-[600px]">
-            {" "}
-            {/* Container for both elements */}
-            <div className="relative w-[300px] flex justify-end">
-              {" "}
-              {/* Container for animated word */}
+        // Set a base width and adjust it based on the average word length const
+        baseWidth = 200; // Base width in pixels const adjustedWidth = baseWidth
+        + (averageWordLength * 10); // Adjust factor as needed
+        <h1 className="text-8xl font-bold flex items-center justify-center m-0 p-0">
+          <div className="flex items-center justify-center">
+            <div
+              className="relative flex items-center justify-center"
+              style={{ width: `${adjustedWidth}px`, height: "1.5em" }}
+            >
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={wordIndex}
@@ -67,27 +68,25 @@ const HomeView = ({ data }: HomeViewProps) => {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -40, opacity: 0 }}
                   transition={{
-                    y: {
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 25,
-                      duration: 0.5,
-                    },
-                    opacity: { duration: 0.3, ease: "easeInOut" },
+                    y: { type: "spring", stiffness: 200, damping: 25 },
+                    opacity: { duration: 0.3 },
                   }}
-                  className="absolute right-0 h-full flex items-center"
+                  className="absolute flex items-center justify-center w-full h-full"
                 >
-                  <span
-                    className="bg-clip-text text-transparent 
-                     bg-gradient-to-r from-red-500 to-red-800
-                     leading-relaxed pb-4"
-                  >
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
                     {words[wordIndex]}
                   </span>
                 </motion.div>
               </AnimatePresence>
             </div>
-            <span className="text-white w-[300px] text-left pl-4">GPUs?</span>
+            <span
+              className="text-white ml-8" // Adjust margin as needed
+              style={{
+                lineHeight: "1.5",
+              }}
+            >
+              GPUs?
+            </span>
           </div>
         </h1>
         {/* Quok it! text with enhanced metallic effect */}
