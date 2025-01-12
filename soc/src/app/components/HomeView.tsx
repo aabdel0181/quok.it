@@ -18,7 +18,11 @@ interface HomeViewProps {
     protocol_earnings: number;
   }>;
 }
-const words = ["Hosting", "Renting", "Managing"];
+const words = ["Hosting", "Renting", "Manage"];
+const averageWordLength =
+  words.reduce((acc, word) => acc + word.length, 0) / words.length;
+const baseWidth = 200; // Base width in pixels
+const adjustedWidth = baseWidth + averageWordLength * 16; // Adjust factor as needed
 
 const HomeView = ({ data }: HomeViewProps) => {
   const router = useRouter();
@@ -52,11 +56,8 @@ const HomeView = ({ data }: HomeViewProps) => {
   return (
     <div className="relative min-h-screen bg-black text-white">
       <div className="text-center flex flex-col items-center pt-2">
-        // Set a base width and adjust it based on the average word length const
-        baseWidth = 200; // Base width in pixels const adjustedWidth = baseWidth
-        + (averageWordLength * 10); // Adjust factor as needed
         <h1 className="text-8xl font-bold flex items-center justify-center m-0 p-0">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center">
             <div
               className="relative flex items-center justify-center"
               style={{ width: `${adjustedWidth}px`, height: "1.5em" }}
@@ -72,17 +73,31 @@ const HomeView = ({ data }: HomeViewProps) => {
                     opacity: { duration: 0.3 },
                   }}
                   className="absolute flex items-center justify-center w-full h-full"
+                  style={{
+                    lineHeight: "1.2",
+                    paddingBottom: "0.1em",
+                    fontSize: "1em", // Explicit font size
+                  }}
                 >
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+                  <span
+                    className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800"
+                    style={{
+                      fontSize:
+                        words[wordIndex] === "Managing" ? "0.9em" : "1em",
+                      display: "block",
+                    }}
+                  >
                     {words[wordIndex]}
                   </span>
                 </motion.div>
               </AnimatePresence>
             </div>
             <span
-              className="text-white ml-8" // Adjust margin as needed
+              className="text-white ml-12 flex items-center"
               style={{
-                lineHeight: "1.5",
+                lineHeight: "1.2",
+                paddingBottom: "0.1em",
+                fontSize: "1em", // Matching font size
               }}
             >
               GPUs?
@@ -179,7 +194,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center max-w-7xl mx-auto mt-8"
+          className="text-center max-w-7xl mx-auto mt-16"
         >
           <div className="inline-flex bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-10">
             <div className="flex divide-x divide-white/10">
