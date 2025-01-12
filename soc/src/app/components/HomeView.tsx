@@ -55,42 +55,57 @@ const HomeView = ({ data }: HomeViewProps) => {
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      <div className="text-center flex flex-col items-center px-4 pt-20 md:pt-24">
+      <div className="text-center flex flex-col items-center p-6">
+        {/* Waitlist Banner - Moved to top on mobile */}
+        <motion.div
+          className="w-full bg-[#cc0000] order-first md:order-last md:mt-16 fixed md:relative top-[75px] md:top-auto z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <button
+            onClick={() => router.push("/app")}
+            className="w-full py-4 md:py-8 text-lg md:text-xl font-semibold
+                text-white
+                hover:bg-red-700
+                transition-all duration-300"
+          >
+            Join The Waitlist
+          </button>
+        </motion.div>{" "}
         {/* Responsive Header */}
-        <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-            {/* Carousel container - uses relative sizing */}
-            <div className="relative flex items-center justify-center">
-              <AnimatePresence mode="popLayout">
-                <motion.div
-                  key={wordIndex}
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -40, opacity: 0 }}
-                  transition={{
-                    y: { type: "spring", stiffness: 200, damping: 25 },
-                    opacity: { duration: 0.3 },
-                  }}
-                  className="flex items-center justify-center whitespace-nowrap"
-                >
-                  <span
-                    className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 whitespace-nowrap leading-relaxed"
-                    style={{
-                      lineHeight: "1.3", // Provides space for descenders
-                      padding: "0.1em 0", // Extra padding for safety
+        <div className="mt-16 md:mt-0">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+              <div className="relative flex items-center justify-center">
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={wordIndex}
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -40, opacity: 0 }}
+                    transition={{
+                      y: { type: "spring", stiffness: 200, damping: 25 },
+                      opacity: { duration: 0.3 },
                     }}
+                    className="flex items-center justify-center whitespace-nowrap"
                   >
-                    {words[wordIndex]}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+                    <span
+                      className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 whitespace-nowrap leading-relaxed"
+                      style={{
+                        lineHeight: "1.3", // Provides space for descenders
+                        padding: "0.1em 0", // Extra padding for safety
+                      }}
+                    >
+                      {words[wordIndex]}
+                    </span>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <span className="text-white whitespace-nowrap">GPUs?</span>
             </div>
-
-            {/* Question mark - uses inherited font size */}
-            <span className="text-white whitespace-nowrap">GPUs?</span>
-          </div>
-        </h1>
-
+          </h1>
+        </div>
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
@@ -100,7 +115,6 @@ const HomeView = ({ data }: HomeViewProps) => {
         >
           Quok.it: The trust layer for decentralized compute
         </motion.p>
-
         {/* Metrics Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -142,35 +156,14 @@ const HomeView = ({ data }: HomeViewProps) => {
             </div>
           </div>
         </motion.div>
-
         {/* Tabs and Button Section */}
         <motion.div
-          className="w-full mt-8 md:mt-16 flex flex-col items-center"
+          className="w-full flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <div className="w-full max-w-7xl px-4">
-            <TabsWithDescription />
-          </div>
-
-          {/* Full-width button container */}
-          <motion.div
-            className="w-full bg-[#cc0000] mt-8 md:mt-16"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            <button
-              onClick={() => router.push("/app")}
-              className="w-full py-6 md:py-8 text-lg md:text-xl font-semibold
-                      text-white
-                      hover:bg-red-700
-                      transition-all duration-300"
-            >
-              Join The Waitlist
-            </button>
-          </motion.div>
+          <TabsWithDescription />
         </motion.div>
       </div>
     </div>
