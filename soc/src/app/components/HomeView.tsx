@@ -56,25 +56,8 @@ const HomeView = ({ data }: HomeViewProps) => {
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
       <div className="text-center flex flex-col items-center p-6">
-        {/* Waitlist Banner - Moved to top on mobile */}
-        <motion.div
-          className="w-full bg-[#cc0000] order-first md:order-last md:mt-16 fixed md:relative top-[75px] md:top-auto z-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        >
-          <button
-            onClick={() => router.push("/app")}
-            className="w-full py-4 md:py-8 text-lg md:text-xl font-semibold
-                text-white
-                hover:bg-red-700
-                transition-all duration-300"
-          >
-            Join The Waitlist
-          </button>
-        </motion.div>{" "}
         {/* Responsive Header */}
-        <div className="mt-16 md:mt-0">
+        <div className="mt-8 md:mt-16">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
               <div className="relative flex items-center justify-center">
@@ -115,6 +98,22 @@ const HomeView = ({ data }: HomeViewProps) => {
         >
           Quok.it: The trust layer for decentralized compute
         </motion.p>
+        <motion.div
+          className="w-full md:hidden mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <button
+            onClick={() => router.push("/app")}
+            className="w-full py-4 text-lg font-semibold
+                bg-[#cc0000] text-white
+                hover:bg-red-700
+                transition-all duration-300"
+          >
+            Join The Waitlist
+          </button>
+        </motion.div>
         {/* Metrics Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -174,6 +173,23 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.8 }}
         >
           <TabsWithDescription />
+        </motion.div>
+        {/* Desktop Waitlist Button - at the bottom */}
+        <motion.div
+          className="hidden md:block w-full mt-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <button
+            onClick={() => router.push("/app")}
+            className="w-full py-8 text-xl font-semibold
+            bg-[#cc0000] text-white
+            hover:bg-red-700
+            transition-all duration-300"
+          >
+            Join The Waitlist
+          </button>
         </motion.div>
       </div>
     </div>
