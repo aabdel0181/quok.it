@@ -33,7 +33,7 @@ const HomeView = ({ data }: HomeViewProps) => {
     }, 500);
     const interval = setInterval(() => {
       setWordIndex((current) => (current + 1) % words.length);
-    }, 3000); // Increased from 2500 to 3500 for slower cycling
+    }, 2500); // Increased from 2500 to 3500 for slower cycling
 
     // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
@@ -178,41 +178,26 @@ const HomeView = ({ data }: HomeViewProps) => {
         >
           The trust layer for decentralized compute
         </motion.p>
-      </div>
-      {/* Content Container with Metrics and Globe */}
-      <div className="absolute top-[1%] left-0 right-0 bottom-0">
-        {/* Metrics Column with Coming Soon Badge */}
+        {/* Content Container with Metrics and Globe */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="absolute left-16 top-0 z-10"
+          className="text-center max-w-6xl mx-auto mt-8" // Reduced from mt-8 to mt-4
         >
-          {/* State of Compute and Coming Soon Badge */}
-          <div className="mb-8">
-            {/* <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-2xl font-bold mb-2 text-white"
-            >
-              The State of Compute
-            </motion.h2> */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="inline-flex items-center 
-                 text-red-500 text-xl font-semibold
-                 opacity-90"
-            >
-              <span className="mr-3 h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-              Coming Soon
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex items-center justify-center gap-2 
+               text-red-500 text-3xl font-bold mb-12" // Reduced from mb-12 to mb-8
+          >
+            <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse" />
+            Coming Soon
+          </motion.div>
 
-          {/* Metrics Container */}
-          <div className="flex flex-col gap-6 w-72">
+          {/* Metrics in horizontal layout */}
+          <div className="flex justify-center gap-16">
             <MetricCounter
               label="Networks Tracked"
               metricType="networks"
@@ -242,9 +227,9 @@ const HomeView = ({ data }: HomeViewProps) => {
         </motion.div>
 
         {/* Globe Container */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        {/* <div className="absolute inset-0 flex items-center justify-center">
           <Globe data={data} />
-        </div>
+        </div> */}
         {/* New bottom section with tabs and button */}
         <motion.div
           className="absolute bottom-24 left-0 right-0 z-20 flex flex-col items-center"
