@@ -127,32 +127,42 @@ const HomeView = ({ data }: HomeViewProps) => {
               {/* Each metric in a responsive grid */}
               <div className="flex flex-col items-center">
                 <MetricCounter
-                  label="Networks Tracked"
+                  label={
+                    <span className="h-[2.5em] md:h-[2em] flex items-center">
+                      Networks Tracked
+                    </span>
+                  }
                   metricType="networks"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="flex flex-col items-center">
-                <MetricCounter
-                  label="Total GPUs"
-                  metricType="total"
-                  isGlitching={globalGlitch}
-                />
-              </div>
-              <div className="flex flex-col items-center">
-                <MetricCounter
-                  label="Available GPUs"
-                  metricType="available"
-                  isGlitching={globalGlitch}
-                />
-              </div>
-              <div className="flex flex-col items-center">
-                <MetricCounter
-                  label="Network Utilization"
-                  metricType="utilization"
-                  isGlitching={globalGlitch}
-                />
-              </div>
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Total GPUs
+                  </span>
+                }
+                metricType="total"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Available GPUs
+                  </span>
+                }
+                metricType="available"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Network Utilization
+                  </span>
+                }
+                metricType="utilization"
+                isGlitching={globalGlitch}
+              />
             </div>
           </div>
         </motion.div>

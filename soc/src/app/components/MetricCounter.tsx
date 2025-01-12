@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface MetricCounterProps {
-  label: string;
+  label: string | React.ReactNode; // accepts both string and JSX
   metricType: "networks" | "total" | "available" | "utilization" | "revenue";
   isGlitching: boolean;
   className?: string;
@@ -18,7 +18,7 @@ export const MetricCounter = ({
   label,
   metricType,
   isGlitching,
-  className = "",
+  className,
 }: MetricCounterProps) => {
   const [glitchText, setGlitchText] = useState("----");
 
