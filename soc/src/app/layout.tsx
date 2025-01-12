@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Quok.it",
   description: "GPU Network Analytics Dashboard",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -19,9 +22,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={`${inter.className} min-h-full bg-black`}>
         <Navbar />
-        <main className="dashboard-container">
-          {children}
-        </main>
+        <main className="dashboard-container">{children}</main>
       </body>
     </html>
   );
