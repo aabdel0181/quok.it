@@ -122,31 +122,31 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="w-full max-w-7xl mx-auto mt-8 md:mt-16 px-4"
         >
-          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10 overflow-x-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 min-w-[300px]">
-              {/* Responsive metric cards */}
-              <div className="flex flex-col items-center p-4">
+          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {/* Each metric in a responsive grid */}
+              <div className="flex flex-col items-center">
                 <MetricCounter
                   label="Networks Tracked"
                   metricType="networks"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="flex flex-col items-center p-4">
+              <div className="flex flex-col items-center">
                 <MetricCounter
                   label="Total GPUs"
                   metricType="total"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="flex flex-col items-center p-4">
+              <div className="flex flex-col items-center">
                 <MetricCounter
                   label="Available GPUs"
                   metricType="available"
                   isGlitching={globalGlitch}
                 />
               </div>
-              <div className="flex flex-col items-center p-4">
+              <div className="flex flex-col items-center">
                 <MetricCounter
                   label="Network Utilization"
                   metricType="utilization"
