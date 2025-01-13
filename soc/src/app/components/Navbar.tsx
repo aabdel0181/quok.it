@@ -14,7 +14,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-[75px]">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 md:gap-4">
             <Image
               src="/logo.png"
               alt="Quok.it Logo"
@@ -24,17 +24,16 @@ export const Navbar = () => {
               priority
               quality={100}
             />
-            <span className="text-xl font-bold text-white hover:text-red-500 transition-colors">
+            <span className="text-lg md:text-2xl font-bold text-white hover:text-red-500 transition-colors">
               Quok.it
             </span>
           </Link>
-
+          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-4 text-red-500 text-2xl lg:text-3xl font-semibold whitespace-nowrap">
+            <span className="h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-red-500 animate-pulse" />
+            Coming Soon
+          </div>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-4 text-red-500 text-xl font-semibold">
-              <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse" />
-              Coming Soon
-            </div>
             <Link
               href="/blog"
               className={`text-lg font-medium transition-colors ${
