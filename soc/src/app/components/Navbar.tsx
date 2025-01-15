@@ -45,9 +45,9 @@ export const Navbar = () => {
               Blog
             </Link>
             <Link
-              href="/app"
+              href="/waitlist"
               className={`text-lg font-medium transition-colors ${
-                pathname === "/app"
+                pathname === "/waitlist"
                   ? "text-red-500"
                   : "text-white hover:text-red-500"
               }`}
@@ -127,7 +127,7 @@ export const Navbar = () => {
                 Blog
               </Link>
               <Link
-                href="/app"
+                href="/waitlist"
                 className="px-4 py-2 text-white hover:text-red-500 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >

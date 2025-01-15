@@ -105,7 +105,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 1 }}
         >
           <button
-            onClick={() => router.push("/app")}
+            onClick={() => router.push("/waitlist")}
             className="w-full py-4 text-lg font-semibold
                 bg-[#cc0000] text-white
                 hover:bg-red-700
@@ -215,10 +215,13 @@ const HomeView = ({ data }: HomeViewProps) => {
             {" "}
             {/* Match main container width */}
             <button
-              onClick={() => router.push("/app")}
-              className="w-full py-8 text-xl font-semibold
+              onClick={() => router.push("/waitlist")}
+              className="w-full py-6 text-xl font-semibold
               bg-[#cc0000] text-white
-              shadow-[0_0_15px_rgba(204,0,0,0.5)]
+              shadow-2. Would you be interested in participating in a beta test of [Quok.it](http://quok.it/)'s services?
+    - Yes
+    - No
+    - Maybe[0_0_15px_rgba(204,0,0,0.5)]
               hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
               hover:bg-red-700
               transform hover:scale-105 
