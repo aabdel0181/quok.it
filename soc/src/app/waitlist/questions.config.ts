@@ -7,7 +7,7 @@ export interface Question {
     placeholder?: string;
     showIf?: (answers: Record<number, any>) => boolean;
   }
-  const waitlistQuestions: Question[] = [
+  export const questions: Question[] = [
     {
       id: 0,
       question: "Welcome to the Quok.it Waitlist Survey!",
@@ -119,4 +119,3 @@ export interface Question {
     },
   ];
   
-  export default waitlistQuestions;
