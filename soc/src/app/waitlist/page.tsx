@@ -211,6 +211,21 @@ export default function Waitlist() {
           >
             Next <FiArrowRight />
           </button>
+          {currentQuestion === questions.length - 1 && (
+            <button
+              onClick={() => {
+                // Handle form submission here
+                console.log("Form submitted:", answers);
+                // You can add API call here
+              }}
+              className="w-full mt-8 p-4 bg-red-500 rounded-lg 
+                hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+                shadow-[0_0_15px_rgba(204,0,0,0.5)]
+                transition-all duration-300 text-center font-semibold"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </div>
     </div>
