@@ -2,9 +2,9 @@ export interface Question {
     id: number;
     question: string;
     type: 'intro' | 'choice' | 'multiselect' | 'text' | 'email';
+    subtext?: string;
     options?: string[];
     placeholder?: string;
-    subtext?: string;
     showIf?: (answers: Record<number, any>) => boolean;
   }
   const waitlistQuestions: Question[] = [
