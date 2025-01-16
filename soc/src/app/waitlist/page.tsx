@@ -115,24 +115,15 @@ export default function Waitlist() {
           )}
 
           {questions[currentQuestion].type === "text" && (
-            <div className="space-y-3">
-              <input
-                type="text"
-                placeholder={questions[currentQuestion].placeholder}
-                value={(answers[questions[currentQuestion].id] as string) || ""}
-                onChange={(e) => handleAnswer(e.target.value)}
-                className="w-full p-4 bg-transparent rounded-lg border border-white/10 
-                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20
-                         transition-all duration-300"
-              />
-              <button
-                onClick={handleNext}
-                className="w-full p-4 bg-red-500 rounded-lg hover:bg-red-600 
-                          transition-all duration-300 text-center font-semibold"
-              >
-                Continue
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder={questions[currentQuestion].placeholder}
+              value={(answers[questions[currentQuestion].id] as string) || ""}
+              onChange={(e) => handleAnswer(e.target.value)}
+              className="w-full p-4 bg-transparent rounded-lg border border-white/10 
+             focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20
+             transition-all duration-300"
+            />
           )}
 
           {questions[currentQuestion].type === "multiselect" && (
@@ -182,28 +173,30 @@ export default function Waitlist() {
             <div className="flex justify-between mt-12">
               <button
                 onClick={handlePrevious}
-                className={`flex items-center gap-2 text-white/50 hover:text-white transition-colors
-                          ${currentQuestion === 0 ? "invisible" : ""}`}
+                className={`flex items-center gap-2 px-6 py-3 text-white hover:text-red-500 
+                transition-colors font-semibold
+                ${currentQuestion === 0 ? "invisible" : ""}`}
               >
-                <FiArrowLeft /> Previous
+                <FiArrowLeft className="w-5 h-5" /> Previous
               </button>
 
               {currentQuestion === getVisibleQuestions().length - 1 ? (
                 <button
                   onClick={() => console.log("Submit:", answers)}
-                  className="w-48 p-4 bg-red-500 rounded-lg 
-                          hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
-                          shadow-[0_0_15px_rgba(204,0,0,0.5)]
-                          transition-all duration-300 text-center font-semibold"
+                  className="px-8 py-3 bg-red-500 rounded-lg 
+                hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+                shadow-[0_0_15px_rgba(204,0,0,0.5)]
+                transition-all duration-300 text-center font-semibold"
                 >
                   Submit
                 </button>
               ) : (
                 <button
                   onClick={handleNext}
-                  className={`flex items-center gap-2 text-white hover:text-red-500 transition-colors`}
+                  className="flex items-center gap-2 px-6 py-3 text-white hover:text-red-500 
+                  transition-colors font-semibold"
                 >
-                  Next <FiArrowRight />
+                  Next <FiArrowRight className="w-5 h-5" />
                 </button>
               )}
             </div>
