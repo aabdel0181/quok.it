@@ -6,7 +6,15 @@ import { questions, type Question } from "./questions.config";
 export default function Waitlist() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
-
+  // Add this handler near your other state declarations
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      // Don't trigger on multiselect
+      if (questions[currentQuestion].type !== "multiselect") {
+        handleNext();
+      }
+    }
+  };
   // Get all questions that should be shown based on current answers
   const getVisibleQuestions = () => {
     return questions.filter(
@@ -58,7 +66,11 @@ export default function Waitlist() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center">
+    <div
+      className="min-h-screen bg-black text-white flex items-center justify-center"
+      onKeyDown={handleKeyPress}
+      tabIndex={0} // Makes the div focusable
+    >
       <div className="w-full max-w-2xl mx-auto p-6">
         <div className="space-y-8">
           <h2 className="text-4xl font-bold">
@@ -120,6 +132,7 @@ export default function Waitlist() {
               placeholder={questions[currentQuestion].placeholder}
               value={(answers[questions[currentQuestion].id] as string) || ""}
               onChange={(e) => handleAnswer(e.target.value)}
+              onKeyDown={handleKeyPress}
               className="w-full p-4 bg-transparent rounded-lg border border-white/10 
              focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20
              transition-all duration-300"
