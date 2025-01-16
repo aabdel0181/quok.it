@@ -15,11 +15,49 @@ export default function Waitlist() {
       }
     }
   };
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+
+      const data = await response.json();
+      console.log("Successfully submitted:", data);
+      // Add success message or redirect here
+    } catch (error) {
+      console.error("Error submitting:", error);
+      // Add error handling here
+    }
+  };
   // Get all questions that should be shown based on current answers
   const getVisibleQuestions = () => {
     return questions.filter(
       (q) => !q.showIf || q.showIf(answers as Record<number, string>)
     );
+  };
+
+  console.log("currentQuestion ID: ", currentQuestion);
+  console.log("Dynamic length: ", getVisibleQuestions().length - 1);
+  const isLastQuestion = () => {
+    let nextIndex = currentQuestion + 1;
+    while (nextIndex < questions.length) {
+      if (
+        !questions[nextIndex].showIf ||
+        questions[nextIndex].showIf?.(answers as Record<number, string>)
+      ) {
+        return false;
+      }
+      nextIndex++;
+    }
+    return true;
   };
   const handleNext = () => {
     // If we're on a choice question, let the onClick handler handle navigation
@@ -126,9 +164,10 @@ export default function Waitlist() {
             </div>
           )}
 
-          {questions[currentQuestion].type === "text" && (
+          {(questions[currentQuestion].type === "text" ||
+            questions[currentQuestion].type === "email") && (
             <input
-              type="text"
+              type={questions[currentQuestion].type}
               placeholder={questions[currentQuestion].placeholder}
               value={(answers[questions[currentQuestion].id] as string) || ""}
               onChange={(e) => handleAnswer(e.target.value)}
@@ -193,13 +232,13 @@ export default function Waitlist() {
                 <FiArrowLeft className="w-5 h-5" /> Previous
               </button>
 
-              {currentQuestion === getVisibleQuestions().length - 1 ? (
+              {isLastQuestion() ? (
                 <button
                   onClick={() => console.log("Submit:", answers)}
                   className="px-8 py-3 bg-red-500 rounded-lg 
-                hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
-                shadow-[0_0_15px_rgba(204,0,0,0.5)]
-                transition-all duration-300 text-center font-semibold"
+              hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+              shadow-[0_0_15px_rgba(204,0,0,0.5)]
+              transition-all duration-300 text-center font-semibold"
                 >
                   Submit
                 </button>
@@ -207,7 +246,7 @@ export default function Waitlist() {
                 <button
                   onClick={handleNext}
                   className="flex items-center gap-2 px-6 py-3 text-white hover:text-red-500 
-                  transition-colors font-semibold"
+              transition-colors font-semibold"
                 >
                   Next <FiArrowRight className="w-5 h-5" />
                 </button>
