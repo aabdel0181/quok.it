@@ -6,6 +6,9 @@ import { questions, type Question } from "./questions.config";
 export default function Waitlist() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   // Add this handler near your other state declarations
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -17,6 +20,9 @@ export default function Waitlist() {
   };
   const handleSubmit = async () => {
     try {
+      setIsSubmitting(true);
+      setError(null);
+
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: {
@@ -29,14 +35,15 @@ export default function Waitlist() {
         throw new Error("Failed to submit");
       }
 
-      const data = await response.json();
-      console.log("Successfully submitted:", data);
-      // Add success message or redirect here
+      setIsSubmitted(true);
     } catch (error) {
       console.error("Error submitting:", error);
-      // Add error handling here
+      setError("Failed to submit. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   // Get all questions that should be shown based on current answers
   const getVisibleQuestions = () => {
     return questions.filter(
@@ -102,7 +109,26 @@ export default function Waitlist() {
       [questions[currentQuestion].id]: answer,
     }));
   };
-
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="w-full max-w-2xl mx-auto p-6 text-center space-y-6">
+          <h2 className="text-4xl font-bold">Thank You!</h2>
+          <p className="text-gray-400">
+            Your submission has been received. We'll be in touch soon!
+          </p>
+          <div className="mt-8">
+            <a
+              href="https://quok.it"
+              className="text-red-500 hover:text-red-400 transition-colors"
+            >
+              Return to Homepage
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className="min-h-screen bg-black text-white flex items-center justify-center"
@@ -231,16 +257,19 @@ export default function Waitlist() {
               >
                 <FiArrowLeft className="w-5 h-5" /> Previous
               </button>
-
               {isLastQuestion() ? (
                 <button
-                  onClick={() => console.log("Submit:", answers)}
-                  className="px-8 py-3 bg-red-500 rounded-lg 
-              hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
-              shadow-[0_0_15px_rgba(204,0,0,0.5)]
-              transition-all duration-300 text-center font-semibold"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`px-8 py-3 bg-red-500 rounded-lg 
+                transition-all duration-300 text-center font-semibold
+                ${
+                  isSubmitting
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)] shadow-[0_0_15px_rgba(204,0,0,0.5)]"
+                }`}
                 >
-                  Submit
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
               ) : (
                 <button
@@ -250,6 +279,9 @@ export default function Waitlist() {
                 >
                   Next <FiArrowRight className="w-5 h-5" />
                 </button>
+              )}
+              {error && (
+                <div className="mt-4 text-red-500 text-center">{error}</div>
               )}
             </div>
           )}
