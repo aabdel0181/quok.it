@@ -249,14 +249,20 @@ export default function Waitlist() {
               {isLastQuestion() ? (
                 <button
                   onClick={handleSubmit}
-                  disabled={isSubmitting || Object.keys(errors).length > 0}
+                  disabled={
+                    isSubmitting ||
+                    Object.keys(errors).length > 0 ||
+                    !answers[questions[currentQuestion].id]
+                  }
                   className={`px-8 py-3 bg-red-500 rounded-lg 
-                            transition-all duration-300 text-center font-semibold
-                            ${
-                              isSubmitting || Object.keys(errors).length > 0
-                                ? "opacity-50 cursor-not-allowed"
-                                : "hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)] shadow-[0_0_15px_rgba(204,0,0,0.5)]"
-                            }`}
+              transition-all duration-300 text-center font-semibold
+              ${
+                isSubmitting ||
+                Object.keys(errors).length > 0 ||
+                !answers[questions[currentQuestion].id]
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)] shadow-[0_0_15px_rgba(204,0,0,0.5)]"
+              }`}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
@@ -268,12 +274,12 @@ export default function Waitlist() {
                     !answers[questions[currentQuestion].id]
                   }
                   className={`flex items-center gap-2 px-6 py-3 transition-colors font-semibold
-                            ${
-                              errors[questions[currentQuestion].id] ||
-                              !answers[questions[currentQuestion].id]
-                                ? "text-gray-500 cursor-not-allowed"
-                                : "text-white hover:text-red-500"
-                            }`}
+              ${
+                errors[questions[currentQuestion].id] ||
+                !answers[questions[currentQuestion].id]
+                  ? "text-gray-500 cursor-not-allowed"
+                  : "text-white hover:text-red-500"
+              }`}
                 >
                   Next <FiArrowRight className="w-5 h-5" />
                 </button>
