@@ -94,9 +94,17 @@ const HomeView = ({ data }: HomeViewProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-base md:text-xl text-gray-400 max-w-2xl mx-auto mt-6 px-4"
+        >
+          The trust layer for decentralized compute
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mt-6 px-4"
         >
-          Quok.it: The trust layer for decentralized compute
+          Proof of Health, Proof of Hardware
         </motion.p>
         <motion.div
           className="w-full md:hidden mt-8"
