@@ -28,8 +28,8 @@ export const Navbar = () => {
               Quok.it
             </span>
           </Link>
-          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-4 text-red-500 text-2xl lg:text-3xl font-semibold whitespace-nowrap">
-            <span className="h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-red-500 animate-pulse" />
+          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2 text-red-500 text-xl lg:text-2xl font-semibold whitespace-nowrap">
+            <span className="h-3 w-3 lg:h-4 lg:w-4 rounded-full bg-red-500 animate-pulse" />
             Coming Soon
           </div>
           {/* Desktop Navigation */}

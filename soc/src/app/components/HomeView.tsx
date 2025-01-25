@@ -82,22 +82,24 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           </h1>
         </div>
         {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-base md:text-xl text-gray-400 max-w-2xl mx-auto mt-6 px-4"
-        >
-          The trust layer for decentralized compute
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mt-6 px-4"
-        >
-          Proof of Health, Proof of Hardware
-        </motion.p>
+        <div className="flex flex-col items-center justify-center flex-grow">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-2xl md:text-4xl text-center text-white font-semibold mt-6 px-4"
+          >
+            The trust layer for decentralized compute
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-base md:text-lg text-center text-gray-400 mt-4 px-4"
+          >
+            Proof of Health, Proof of Hardware
+          </motion.p>
+        </div>
         <motion.div
   className="w-full md:hidden mt-8 min-h-screen flex flex-col justify-between"
   initial={{ opacity: 0 }}
