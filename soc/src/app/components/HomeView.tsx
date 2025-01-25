@@ -12,7 +12,11 @@ const averageWordLength =
 const baseWidth = 200; // Base width in pixels
 const adjustedWidth = baseWidth + averageWordLength * 16; // Adjust factor as needed
 
-const HomeView = ({ data }) => {
+interface HomeViewProps {
+  data: any; // Replace 'any' with the appropriate type if known
+}
+
+const HomeView: React.FC<HomeViewProps> = ({ data }) => {
   const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const [globalGlitch, setGlobalGlitch] = useState(false);
@@ -42,8 +46,8 @@ const HomeView = ({ data }) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-12 lg:pt-8">
+    <div className="min-h-screen flex flex-col justify-between bg-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-12 lg:pt-8 flex-grow">
         {/* Responsive Header */}
         <div className="mt-8 md:mt-0">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
@@ -95,18 +99,15 @@ const HomeView = ({ data }) => {
           Proof of Health, Proof of Hardware
         </motion.p>
         <motion.div
-          className="w-full md:hidden mt-8"
-          initial={{ opacity: 0 }}
+  className="w-full md:hidden mt-8 min-h-screen flex flex-col justify-between"
+  initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
           <button
             onClick={() => router.push("/waitlist")}
-            className="w-full py-4 text-lg font-semibold
-                bg-[#cc0000] text-white
-                hover:bg-red-700
-                transition-all duration-300"
-          >
+            className="w-full py-4 text-lg font-semibold bg-[#cc0000] text-white hover:bg-red-700 transition-all duration-300"
+            >
             Join The Waitlist
           </button>
         </motion.div>
@@ -214,10 +215,7 @@ const HomeView = ({ data }) => {
               onClick={() => router.push("/waitlist")}
               className="w-full py-6 text-xl font-semibold
               bg-[#cc0000] text-white
-              shadow-2. Would you be interested in participating in a beta test of [Quok.it](http://quok.it/)'s services?
-    - Yes
-    - No
-    - Maybe[0_0_15px_rgba(204,0,0,0.5)]
+              shadow-[0_0_15px_rgba(204,0,0,0.5)]
               hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
               hover:bg-red-700
               transform hover:scale-105 
