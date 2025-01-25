@@ -6,25 +6,13 @@ import { useRouter } from "next/navigation";
 import { MetricCounter } from "./MetricCounter";
 import { TabsWithDescription } from "./TabsWithDescription";
 
-interface HomeViewProps {
-  data: Array<{
-    date: string;
-    provider: string;
-    capacity_gpu: number;
-    available_gpu: number;
-    utilization_gpu: number;
-    leases: number;
-    daily_earnings: number;
-    protocol_earnings: number;
-  }>;
-}
 const words = ["Hosting", "Renting", "Manage"];
 const averageWordLength =
   words.reduce((acc, word) => acc + word.length, 0) / words.length;
 const baseWidth = 200; // Base width in pixels
 const adjustedWidth = baseWidth + averageWordLength * 16; // Adjust factor as needed
 
-const HomeView = ({ data }: HomeViewProps) => {
+const HomeView = ({ data }) => {
   const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const [globalGlitch, setGlobalGlitch] = useState(false);
@@ -56,8 +44,6 @@ const HomeView = ({ data }: HomeViewProps) => {
   return (
     <div className="min-h-screen bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-12 lg:pt-8">
-        {/* // <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-    //   <div className="text-center flex flex-col items-center p-6"> */}
         {/* Responsive Header */}
         <div className="mt-8 md:mt-0">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
@@ -131,7 +117,7 @@ const HomeView = ({ data }: HomeViewProps) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="hidden md:block w-full max-w-7xl mx-auto mt-8 md:mt-16 px-4"
         >
-          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10">
+          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10 -mt-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
               {/* Each metric in a responsive grid */}
               <div className="flex flex-col items-center">
@@ -245,4 +231,5 @@ const HomeView = ({ data }: HomeViewProps) => {
     </div>
   );
 };
+
 export default HomeView;
