@@ -163,7 +163,7 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           </div>
         </motion.div>
         <motion.div
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center pt-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
