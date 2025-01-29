@@ -101,15 +101,15 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           </motion.p>
         </div>
         <motion.div
-  className="w-full md:hidden mt-8 min-h-screen flex flex-col justify-between"
-  initial={{ opacity: 0 }}
+          className="w-full md:hidden mt-8 min-h-screen flex flex-col justify-between"
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
           <button
             onClick={() => router.push("/waitlist")}
             className="w-full py-4 text-lg font-semibold bg-[#cc0000] text-white hover:bg-red-700 transition-all duration-300"
-            >
+          >
             Join The Waitlist
           </button>
         </motion.div>
@@ -179,27 +179,26 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
                 For GPU Owners
               </h3>
               <p className="mt-2 text-gray-300">
-                Rent your GPUs securely with automated payments and monitoring.
+                Maximize your GPU fleet's potential{" "}
               </p>
             </div>
 
             <div className="text-left">
               <h3 className="text-xl font-semibold text-red-500">
-                For AI Developers
+                For Developers
               </h3>
               <p className="mt-2 text-gray-300">
-                Access high-performance GPUs with guaranteed uptime and
-                performance.
+                Access only the most reliable decentralized GPUs. AWS
+                reliability, DePIN pricing.
               </p>
             </div>
 
             <div className="text-left">
               <h3 className="text-xl font-semibold text-red-500">
-                For Enterprises
+                For Compute Networks
               </h3>
               <p className="mt-2 text-gray-300">
-                Scale your AI infrastructure with reliable, cost-effective GPU
-                resources.
+                Enhance your network reliability and performance.
               </p>
             </div>
           </div>

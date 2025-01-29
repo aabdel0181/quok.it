@@ -1,6 +1,5 @@
 venv/
 *.env
-*api/
 *data/
 *data-room/
 questions.config.ts
