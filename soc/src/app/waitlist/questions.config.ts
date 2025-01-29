@@ -52,7 +52,7 @@ export const questions: Question[] = [
   },
   {
     id: 3,
-    question: "Link to what you're building (optional)",
+    question: "Link to what you're building",
     type: "text",
     placeholder: "https://github.com/my-awesome-project",
     showIf: (answers) => answers[1] === "Developer",
