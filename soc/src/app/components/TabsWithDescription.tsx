@@ -1,10 +1,15 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from 'next/navigation';
+
 import { useState } from "react";
 import {
   RocketLaunchIcon,
   ServerStackIcon,
   CpuChipIcon,
 } from "@heroicons/react/24/outline";
+import { FaUserAstronaut } from "react-icons/fa6";
 
 interface TabInfo {
   id: string;
@@ -56,31 +61,36 @@ const tabs: TabInfo[] = [
 
 export const TabsWithDescription = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
-
+  const router = useRouter(); 
+  const handleTabClick = () => {
+    if (router) {
+      router.push('/waitlist');
+    }  };
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="flex justify-center gap-8">
-        {tabs.map((tab) => (
-          <motion.div
-            key={tab.id}
-            className="relative"
-            onHoverStart={() => setActiveTab(tab.id)}
-            onHoverEnd={() => setActiveTab(null)}
+  <div className="flex justify-center gap-8">
+      {tabs.map((tab) => (
+        <motion.div
+          key={tab.id}
+          className="relative"
+          onHoverStart={() => setActiveTab(tab.id)}
+          onHoverEnd={() => setActiveTab(null)}
+          onClick={handleTabClick}
+        >
+          <div
+            className={`relative ${activeTab === tab.id ? "z-50" : "z-0"}`}
           >
-            <div
-              className={`relative ${activeTab === tab.id ? "z-50" : "z-0"}`}
-            >
-              <AnimatePresence>
-                {activeTab === tab.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute bottom-full w-80 bg-gradient-to-b from-black/95 to-black/90 
-                              border border-white/10 border-b-0 rounded-t-xl overflow-hidden
-                              backdrop-blur-xl shadow-2xl"
-                  >
+            <AnimatePresence>
+              {activeTab === tab.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute bottom-full w-80 bg-gradient-to-b from-black/95 to-black/90 
+                            border border-white/10 border-b-0 rounded-t-xl overflow-hidden
+                            backdrop-blur-xl shadow-2xl"
+                >
                     <div className="p-6 space-y-4">
                       {/* Description */}
                       <p className="text-gray-200 font-medium">

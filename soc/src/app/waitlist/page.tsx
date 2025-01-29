@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { questions } from "./questions.config";
 import { z } from "zod";
@@ -26,6 +26,8 @@ export default function Waitlist() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isNextEnabled, setIsNextEnabled] = useState(false);
+  const [previousRole, setPreviousRole] = useState<string | null>(null);
 
   const validateField = (id: number, value: string) => {
     try {
@@ -54,6 +56,19 @@ export default function Waitlist() {
     if (typeof value === "string") {
       validateField(questionId, value);
     }
+  };
+
+  const handleMultiSelect = (option: string, questionId: number) => {
+    setAnswers((prev) => {
+      const currentAnswers = (prev[questionId] as string[]) || [];
+      const newAnswers = currentAnswers.includes(option)
+        ? currentAnswers.filter((answer) => answer !== option)
+        : [...currentAnswers, option];
+      return {
+        ...prev,
+        [questionId]: newAnswers,
+      };
+    });
   };
 
   const handleSubmit = async () => {
@@ -119,12 +134,54 @@ export default function Waitlist() {
     const currentIndex = visibleQuestions.findIndex(
       (q) => q.id === questions[currentQuestion].id
     );
-
     if (currentIndex > 0) {
       const prevQuestion = visibleQuestions[currentIndex - 1];
       setCurrentQuestion(questions.findIndex((q) => q.id === prevQuestion.id));
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && isNextEnabled) {
+        handleNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isNextEnabled]);
+
+  useEffect(() => {
+    const validateCurrentAnswer = () => {
+      const currentQuestionId = questions[currentQuestion].id;
+      const currentAnswer = answers[currentQuestionId];
+      const schema = AnswerSchema.shape[currentQuestionId as keyof typeof AnswerSchema.shape];
+      if (schema) {
+        try {
+          schema.parse(currentAnswer);
+          setIsNextEnabled(true);
+        } catch (e) {
+          setIsNextEnabled(false);
+        }
+      } else {
+        setIsNextEnabled(true);
+      }
+    };
+    validateCurrentAnswer();
+  }, [currentQuestion, answers]);
+
+  useEffect(() => {
+    const roleAnswer = answers[1];
+    if (roleAnswer && roleAnswer !== previousRole) {
+      setPreviousRole(roleAnswer as string);
+      setCurrentQuestion(1); // Set to the role question instead of the intro
+      setAnswers((prev) => ({ 1: prev[1] })); // Keep the role answer, reset others
+      setErrors({});
+    }
+  }, [answers[1], previousRole]);
 
   if (isSubmitted) {
     return (
@@ -153,8 +210,9 @@ export default function Waitlist() {
         <div className="space-y-8">
           <h2 className="text-4xl font-bold">
             {questions[currentQuestion].question}
-            <span className="text-red-500 ml-1">*</span>{" "}
-            {/* Add asterisk here */}
+            {questions[currentQuestion].type !== 'intro' && (
+              <span className="text-red-500 ml-1">*</span>
+            )}
           </h2>
 
           {questions[currentQuestion].subtext && (
@@ -172,7 +230,6 @@ export default function Waitlist() {
                         transition-all duration-300 text-center font-semibold"
             >
               Get Started
-              <FiArrowRight className="inline-block ml-2 w-5 h-5" />
             </button>
           )}
 
@@ -215,6 +272,33 @@ export default function Waitlist() {
                   key={option}
                   onClick={() =>
                     handleAnswer(option, questions[currentQuestion].id)
+                  }
+                  className={`w-full p-4 text-left rounded-lg border transition-all duration-300
+                    ${
+                      Array.isArray(answers[questions[currentQuestion].id])
+                        ? answers[questions[currentQuestion].id].includes(
+                            option
+                          )
+                          ? "border-red-500 bg-red-500/10"
+                          : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
+                        : answers[questions[currentQuestion].id] === option
+                        ? "border-red-500 bg-red-500/10"
+                        : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
+                    }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {questions[currentQuestion].type === "multiselect" && (
+            <div className="space-y-3">
+              {questions[currentQuestion].options?.map((option) => (
+                <button
+                  key={option}
+                  onClick={() =>
+                    handleMultiSelect(option, questions[currentQuestion].id)
                   }
                   className={`w-full p-4 text-left rounded-lg border transition-all duration-300
                     ${
