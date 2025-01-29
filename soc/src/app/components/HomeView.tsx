@@ -87,7 +87,7 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-2xl md:text-4xl text-center text-white font-semibold mt-6 px-4"
+            className="text-2xl md:text-3xl text-center text-white font-semibold mt-6 px-4"
           >
             The trust layer for decentralized compute
           </motion.p>
