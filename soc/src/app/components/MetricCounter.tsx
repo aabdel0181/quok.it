@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface MetricCounterProps {
-  label: string | React.ReactNode; // accepts both string and JSX
+  label: string | React.ReactNode;
   metricType: "networks" | "total" | "available" | "utilization" | "revenue";
   isGlitching: boolean;
   className?: string;
@@ -69,7 +69,23 @@ export const MetricCounter = ({
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center ${className}`}>
+    <motion.div
+      className={`flex flex-col items-center justify-center ${className}`}
+      animate={
+        isGlitching
+          ? {
+              x: [0, -2, 2, -1, 1, 0], // Small horizontal shake
+              y: [0, -2, 2, -1, 1, 0], // Small vertical shake
+              rotate: [0, -0.5, 0.5, -0.3, 0.3, 0], // Tiny rotation for added effect
+            }
+          : {}
+      }
+      transition={{
+        duration: 0.2,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    >
       <div className="flex flex-col items-center justify-center">
         <div className="mb-2">{getIcon()}</div>
         <div className="text-sm md:text-base text-[var(--text-secondary)] uppercase tracking-wide font-medium">
@@ -78,32 +94,38 @@ export const MetricCounter = ({
       </div>
 
       {/* Glitch text container */}
-      <div
-        className={`relative font-mono mt-3 text-3xl font-bold ${
-          isGlitching ? "glitch-container" : ""
-        }`}
-      >
+      <div className="relative font-mono mt-3 text-3xl font-bold">
         <span className="relative z-10 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">
           {glitchText}
         </span>
 
         {isGlitching && (
           <>
-            <span
+            <motion.span
               className="glitch-layer absolute inset-0 text-[var(--primary)] opacity-75"
               aria-hidden="true"
+              animate={{
+                x: [-1, 1, -1], // Quick left-right glitch
+                opacity: [0.8, 0.5, 0.8], // Flicker effect
+              }}
+              transition={{ duration: 0.1, repeat: Infinity }}
             >
               {glitchText}
-            </span>
-            <span
+            </motion.span>
+            <motion.span
               className="glitch-layer absolute inset-0 text-[var(--primary-dark)] opacity-75"
               aria-hidden="true"
+              animate={{
+                x: [1, -1, 1], // Opposite direction for second glitch
+                opacity: [0.8, 0.5, 0.8],
+              }}
+              transition={{ duration: 0.1, repeat: Infinity }}
             >
               {glitchText}
-            </span>
+            </motion.span>
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

@@ -1,26 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* 
+
+/* ============================== */
+/* Color Palette  */
+/* ============================== */
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary: #ff3333;
-  --primary-dark: #cc0000;
-  --surface: #111111;
-  --surface-dark: #0a0a0a;
-  --text-secondary: #999999;
-} */
-:root {
-  --background: #ffffff; /* White background */
-  --foreground: #000000; /* Black text */
-  --primary: #00cc00; /* Green primary color */
-  --primary-dark: #009900; /* Darker green for hover states */
-  --surface: #f0f0f0; /* Light grey surface */
-  --surface-dark: #e0e0e0; /* Darker grey surface */
-  --text-secondary: #666666; /* Secondary text color */
+  --background: #0a0f0d; /* Deep dark green-black */
+  --foreground: #e5e7eb; /* Soft off-white for text */
+  --primary: #00b874; /* Professional emerald green */
+  --primary-dark: #00915d; /* Rich dark green for contrast */
+  --surface: #1a1f1d; /* Muted dark surface */
+  --surface-dark: #121615; /* Deeper variation for contrast */
+  --text-secondary: #94a3b8; /* Subtle steel gray for secondary text */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.25);
 }
-/* Responsive container */
+
+/* ============================== */
+/* Base Styles & Typography  */
+/* ============================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================== */
+/* Responsive Container  */
+/* ============================== */
 .container {
   width: 100%;
   max-width: 1280px;
@@ -30,318 +47,199 @@
   padding-right: 1rem;
 }
 
-/* Responsive text sizes */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2.5rem !important;
-  }
-  
-  .text-2xl {
-    font-size: 1.25rem !important;
-  }
-  
-  .dashboard-container {
-    padding-top: 5rem;
-  }
+/* ============================== */
+/* Interactive Buttons  */
+/* ============================== */
+.btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--background);
+  background: var(--primary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-/* Smooth scrolling and better mobile touch */
-html {
-  scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
-/* Better mobile text rendering */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-.glass-card {
-  background: rgba(17, 17, 17, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 51, 51, 0.1);
+.btn-outline {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-/* Chart container styles */
-.chart-container {
+.btn-outline:hover {
+  background: var(--primary);
+  color: var(--background);
+}
+
+/* ============================== */
+/* Navigation Bar */
+/* ============================== */
+.navbar {
+  position: fixed;
+  top: 0;
   width: 100%;
-  height: 100%;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(10, 15, 13, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-light);
+  z-index: 1000;
 }
 
-/* Add responsive padding for dashboard */
-.dashboard-container {
-  padding-top: 4rem;
+/* ============================== */
+/* Glassmorphism Cards  */
+/* ============================== */
+.glass-card {
+  background: rgba(26, 31, 29, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px var(--shadow-color);
 }
 
-@media (min-width: 768px) {
-  .dashboard-container {
-    padding-top: 5rem;
-  }
+/* ============================== */
+/* Text Styles  */
+/* ============================== */
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary) 30%, var(--primary-dark) 100%);
+  -webkit-background-clip: text;
+  color: transparent;
 }
-/* Add to your existing CSS */
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+/* ============================== */
+/* Glitch & Shake Effect 🔥 */
+/* ============================== */
 .glitch-container {
-  animation: shake 0.4s linear infinite;
+  position: relative;
+  display: inline-block;
+  animation: shake 0.3s linear infinite alternate;
 }
 
 .glitch-layer {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
 }
 
 .glitch-layer:nth-child(2) {
+  color: var(--primary);
   transform: translate(-2px, 2px);
-  opacity: 0.75;
-  animation: glitch-anim-1 0.2s infinite linear alternate-reverse;
+  animation: glitch-shift-1 0.2s infinite linear alternate-reverse;
 }
 
 .glitch-layer:nth-child(3) {
+  color: var(--primary-dark);
   transform: translate(2px, -2px);
-  opacity: 0.75;
-  animation: glitch-anim-2 0.2s infinite linear alternate-reverse;
+  animation: glitch-shift-2 0.2s infinite linear alternate-reverse;
 }
-@property --metallic-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+
+/* New Shake Animation */
+@keyframes shake {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  25% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  50% { transform: translate(1px, -1px) rotate(0.5deg); }
+  75% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+  100% { transform: translate(1px, 1px) rotate(0.5deg); }
+}
+
+/* Horizontal Text Shift to Create Glitch Effect */
+@keyframes glitch-shift-1 {
+  0% { clip-path: inset(10% 0 85% 0); transform: translateX(-3px); }
+  20% { clip-path: inset(30% 0 55% 0); transform: translateX(3px); }
+  40% { clip-path: inset(45% 0 30% 0); transform: translateX(-5px); }
+  60% { clip-path: inset(60% 0 10% 0); transform: translateX(5px); }
+  80% { clip-path: inset(80% 0 5% 0); transform: translateX(-3px); }
+  100% { clip-path: inset(95% 0 2% 0); transform: translateX(3px); }
+}
+
+@keyframes glitch-shift-2 {
+  0% { clip-path: inset(5% 0 90% 0); transform: translateX(3px); }
+  20% { clip-path: inset(25% 0 65% 0); transform: translateX(-3px); }
+  40% { clip-path: inset(40% 0 35% 0); transform: translateX(5px); }
+  60% { clip-path: inset(55% 0 20% 0); transform: translateX(-5px); }
+  80% { clip-path: inset(75% 0 10% 0); transform: translateX(3px); }
+  100% { clip-path: inset(90% 0 5% 0); transform: translateX(-3px); }
+}
+
+/* ============================== */
+/* Metallic Gradient Effect 💎 */
+/* ============================== */
+.metallic-text {
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #cccccc 20%,
+    #e5e5e5 40%,
+    #ffffff 60%,
+    #cccccc 80%,
+    #e5e5e5 100%
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: metallic-move 6s linear infinite;
 }
 
 @keyframes metallic-move {
   to {
-    --metallic-angle: 360deg;
+    background-position: 100% 50%;
   }
 }
 
-.metallic-text {
-  background: linear-gradient(
-    var(--metallic-angle),
-    #FFFFFF 0%,
-    #B8B8B8 10%,
-    #FFFFFF 20%,
-    #B8B8B8 30%,
-    #FFFFFF 40%,
-    #B8B8B8 50%,
-    #FFFFFF 60%,
-    #B8B8B8 70%,
-    #FFFFFF 80%,
-    #B8B8B8 90%,
-    #FFFFFF 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: metallic-move 8s linear infinite;
-  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
-}
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-@keyframes glitch-anim-1 {
-  0% { clip-path: inset(20% -6px 21% 0); }
-  20% { clip-path: inset(42% -6px 38% 0); }
-  40% { clip-path: inset(17% -6px 78% 0); }
-  60% { clip-path: inset(60% -6px 37% 0); }
-  80% { clip-path: inset(83% -6px 30% 0); }
-  100% { clip-path: inset(10% -6px 61% 0); }
-}
-
-@keyframes glitch-anim-2 {
-  0% { clip-path: inset(63% -6px 2% 0); }
-  20% { clip-path: inset(78% -6px 52% 0); }
-  40% { clip-path: inset(87% -6px 23% 0); }
-  60% { clip-path: inset(16% -6px 72% 0); }
-  80% { clip-path: inset(49% -6px 35% 0); }
-  100% { clip-path: inset(95% -6px 5% 0); }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.word-carousel span {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-/* Option 1: Modern Chrome Effect */
-.chrome-text {
-  background: linear-gradient(
-    to bottom,
-    #FFFFFF 0%,
-    #F1F1F1 50%,
-    #E1E1E1 51%,
-    #F6F6F6 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.3));
-  letter-spacing: 0.02em;
-  position: relative;
-}
-
-.chrome-text::after {
-  content: 'Quok it!';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 45%,
-    rgba(255, 255, 255, 0.5) 50%,
-    transparent 55%
-  );
-  background-size: 200% 200%;
-  animation: shine 3s infinite;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Option 2: Glossy Effect */
-.glossy-text {
-  background: linear-gradient(
-    to bottom,
-    #FFFFFF 0%,
-    #E8E8E8 50%,
-    #B8B8B8 51%,
-    #E8E8E8 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
-  position: relative;
-}
-
-.glossy-text::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.7) 0%,
-    transparent 100%
-  );
-  border-radius: 0.1em;
-}
-
-/* Option 3: Neon Glow */
+/* ============================== */
+/* Neon Glow Effect 💡 */
+/* ============================== */
 .neon-text {
-  color: #FFFFFF;
-  text-shadow: 
-    0 0 5px rgba(255, 255, 255, 0.8),
-    0 0 10px rgba(255, 255, 255, 0.5),
-    0 0 15px rgba(255, 255, 255, 0.3),
-    0 0 20px rgba(204, 0, 0, 0.7),
-    0 0 35px rgba(204, 0, 0, 0.5),
-    0 0 40px rgba(204, 0, 0, 0.3);
+  color: var(--primary);
+  text-shadow: 0 0 5px var(--primary-dark), 0 0 15px var(--primary);
   animation: neon-pulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes shine {
-  0% { background-position: 200% 50%; }
-  100% { background-position: -200% 50%; }
 }
 
 @keyframes neon-pulse {
   from {
-    text-shadow: 
-      0 0 5px rgba(255, 255, 255, 0.8),
-      0 0 10px rgba(255, 255, 255, 0.5),
-      0 0 15px rgba(255, 255, 255, 0.3),
-      0 0 20px rgba(204, 0, 0, 0.7),
-      0 0 35px rgba(204, 0, 0, 0.5),
-      0 0 40px rgba(204, 0, 0, 0.3);
+    text-shadow: 0 0 5px var(--primary), 0 0 15px var(--primary-dark);
   }
   to {
-    text-shadow: 
-      0 0 10px rgba(255, 255, 255, 0.8),
-      0 0 20px rgba(255, 255, 255, 0.5),
-      0 0 25px rgba(255, 255, 255, 0.3),
-      0 0 30px rgba(204, 0, 0, 0.7),
-      0 0 45px rgba(204, 0, 0, 0.5),
-      0 0 50px rgba(204, 0, 0, 0.3);
-  }
-}
-.laser-outline-text {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-  position: relative;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.laser-outline-text::before {
-  content: 'Quok it!';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-  animation: laser-outline 3s linear infinite;
-}
-
-@keyframes laser-outline {
-  0% {
-    -webkit-text-stroke-dasharray: 0 50%;
-    -webkit-text-stroke-dashoffset: 0;
-  }
-  70%, 100% {
-    -webkit-text-stroke-dasharray: 50% 0;
-    -webkit-text-stroke-dashoffset: -100%;
+    text-shadow: 0 0 10px var(--primary), 0 0 25px var(--primary-dark);
   }
 }
 
-/* Optional: Add a subtle glow effect */
-.laser-outline-text::after {
-  content: 'Quok it!';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.1);
-  filter: blur(1px);
-  animation: glow-pulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow-pulse {
-  from {
-    text-shadow: 
-      0 0 2px rgba(255, 255, 255, 0.2),
-      0 0 4px rgba(255, 0, 0, 0.1);
+/* ============================== */
+/* Mobile Optimizations 📱 */
+/* ============================== */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
   }
-  to {
-    text-shadow: 
-      0 0 4px rgba(255, 255, 255, 0.3),
-      0 0 6px rgba(255, 0, 0, 0.2);
+  
+  .btn-primary,
+  .btn-outline {
+    padding: 10px 18px;
+    font-size: 14px;
   }
 }
