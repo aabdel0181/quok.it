@@ -25,7 +25,7 @@ export const MetricCounter = ({
 
   // Generate random characters for glitch effect
   const generateGlitchText = () => {
-    const chars = "01234567890ABCDEF※#@$";
+    const chars = "0123456789ABCDEF#@$%&";
     return Array(4)
       .fill(0)
       .map(() => chars[Math.floor(Math.random() * chars.length)])
@@ -36,18 +36,18 @@ export const MetricCounter = ({
     if (isGlitching) {
       const glitchInterval = setInterval(() => {
         setGlitchText(generateGlitchText());
-      }, 100);
+      }, 80);
 
       setTimeout(() => {
         clearInterval(glitchInterval);
         setGlitchText("----");
-      }, 500);
+      }, 1000);
 
       return () => clearInterval(glitchInterval);
     }
   }, [isGlitching]);
 
-  // Icon selector with global color styles
+  // 🔥 FIX: Ensure all icons are rendered correctly
   const getIcon = () => {
     const iconClass =
       "w-12 h-12 text-[var(--primary)] group-hover:text-[var(--primary-dark)] transition-colors";
@@ -70,62 +70,24 @@ export const MetricCounter = ({
 
   return (
     <motion.div
-      className={`flex flex-col items-center justify-center ${className}`}
-      animate={
-        isGlitching
-          ? {
-              x: [0, -2, 2, -1, 1, 0], // Small horizontal shake
-              y: [0, -2, 2, -1, 1, 0], // Small vertical shake
-              rotate: [0, -0.5, 0.5, -0.3, 0.3, 0], // Tiny rotation for added effect
-            }
-          : {}
-      }
-      transition={{
-        duration: 0.2,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
+      className={`flex flex-col items-center justify-center ${
+        isGlitching ? "glitch-container" : ""
+      } ${className}`}
     >
       <div className="flex flex-col items-center justify-center">
+        {/* 🔥 FIX: Ensure icon always renders */}
         <div className="mb-2">{getIcon()}</div>
+
         <div className="text-sm md:text-base text-[var(--text-secondary)] uppercase tracking-wide font-medium">
           {label}
         </div>
       </div>
 
-      {/* Glitch text container */}
-      <div className="relative font-mono mt-3 text-3xl font-bold">
+      <motion.div className="relative font-mono mt-3 text-3xl font-bold">
         <span className="relative z-10 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">
           {glitchText}
         </span>
-
-        {isGlitching && (
-          <>
-            <motion.span
-              className="glitch-layer absolute inset-0 text-[var(--primary)] opacity-75"
-              aria-hidden="true"
-              animate={{
-                x: [-1, 1, -1], // Quick left-right glitch
-                opacity: [0.8, 0.5, 0.8], // Flicker effect
-              }}
-              transition={{ duration: 0.1, repeat: Infinity }}
-            >
-              {glitchText}
-            </motion.span>
-            <motion.span
-              className="glitch-layer absolute inset-0 text-[var(--primary-dark)] opacity-75"
-              aria-hidden="true"
-              animate={{
-                x: [1, -1, 1], // Opposite direction for second glitch
-                opacity: [0.8, 0.5, 0.8],
-              }}
-              transition={{ duration: 0.1, repeat: Infinity }}
-            >
-              {glitchText}
-            </motion.span>
-          </>
-        )}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

@@ -6,118 +6,112 @@ import { useRouter } from "next/navigation";
 import { MetricCounter } from "./MetricCounter";
 import { TabsWithDescription } from "./TabsWithDescription";
 
-const words = ["Hosting", "Renting", "Manage"];
-const averageWordLength =
-  words.reduce((acc, word) => acc + word.length, 0) / words.length;
-const baseWidth = 200; // Base width in pixels
-const adjustedWidth = baseWidth + averageWordLength * 16; // Adjust factor as needed
+const words = ["Hosting", "Renting", "Managing"];
+const wordCycleTime = 3500;
 
-interface HomeViewProps {
-  data: any; // Replace 'any' with the appropriate type if known
-}
-
-const HomeView: React.FC<HomeViewProps> = ({ data }) => {
+const HomeView: React.FC = () => {
   const router = useRouter();
+  const [wordIndex, setWordIndex] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [globalGlitch, setGlobalGlitch] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
+    // Reveal content after load
     const timer = setTimeout(() => {
       setShowContent(true);
     }, 500);
-    const interval = setInterval(() => {
-      setWordIndex((current) => (current + 1) % words.length);
-    }, 2500);
 
-    const glitchInterval = setInterval(() => {
-      if (Math.random() > 0) {
-        setGlobalGlitch(true);
-        setTimeout(() => setGlobalGlitch(false), 500);
-      }
-    }, 2500);
+    // Cycle through words for the carousel effect
+    const wordCycleInterval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % words.length);
+    }, wordCycleTime);
+
+    // 🔥 Sync glitch effect for all metrics
+    const triggerGlobalGlitch = () => {
+      setGlobalGlitch(true);
+      setTimeout(() => setGlobalGlitch(false), 1000); // Glitch lasts 1s
+
+      // Schedule next glitch at a random interval (4s-7s)
+      setTimeout(triggerGlobalGlitch, Math.random() * 3000 + 4000);
+    };
+
+    triggerGlobalGlitch(); // Start glitch cycle
 
     return () => {
-      clearInterval(interval);
       clearTimeout(timer);
-      clearInterval(glitchInterval);
+      clearInterval(wordCycleInterval);
     };
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--background)] overflow-hidden pt-20">
-      <div className="container flex-grow">
-        {/* Responsive Header */}
-        <div className="mt-8 md:mt-0">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold metallic-text flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-              <div className="relative flex items-center justify-center">
-                <AnimatePresence mode="popLayout">
-                  <motion.div
-                    key={wordIndex}
-                    initial={{ y: 40, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -40, opacity: 0 }}
-                    transition={{
-                      y: { type: "spring", stiffness: 200, damping: 25 },
-                      opacity: { duration: 0.3 },
-                    }}
-                    className="flex items-center justify-center whitespace-nowrap"
-                  >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] whitespace-nowrap leading-relaxed">
-                      {words[wordIndex]}
-                    </span>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-              <span className="text-[var(--foreground)] whitespace-nowrap">GPUs?</span>
+    <div className="min-h-screen flex flex-col justify-center bg-[var(--background)] pt-24 pb-20">
+      <div className="full-width-container flex flex-col items-center text-center">
+        
+        {/* ========== HERO SECTION ========== */}
+        <div className="w-full max-w-5xl text-center">
+          <h1 className="text-6xl md:text-7xl font-extrabold leading-tight flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="relative flex items-center justify-center min-w-[200px]">
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={wordIndex}
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-100%", opacity: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: "easeInOut",
+                  }}
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)]"
+                >
+                  {words[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
             </div>
+            <span className="text-[var(--foreground)] whitespace-nowrap sm:ml-6 ml-2">
+              GPUs?
+            </span>
           </h1>
-        </div>
-        {/* Subtitle */}
-        <div className="flex flex-col items-center justify-center flex-grow">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-2xl md:text-3xl text-center text-[var(--foreground)] font-semibold mt-6 px-4"
-          >
+          <p className="text-xl md:text-2xl text-[var(--text-secondary)] mt-6 font-medium">
             The trust layer for decentralized compute
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-base md:text-lg text-center text-[var(--text-secondary)] mt-4 px-4"
-          >
-            Proof of Health, Proof of Hardware
-          </motion.p>
+          </p>
         </div>
 
-        {/* Mobile CTA Button */}
+        {/* ========== CTA BUTTON (LARGE & ANIMATED BORDER) ========== */}
         <motion.div
-          className="w-full md:hidden mt-8 flex flex-col justify-between"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        >
-          <button
-            onClick={() => router.push("/waitlist")}
-            className="w-full py-4 text-lg font-semibold bg-[var(--primary)] text-[var(--foreground)] hover:bg-[var(--primary-dark)] transition-all duration-300 shadow-md"
-          >
-            Join The Waitlist
-          </button>
-        </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, delay: 0.4 }}
+  className="mt-12 flex justify-center"
+>
+  <div className="relative inline-block group">
+    {/* 🔥 The Button */}
+    <button
+      onClick={() => router.push("/waitlist")}
+      className="relative z-10 px-10 py-5 text-xl font-bold 
+                 text-[var(--foreground)] bg-[var(--surface)] 
+                 rounded-xl shadow-lg transition-all duration-300 
+                 hover:scale-105 hover:shadow-2xl"
+    >
+      Join The Waitlist
+    </button>
 
-        {/* Metrics Section */}
+    {/* 🔥 Animated Themed Glow */}
+    <div className="absolute inset-0 rounded-xl border-2 border-transparent animate-glowTrail pointer-events-none"></div>
+  </div>
+</motion.div>
+
+
+
+
+        {/* ========== METRICS SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="hidden md:block w-full mt-8 md:mt-16"
+          className="mt-20 w-full max-w-7xl"
         >
-          <div className="bg-[var(--surface)] backdrop-blur-sm border border-[var(--text-secondary)] rounded-2xl p-4 md:p-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+          <div className="bg-[var(--surface)] rounded-xl shadow-lg border border-[var(--border-light)] p-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               <MetricCounter label="Networks Tracked" metricType="networks" isGlitching={globalGlitch} />
               <MetricCounter label="Total GPUs" metricType="total" isGlitching={globalGlitch} />
               <MetricCounter label="Available GPUs" metricType="available" isGlitching={globalGlitch} />
@@ -126,32 +120,15 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           </div>
         </motion.div>
 
-        {/* Tabs Section */}
+        {/* ========== TABS & CALL TO ACTION ========== */}
         <motion.div
           className="w-full flex flex-col items-center pt-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <div className="hidden md:block w-full">
+          <div className="w-full max-w-6xl">
             <TabsWithDescription />
-          </div>
-        </motion.div>
-
-        {/* Desktop CTA Button */}
-        <motion.div
-          className="hidden md:block w-full mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        >
-          <div className="container">
-            <button
-              onClick={() => router.push("/waitlist")}
-              className="w-full py-6 text-xl font-semibold bg-[var(--primary)] text-white shadow-md hover:shadow-lg hover:bg-[var(--primary-dark)] transform hover:scale-105 transition-all duration-300"
-            >
-              Join The Waitlist
-            </button>
           </div>
         </motion.div>
       </div>
