@@ -142,15 +142,15 @@ export default function Waitlist() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter' && isNextEnabled) {
+      if (event.key === "Enter" && isNextEnabled) {
         handleNext();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isNextEnabled]);
 
@@ -158,7 +158,10 @@ export default function Waitlist() {
     const validateCurrentAnswer = () => {
       const currentQuestionId = questions[currentQuestion].id;
       const currentAnswer = answers[currentQuestionId];
-      const schema = AnswerSchema.shape[currentQuestionId as keyof typeof AnswerSchema.shape];
+      const schema =
+        AnswerSchema.shape[
+          currentQuestionId as keyof typeof AnswerSchema.shape
+        ];
       if (schema) {
         try {
           schema.parse(currentAnswer);
@@ -185,16 +188,18 @@ export default function Waitlist() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="w-full max-w-2xl mx-auto p-6 text-center space-y-6">
-          <h2 className="text-4xl font-bold">Thank You!</h2>
-          <p className="text-gray-400">
+      <div className="min-h-screen bg-[var(--background)] pt-24">
+        <div className="container-fluid mx-auto p-6 text-center space-y-6">
+          <h2 className="text-[var(--foreground)] text-4xl font-bold">
+            Thank You!
+          </h2>
+          <p className="text-[var(--text-secondary)]">
             Your submission has been received. We'll be in touch soon!
           </p>
           <div className="mt-8">
             <a
               href="https://quok.it"
-              className="text-red-500 hover:text-red-400 transition-colors"
+              className="text-[var(--primary)] hover:text-[var(--primary-dark)] transition-colors"
             >
               Return to Homepage
             </a>
@@ -205,18 +210,18 @@ export default function Waitlist() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center">
-      <div className="w-full max-w-2xl mx-auto p-6">
+    <div className="min-h-screen bg-[var(--background)] pt-24">
+      <div className="container-fluid mx-auto p-6">
         <div className="space-y-8">
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-[var(--foreground)] text-4xl font-bold">
             {questions[currentQuestion].question}
-            {questions[currentQuestion].type !== 'intro' && (
-              <span className="text-red-500 ml-1">*</span>
+            {questions[currentQuestion].type !== "intro" && (
+              <span className="text-[var(--primary)] ml-1">*</span>
             )}
           </h2>
 
           {questions[currentQuestion].subtext && (
-            <p className="mt-4 text-gray-400">
+            <p className="mt-4 text-[var(--text-secondary)]">
               {questions[currentQuestion].subtext}
             </p>
           )}
@@ -224,10 +229,7 @@ export default function Waitlist() {
           {questions[currentQuestion].type === "intro" && (
             <button
               onClick={handleNext}
-              className="px-8 py-3 bg-red-500 rounded-lg 
-                        hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)] 
-                        shadow-[0_0_15px_rgba(204,0,0,0.5)]
-                        transition-all duration-300 text-center font-semibold"
+              className="btn-primary bg-[var(--primary)] hover:bg-[var(--primary-dark)]"
             >
               Get Started
             </button>
@@ -237,28 +239,29 @@ export default function Waitlist() {
             questions[currentQuestion].type === "email") && (
             <div>
               <input
-                type={questions[currentQuestion].type} // Use the type from the question
+                type={questions[currentQuestion].type}
                 placeholder={questions[currentQuestion].placeholder}
                 value={(answers[questions[currentQuestion].id] as string) || ""}
                 onChange={(e) =>
                   handleAnswer(e.target.value, questions[currentQuestion].id)
                 }
-                className={`w-full p-4 bg-transparent rounded-lg border 
+                className={`w-full p-4 bg-[var(--surface)] rounded-lg border 
                   ${
                     errors[questions[currentQuestion].id]
-                      ? "border-red-500"
-                      : "border-white/10"
+                      ? "border-[var(--primary)]"
+                      : "border-[var(--border-light)]"
                   } 
                   focus:outline-none focus:ring-2 
                   ${
                     errors[questions[currentQuestion].id]
-                      ? "focus:ring-red-500/20"
-                      : "focus:ring-white/20"
+                      ? "focus:ring-[var(--primary)]"
+                      : "focus:ring-[var(--border-light)]"
                   }
+                  text-[var(--foreground)]
                   transition-all duration-300`}
               />
               {errors[questions[currentQuestion].id] && (
-                <p className="mt-2 text-red-500 text-sm">
+                <p className="mt-2 text-[var(--primary)] text-sm">
                   {errors[questions[currentQuestion].id]}
                 </p>
               )}
@@ -275,16 +278,11 @@ export default function Waitlist() {
                   }
                   className={`w-full p-4 text-left rounded-lg border transition-all duration-300
                     ${
-                      Array.isArray(answers[questions[currentQuestion].id])
-                        ? answers[questions[currentQuestion].id].includes(
-                            option
-                          )
-                          ? "border-red-500 bg-red-500/10"
-                          : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
-                        : answers[questions[currentQuestion].id] === option
-                        ? "border-red-500 bg-red-500/10"
-                        : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
-                    }`}
+                      answers[questions[currentQuestion].id] === option
+                        ? "border-[var(--primary)] bg-[var(--primary-dark)] bg-opacity-10"
+                        : "border-[var(--border-light)] hover:border-[var(--primary)] hover:bg-[var(--primary-dark)] hover:bg-opacity-10"
+                    }
+                    text-[var(--foreground)]`}
                 >
                   {option}
                 </button>
@@ -302,16 +300,12 @@ export default function Waitlist() {
                   }
                   className={`w-full p-4 text-left rounded-lg border transition-all duration-300
                     ${
-                      Array.isArray(answers[questions[currentQuestion].id])
-                        ? answers[questions[currentQuestion].id].includes(
-                            option
-                          )
-                          ? "border-red-500 bg-red-500/10"
-                          : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
-                        : answers[questions[currentQuestion].id] === option
-                        ? "border-red-500 bg-red-500/10"
-                        : "border-white/10 hover:border-red-500 hover:bg-red-500/10"
-                    }`}
+                      Array.isArray(answers[questions[currentQuestion].id]) &&
+                      answers[questions[currentQuestion].id].includes(option)
+                        ? "border-[var(--primary)] bg-[var(--primary-dark)] bg-opacity-10"
+                        : "border-[var(--border-light)] hover:border-[var(--primary)] hover:bg-[var(--primary-dark)] hover:bg-opacity-10"
+                    }
+                    text-[var(--foreground)]`}
                 >
                   {option}
                 </button>
@@ -323,7 +317,7 @@ export default function Waitlist() {
             <div className="flex justify-between mt-12">
               <button
                 onClick={handlePrevious}
-                className={`flex items-center gap-2 px-6 py-3 text-white hover:text-red-500 
+                className={`flex items-center gap-2 px-6 py-3 text-[var(--foreground)] hover:text-[var(--primary)] 
                           transition-colors font-semibold
                           ${currentQuestion === 0 ? "invisible" : ""}`}
               >
@@ -338,32 +332,27 @@ export default function Waitlist() {
                     Object.keys(errors).length > 0 ||
                     !answers[questions[currentQuestion].id]
                   }
-                  className={`px-8 py-3 bg-red-500 rounded-lg 
-              transition-all duration-300 text-center font-semibold
-              ${
-                isSubmitting ||
-                Object.keys(errors).length > 0 ||
-                !answers[questions[currentQuestion].id]
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-red-600 hover:shadow-[0_0_30px_rgba(204,0,0,0.8)] shadow-[0_0_15px_rgba(204,0,0,0.5)]"
-              }`}
+                  className={`btn-primary bg-[var(--primary)]
+                    ${
+                      isSubmitting ||
+                      Object.keys(errors).length > 0 ||
+                      !answers[questions[currentQuestion].id]
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-[var(--primary-dark)]"
+                    }`}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
               ) : (
                 <button
                   onClick={handleNext}
-                  disabled={
-                    errors[questions[currentQuestion].id] !== undefined ||
-                    !answers[questions[currentQuestion].id]
-                  }
+                  disabled={!isNextEnabled}
                   className={`flex items-center gap-2 px-6 py-3 transition-colors font-semibold
-              ${
-                errors[questions[currentQuestion].id] ||
-                !answers[questions[currentQuestion].id]
-                  ? "text-gray-500 cursor-not-allowed"
-                  : "text-white hover:text-red-500"
-              }`}
+                    ${
+                      !isNextEnabled
+                        ? "text-[var(--text-secondary)] cursor-not-allowed"
+                        : "text-[var(--foreground)] hover:text-[var(--primary)]"
+                    }`}
                 >
                   Next <FiArrowRight className="w-5 h-5" />
                 </button>
@@ -372,7 +361,9 @@ export default function Waitlist() {
           )}
 
           {error && (
-            <div className="mt-4 text-red-500 text-center">{error}</div>
+            <div className="mt-4 text-[var(--primary)] text-center">
+              {error}
+            </div>
           )}
         </div>
       </div>
