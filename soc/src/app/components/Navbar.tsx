@@ -18,8 +18,8 @@ export const Navbar = () => {
           <Image
             src="/logo.png"
             alt="Quok.it Logo"
-            width={40}
-            height={40}
+            width={80}
+            height={80}
             className="object-contain"
             priority
             quality={100}

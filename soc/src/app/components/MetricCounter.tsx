@@ -47,7 +47,7 @@ export const MetricCounter = ({
     }
   }, [isGlitching]);
 
-  // 🔥 FIX: Ensure all icons are rendered correctly
+  // FIX: Ensure all icons are rendered correctly
   const getIcon = () => {
     const iconClass =
       "w-12 h-12 text-[var(--primary)] group-hover:text-[var(--primary-dark)] transition-colors";
@@ -75,7 +75,7 @@ export const MetricCounter = ({
       } ${className}`}
     >
       <div className="flex flex-col items-center justify-center">
-        {/* 🔥 FIX: Ensure icon always renders */}
+        {/* FIX: Ensure icon always renders */}
         <div className="mb-2">{getIcon()}</div>
 
         <div className="text-sm md:text-base text-[var(--text-secondary)] uppercase tracking-wide font-medium">

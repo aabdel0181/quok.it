@@ -31,18 +31,18 @@ const tabs: TabInfo[] = [
     ],
     ctaText: "Let's Build →",
   },
-  {
-    id: "networks",
-    title: "For Compute Networks",
-    icon: ServerStackIcon,
-    description: "Enhance your network reliability and performance",
-    benefits: [
-      "Automated GPU verification",
-      "Real-time network analytics",
-      "Fraud prevention system",
-    ],
-    ctaText: "Upgrade Your Network →",
-  },
+  // {
+  //   id: "networks",
+  //   title: "For Compute Networks",
+  //   icon: ServerStackIcon,
+  //   description: "Enhance your network reliability and performance",
+  //   benefits: [
+  //     "Automated GPU verification",
+  //     "Real-time network analytics",
+  //     "Fraud prevention system",
+  //   ],
+  //   ctaText: "Upgrade Your Network →",
+  // },
   {
     id: "providers",
     title: "For GPU Providers",

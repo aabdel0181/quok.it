@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { MetricCounter } from "./MetricCounter";
 import { TabsWithDescription } from "./TabsWithDescription";
 import { CarouselHeader } from "./CarouselHeader";
+import Image from "next/image";
 
 const words = ["Hosting", "Renting", "Managing"];
 const wordCycleTime = 3500;
@@ -32,8 +33,8 @@ const HomeView: React.FC = () => {
       setGlobalGlitch(true);
       setTimeout(() => setGlobalGlitch(false), 1000); // Glitch lasts 1s
 
-      // Schedule next glitch at a random interval (4s-7s)
-      setTimeout(triggerGlobalGlitch, Math.random() * 3000 + 4000);
+      // Schedule next glitch every 3s
+      setTimeout(triggerGlobalGlitch, 3000);
     };
 
     triggerGlobalGlitch(); // Start glitch cycle
@@ -47,32 +48,42 @@ const HomeView: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center bg-[var(--background)] pt-24 pb-20">
       <div className="full-width-container flex flex-col items-center text-center">
-        
+      <div className="relative w-[200px] h-[200px] flex justify-center">
+  <Image
+    src="/logo.png"
+    alt="Quok.it Logo"
+    fill // Allows auto-resizing
+    className="object-contain"
+    priority
+  />
+</div>
+
+  
       <CarouselHeader />
 
         {/* ========== CTA BUTTON (LARGE & ANIMATED BORDER) ========== */}
         <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 0.4 }}
-  className="mt-12 flex justify-center"
->
-  <div className="relative inline-block group">
-    {/* 🔥 The Button */}
-    <button
-      onClick={() => router.push("/waitlist")}
-      className="relative z-10 px-10 py-5 text-xl font-bold 
-                 text-[var(--foreground)] bg-[var(--surface)] 
-                 rounded-xl shadow-lg transition-all duration-300 
-                 hover:scale-105 hover:shadow-2xl"
-    >
-      Join The Waitlist
-    </button>
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-12 flex justify-center"
+        >
+          <div className="relative inline-block group">
+            {/* The Button */}
+            <button
+              onClick={() => router.push("/waitlist")}
+              className="relative z-10 px-10 py-5 text-xl font-bold 
+                        text-[var(--foreground)] bg-[var(--surface)] 
+                        rounded-xl shadow-lg transition-all duration-300 
+                        hover:scale-105 hover:shadow-2xl"
+            >
+              Join The Waitlist
+            </button>
 
-    {/* 🔥 Animated Themed Glow */}
-    <div className="absolute inset-0 rounded-xl border-2 border-transparent animate-glowTrail pointer-events-none"></div>
-  </div>
-</motion.div>
+            {/* Animated Themed Glow */}
+            <div className="absolute inset-0 rounded-xl border-2 border-transparent animate-glowTrail pointer-events-none"></div>
+          </div>
+        </motion.div>
 
 
 

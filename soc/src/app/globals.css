@@ -7,6 +7,15 @@
 /* Container Refinements */
 /* ============================== */
 
+.container {
+  max-width: 90vw; /* Allow slight breathing space */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 
 /* Allow full-width for sections that need more space */
 .container-fluid {
@@ -77,10 +86,10 @@ body {
 }
 
 .header h1 {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 4vw, 4.5rem); /* Dynamic scaling */
   font-weight: 700;
-  line-height: 1.2; /* Adds better spacing between words */
 }
+
 
 .header .subtext {
   font-size: 1.25rem;
