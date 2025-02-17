@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { FaXTwitter } from "react-icons/fa6";
 import { useState } from "react";
@@ -11,9 +12,9 @@ export const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-[var(--border-light)]">
-      <div className="container mx-auto px-6 flex items-center justify-between h-[80px]">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 md:gap-4">
+      <div className="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between h-[80px]">
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="Quok.it Logo"
@@ -28,18 +29,20 @@ export const Navbar = () => {
           </span>
         </Link>
 
-        {/* Centered Text - FIXED LAYOUT */}
-        <div className="hidden md:flex flex-grow justify-center text-[var(--primary)] text-lg font-semibold">
-          <span className="h-3 w-3 mr-2 rounded-full bg-[var(--primary)] animate-pulse" />
-          Coming Soon
+        {/* Centered "Coming Soon" Text - FIXED GLOW DOT ALIGNMENT */}
+        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2 text-[var(--primary)] text-lg font-semibold">
+          <span className="h-3 w-3 rounded-full bg-[var(--primary)] animate-pulse" />
+          <span>Coming Soon</span>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
           <Link
             href="/blog"
             className={`text-lg font-medium transition-colors ${
-              pathname === "/blog" ? "text-[var(--primary)]" : "text-[var(--foreground)] hover:text-[var(--primary)]"
+              pathname === "/blog"
+                ? "text-[var(--primary)]"
+                : "text-[var(--foreground)] hover:text-[var(--primary)]"
             }`}
           >
             Blog
@@ -47,7 +50,9 @@ export const Navbar = () => {
           <Link
             href="/waitlist"
             className={`text-lg font-medium transition-colors ${
-              pathname === "/waitlist" ? "text-[var(--primary)]" : "text-[var(--foreground)] hover:text-[var(--primary)]"
+              pathname === "/waitlist"
+                ? "text-[var(--primary)]"
+                : "text-[var(--foreground)] hover:text-[var(--primary)]"
             }`}
           >
             Waitlist
@@ -55,7 +60,9 @@ export const Navbar = () => {
           <Link
             href="/learn"
             className={`text-lg font-medium transition-colors ${
-              pathname === "/learn" ? "text-[var(--primary)]" : "text-[var(--foreground)] hover:text-[var(--primary)]"
+              pathname === "/learn"
+                ? "text-[var(--primary)]"
+                : "text-[var(--foreground)] hover:text-[var(--primary)]"
             }`}
           >
             About
@@ -87,20 +94,36 @@ export const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-[var(--border-light)]">
-          <div className="flex flex-col py-4 px-6">
-            <Link href="/blog" className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors">
+        <div className="md:hidden bg-white border-t border-[var(--border-light)] shadow-md">
+          <div className="flex flex-col py-4 px-6 space-y-2">
+            <Link
+              href="/blog"
+              className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Blog
             </Link>
-            <Link href="/waitlist" className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors">
+            <Link
+              href="/waitlist"
+              className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Waitlist
             </Link>
-            <Link href="/learn" className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors">
+            <Link
+              href="/learn"
+              className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
               About
             </Link>
-            <Link href="https://twitter.com/quok_it" className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors">
+            <Link
+              href="https://twitter.com/quok_it"
+              className="py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Twitter
             </Link>
           </div>
