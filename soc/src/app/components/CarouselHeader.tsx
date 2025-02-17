@@ -13,9 +13,9 @@ export const CarouselHeader = () => {
   // Custom spacing per word to balance alignment
   const wordWidths = useMemo(() => {
     return words.map((word) => {
-      const baseWidth = 160; // Slightly reduced default width
-      const charWidthFactor = word.length * 28; // Scales width dynamically
-      const extraPadding = word === "Manage" ? 50 : 30; // Extra space for "Managing"
+      const baseWidth = 120; // Reduced default width
+      const charWidthFactor = word.length * 12; // Scales width dynamically
+      const extraPadding = word === "Manage" ? 40 : 20; // Extra space for "Managing"
 
       return baseWidth + charWidthFactor + extraPadding;
     });
@@ -36,15 +36,14 @@ export const CarouselHeader = () => {
   return (
     <div className="relative flex flex-col items-center text-center">
       {/* === Heading with Dynamic Width === */}
-      <h1 className="text-6xl md:text-8xl font-extrabold leading-tight flex items-center justify-center gap-6">
-        
+      <h1 className="text-4xl md:text-6xl font-bold leading-tight flex items-center justify-center gap-4">
         {/* === Word Carousel Wrapper === */}
         <div
           className="relative flex items-center justify-center overflow-hidden"
           style={{
             minWidth: `${currentWidth}px`,
-            paddingBottom: "0.15em",
-            height: "1.2em",
+            paddingBottom: "0.1em", // Adjusted for better spacing
+            height: "1.2em", // Increased height to prevent cut-off
             display: "flex",
             alignItems: "center",
           }}
@@ -66,12 +65,14 @@ export const CarouselHeader = () => {
         </div>
 
         {/* === Static "GPUs?" Text - PERFECTLY ALIGNED === */}
-        <span className="text-[var(--foreground)] flex items-center">GPUs?</span>
+        <span className="text-[var(--foreground)] flex items-center">
+          GPUs?
+        </span>
       </h1>
 
       {/* Subtitle */}
-      <p className="text-xl md:text-2xl text-[var(--text-secondary)] mt-5 font-semibold">
-      The trust layer for decentralized compute
+      <p className="text-lg md:text-lg text-[var(--text-secondary)] mt-3 font-medium">
+        The trust layer for decentralized compute
       </p>
     </div>
   );

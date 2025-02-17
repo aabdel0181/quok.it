@@ -46,73 +46,82 @@ const HomeView: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-[var(--background)] pt-24 pb-20">
+    <div className="min-h-screen flex flex-col justify-center bg-[var(--background)] pt-16 pb-16">
       <div className="full-width-container flex flex-col items-center text-center">
-      <div className="relative w-[200px] h-[200px] flex justify-center">
-  <Image
-    src="/logo.png"
-    alt="Quok.it Logo"
-    fill // Allows auto-resizing
-    className="object-contain"
-    priority
-  />
-</div>
+        <div className="relative w-[150px] h-[150px] flex justify-center">
+          <Image
+            src="/logo.png"
+            alt="Quok.it Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
 
-  
-      <CarouselHeader />
+        <CarouselHeader />
 
         {/* ========== CTA BUTTON (LARGE & ANIMATED BORDER) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-12 flex justify-center"
+          className="mt-8 flex justify-center"
         >
           <div className="relative inline-block group">
-            {/* The Button */}
             <button
               onClick={() => router.push("/waitlist")}
-              className="relative z-10 px-10 py-5 text-xl font-bold 
+              className="relative z-10 px-8 py-4 text-lg font-bold 
                         text-[var(--foreground)] bg-[var(--surface)] 
-                        rounded-xl shadow-lg transition-all duration-300 
-                        hover:scale-105 hover:shadow-2xl"
+                        rounded-lg shadow-md transition-all duration-300 
+                        hover:scale-105 hover:shadow-lg"
             >
               Join The Waitlist
             </button>
-
-            {/* Animated Themed Glow */}
-            <div className="absolute inset-0 rounded-xl border-2 border-transparent animate-glowTrail pointer-events-none"></div>
+            <div className="absolute inset-0 rounded-lg border-2 border-transparent animate-glowTrail pointer-events-none"></div>
           </div>
         </motion.div>
-
-
-
 
         {/* ========== METRICS SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 w-full max-w-7xl"
+          className="mt-8 w-full max-w-5xl"
         >
-          <div className="bg-[var(--surface)] rounded-xl shadow-lg border border-[var(--border-light)] p-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-              <MetricCounter label="Networks Tracked" metricType="networks" isGlitching={globalGlitch} />
-              <MetricCounter label="Total GPUs" metricType="total" isGlitching={globalGlitch} />
-              <MetricCounter label="Available GPUs" metricType="available" isGlitching={globalGlitch} />
-              <MetricCounter label="Network Utilization" metricType="utilization" isGlitching={globalGlitch} />
+          <div className="bg-[var(--surface)] rounded-lg shadow-md border border-[var(--border-light)] p-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <MetricCounter
+                label="Networks Tracked"
+                metricType="networks"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Total GPUs"
+                metricType="total"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Available GPUs"
+                metricType="available"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label="Network Utilization"
+                metricType="utilization"
+                isGlitching={globalGlitch}
+              />
             </div>
           </div>
         </motion.div>
 
         {/* ========== TABS & CALL TO ACTION ========== */}
         <motion.div
-          className="w-full flex flex-col items-center pt-8"
+          className="w-full flex flex-col items-center pt-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <div className="w-full max-w-6xl">
+          <div className="w-full max-w-5xl">
             <TabsWithDescription />
           </div>
         </motion.div>
