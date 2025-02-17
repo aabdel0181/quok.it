@@ -14,7 +14,7 @@ export const CarouselHeader = () => {
   const wordWidths = useMemo(() => {
     return words.map((word) => {
       const baseWidth = 160; // Slightly reduced default width
-      const charWidthFactor = word.length * 14; // Scales width dynamically
+      const charWidthFactor = word.length * 28; // Scales width dynamically
       const extraPadding = word === "Manage" ? 50 : 30; // Extra space for "Managing"
 
       return baseWidth + charWidthFactor + extraPadding;
@@ -36,7 +36,7 @@ export const CarouselHeader = () => {
   return (
     <div className="relative flex flex-col items-center text-center">
       {/* === Heading with Dynamic Width === */}
-      <h1 className="text-5xl md:text-7xl font-extrabold leading-tight flex items-center justify-center gap-4">
+      <h1 className="text-6xl md:text-8xl font-extrabold leading-tight flex items-center justify-center gap-6">
         
         {/* === Word Carousel Wrapper === */}
         <div
@@ -70,8 +70,8 @@ export const CarouselHeader = () => {
       </h1>
 
       {/* Subtitle */}
-      <p className="text-lg md:text-xl text-[var(--text-secondary)] mt-4 font-medium">
-        The trust layer for decentralized compute
+      <p className="text-xl md:text-2xl text-[var(--text-secondary)] mt-5 font-semibold">
+      The trust layer for decentralized compute
       </p>
     </div>
   );
