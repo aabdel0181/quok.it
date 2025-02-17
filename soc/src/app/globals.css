@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 :root {
   --background: #000000;
   --foreground: #ffffff;
@@ -10,8 +10,16 @@
   --surface: #111111;
   --surface-dark: #0a0a0a;
   --text-secondary: #999999;
+} */
+:root {
+  --background: #ffffff; /* White background */
+  --foreground: #000000; /* Black text */
+  --primary: #00cc00; /* Green primary color */
+  --primary-dark: #009900; /* Darker green for hover states */
+  --surface: #f0f0f0; /* Light grey surface */
+  --surface-dark: #e0e0e0; /* Darker grey surface */
+  --text-secondary: #666666; /* Secondary text color */
 }
-
 /* Responsive container */
 .container {
   width: 100%;

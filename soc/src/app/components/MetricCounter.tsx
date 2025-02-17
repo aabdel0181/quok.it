@@ -14,6 +14,7 @@ interface MetricCounterProps {
   isGlitching: boolean;
   className?: string;
 }
+
 export const MetricCounter = ({
   label,
   metricType,
@@ -46,10 +47,10 @@ export const MetricCounter = ({
     }
   }, [isGlitching]);
 
-  // Update the getIcon function to include the new networks icon
+  // Icon selector with global color styles
   const getIcon = () => {
     const iconClass =
-      "w-12 h-12 text-red-500 group-hover:text-red-400 transition-colors"; // Adjusted size
+      "w-12 h-12 text-[var(--primary)] group-hover:text-[var(--primary-dark)] transition-colors";
 
     switch (metricType) {
       case "networks":
@@ -71,39 +72,37 @@ export const MetricCounter = ({
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <div className="flex flex-col items-center justify-center">
         <div className="mb-2">{getIcon()}</div>
-        <div className="text-base text-gray-400 uppercase tracking-wider font-medium">
+        <div className="text-sm md:text-base text-[var(--text-secondary)] uppercase tracking-wide font-medium">
           {label}
         </div>
       </div>
 
       {/* Glitch text container */}
       <div
-        className={`relative font-mono mt-3 ${
+        className={`relative font-mono mt-3 text-3xl font-bold ${
           isGlitching ? "glitch-container" : ""
         }`}
       >
-        <div className="text-3xl font-bold">
-          <span className="relative z-10 bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent">
-            {glitchText}
-          </span>
+        <span className="relative z-10 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] bg-clip-text text-transparent">
+          {glitchText}
+        </span>
 
-          {isGlitching && (
-            <>
-              <span
-                className="glitch-layer absolute inset-0 text-red-500"
-                aria-hidden="true"
-              >
-                {glitchText}
-              </span>
-              <span
-                className="glitch-layer absolute inset-0 text-blue-500"
-                aria-hidden="true"
-              >
-                {glitchText}
-              </span>
-            </>
-          )}
-        </div>
+        {isGlitching && (
+          <>
+            <span
+              className="glitch-layer absolute inset-0 text-[var(--primary)] opacity-75"
+              aria-hidden="true"
+            >
+              {glitchText}
+            </span>
+            <span
+              className="glitch-layer absolute inset-0 text-[var(--primary-dark)] opacity-75"
+              aria-hidden="true"
+            >
+              {glitchText}
+            </span>
+          </>
+        )}
       </div>
     </div>
   );

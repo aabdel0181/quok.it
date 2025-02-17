@@ -28,8 +28,9 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
     }, 500);
     const interval = setInterval(() => {
       setWordIndex((current) => (current + 1) % words.length);
-    }, 2500);
+    }, 2500); // Increased from 2500 to 3500 for slower cycling
 
+    // Global glitch effect trigger
     const glitchInterval = setInterval(() => {
       if (Math.random() > 0) {
         setGlobalGlitch(true);
@@ -45,11 +46,11 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--background)] overflow-hidden pt-20">
-      <div className="container flex-grow">
+    <div className="min-h-screen flex flex-col justify-between bg-black overflow-hidden pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow">
         {/* Responsive Header */}
         <div className="mt-8 md:mt-0">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold metallic-text flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
               <div className="relative flex items-center justify-center">
                 <AnimatePresence mode="popLayout">
@@ -64,13 +65,19 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
                     }}
                     className="flex items-center justify-center whitespace-nowrap"
                   >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] whitespace-nowrap leading-relaxed">
+                    <span
+                      className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 whitespace-nowrap leading-relaxed"
+                      style={{
+                        lineHeight: "1.3", // Provides space for descenders
+                        padding: "0.1em 0", // Extra padding for safety
+                      }}
+                    >
                       {words[wordIndex]}
                     </span>
                   </motion.div>
                 </AnimatePresence>
               </div>
-              <span className="text-[var(--foreground)] whitespace-nowrap">GPUs?</span>
+              <span className="text-white whitespace-nowrap">GPUs?</span>
             </div>
           </h1>
         </div>
@@ -80,7 +87,7 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-2xl md:text-3xl text-center text-[var(--foreground)] font-semibold mt-6 px-4"
+            className="text-2xl md:text-3xl text-center text-white font-semibold mt-6 px-4"
           >
             The trust layer for decentralized compute
           </motion.p>
@@ -88,45 +95,75 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-base md:text-lg text-center text-[var(--text-secondary)] mt-4 px-4"
+            className="text-base md:text-lg text-center text-gray-400 mt-4 px-4"
           >
             Proof of Health, Proof of Hardware
           </motion.p>
         </div>
-
-        {/* Mobile CTA Button */}
         <motion.div
-          className="w-full md:hidden mt-8 flex flex-col justify-between"
+          className="w-full md:hidden mt-8 min-h-screen flex flex-col justify-between"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
           <button
             onClick={() => router.push("/waitlist")}
-            className="w-full py-4 text-lg font-semibold bg-[var(--primary)] text-[var(--foreground)] hover:bg-[var(--primary-dark)] transition-all duration-300 shadow-md"
-          >
+            className="w-full py-4 text-lg font-semibold bg-[var(--primary)] text-[var(--foreground)] hover:bg-[var(--primary-dark)] transition-all duration-300"
+            >
             Join The Waitlist
           </button>
         </motion.div>
-
         {/* Metrics Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="hidden md:block w-full mt-8 md:mt-16"
+          className="hidden md:block w-full max-w-7xl mx-auto mt-8 md:mt-16 px-4"
         >
-          <div className="bg-[var(--surface)] backdrop-blur-sm border border-[var(--text-secondary)] rounded-2xl p-4 md:p-10">
+          <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-10 -mt-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              <MetricCounter label="Networks Tracked" metricType="networks" isGlitching={globalGlitch} />
-              <MetricCounter label="Total GPUs" metricType="total" isGlitching={globalGlitch} />
-              <MetricCounter label="Available GPUs" metricType="available" isGlitching={globalGlitch} />
-              <MetricCounter label="Network Utilization" metricType="utilization" isGlitching={globalGlitch} />
+              {/* Each metric in a responsive grid */}
+              <div className="flex flex-col items-center">
+                <MetricCounter
+                  label={
+                    <span className="h-[2.5em] md:h-[2em] flex items-center">
+                      Networks Tracked
+                    </span>
+                  }
+                  metricType="networks"
+                  isGlitching={globalGlitch}
+                />
+              </div>
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Total GPUs
+                  </span>
+                }
+                metricType="total"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Available GPUs
+                  </span>
+                }
+                metricType="available"
+                isGlitching={globalGlitch}
+              />
+              <MetricCounter
+                label={
+                  <span className="h-[2.5em] md:h-[2em] flex items-center">
+                    Network Utilization
+                  </span>
+                }
+                metricType="utilization"
+                isGlitching={globalGlitch}
+              />
             </div>
           </div>
         </motion.div>
-
-        {/* Tabs Section */}
         <motion.div
           className="w-full flex flex-col items-center pt-8"
           initial={{ opacity: 0, y: 20 }}
@@ -136,19 +173,54 @@ const HomeView: React.FC<HomeViewProps> = ({ data }) => {
           <div className="hidden md:block w-full">
             <TabsWithDescription />
           </div>
-        </motion.div>
+          <div className="md:hidden w-full px-4 mt-8 space-y-6">
+            <div className="text-left">
+              <h3 className="text-xl font-semibold text-red-500">
+                For GPU Owners
+              </h3>
+              <p className="mt-2 text-gray-300">
+                Maximize your GPU fleet's potential{" "}
+              </p>
+            </div>
 
-        {/* Desktop CTA Button */}
+            <div className="text-left">
+              <h3 className="text-xl font-semibold text-red-500">
+                For Developers
+              </h3>
+              <p className="mt-2 text-gray-300">
+                Access only the most reliable decentralized GPUs. AWS
+                reliability, DePIN pricing.
+              </p>
+            </div>
+
+            <div className="text-left">
+              <h3 className="text-xl font-semibold text-red-500">
+                For Compute Networks
+              </h3>
+              <p className="mt-2 text-gray-300">
+                Enhance your network reliability and performance.
+              </p>
+            </div>
+          </div>
+        </motion.div>
         <motion.div
           className="hidden md:block w-full mt-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <div className="container">
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
+            {" "}
+            {/* Match main container width */}
             <button
               onClick={() => router.push("/waitlist")}
-              className="w-full py-6 text-xl font-semibold bg-[var(--primary)] text-white shadow-md hover:shadow-lg hover:bg-[var(--primary-dark)] transform hover:scale-105 transition-all duration-300"
+              className="w-full py-6 text-xl font-semibold
+              bg-[#cc0000] text-white
+              shadow-[0_0_15px_rgba(204,0,0,0.5)]
+              hover:shadow-[0_0_30px_rgba(204,0,0,0.8)]
+              hover:bg-red-700
+              transform hover:scale-105 
+              transition-all duration-300"
             >
               Join The Waitlist
             </button>

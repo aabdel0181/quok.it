@@ -11,6 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        primaryDark: "var(--primary-dark)",
+        surface: "var(--surface)",
+        surfaceDark: "var(--surface-dark)",
+        textSecondary: "var(--text-secondary)",
       },
       backdropBlur: {
         sm: '4px',

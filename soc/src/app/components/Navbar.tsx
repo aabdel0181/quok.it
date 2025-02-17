@@ -10,7 +10,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)]/80 backdrop-blur-md border-b border-[var(--text-secondary)]">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-[75px]">
           {/* Logo */}
@@ -24,22 +24,25 @@ export const Navbar = () => {
               priority
               quality={100}
             />
-            <span className="text-lg md:text-2xl font-bold text-white hover:text-red-500 transition-colors">
+            <span className="text-lg md:text-2xl font-bold text-[var(--foreground)] hover:text-[var(--primary)] transition-colors">
               Quok.it
             </span>
           </Link>
-          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2 text-red-500 text-xl lg:text-2xl font-semibold whitespace-nowrap">
-            <span className="h-3 w-3 lg:h-4 lg:w-4 rounded-full bg-red-500 animate-pulse" />
+
+          {/* Centered Text */}
+          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2 text-[var(--primary)] text-xl lg:text-2xl font-semibold whitespace-nowrap">
+            <span className="h-3 w-3 lg:h-4 lg:w-4 rounded-full bg-[var(--primary)] animate-pulse" />
             Coming Soon
           </div>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             <Link
               href="/blog"
               className={`text-lg font-medium transition-colors ${
                 pathname === "/blog"
-                  ? "text-red-500"
-                  : "text-white hover:text-red-500"
+                  ? "text-[var(--primary)]"
+                  : "text-[var(--foreground)] hover:text-[var(--primary)]"
               }`}
             >
               Blog
@@ -48,8 +51,8 @@ export const Navbar = () => {
               href="/waitlist"
               className={`text-lg font-medium transition-colors ${
                 pathname === "/waitlist"
-                  ? "text-red-500"
-                  : "text-white hover:text-red-500"
+                  ? "text-[var(--primary)]"
+                  : "text-[var(--foreground)] hover:text-[var(--primary)]"
               }`}
             >
               Waitlist
@@ -58,8 +61,8 @@ export const Navbar = () => {
               href="/learn"
               className={`text-lg font-medium transition-colors ${
                 pathname === "/learn"
-                  ? "text-red-500"
-                  : "text-white hover:text-red-500"
+                  ? "text-[var(--primary)]"
+                  : "text-[var(--foreground)] hover:text-[var(--primary)]"
               }`}
             >
               About
@@ -68,16 +71,16 @@ export const Navbar = () => {
               href="https://twitter.com/quok_it"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-red-500 transition-colors"
+              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
             >
               <FaXTwitter size={20} />
             </Link>
           </div>
 
-          {/* Mobile Menu Button - Now visible on mobile */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="block md:hidden p-2 text-white"
+            className="block md:hidden p-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
           >
             {isMenuOpen ? (
               <svg
@@ -111,38 +114,38 @@ export const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu - Modified for better visibility */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-black/95">
-            <div className="flex flex-col py-4">
-              <div className="px-4 py-2 text-red-500 text-lg font-semibold flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+          <div className="md:hidden bg-[var(--background)]/95 backdrop-blur-lg shadow-lg">
+            <div className="flex flex-col py-4 space-y-2">
+              <div className="px-4 py-2 text-[var(--primary)] text-lg font-semibold flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[var(--primary)] animate-pulse" />
                 Coming Soon
               </div>
               <Link
                 href="/blog"
-                className="px-4 py-2 text-white hover:text-red-500 transition-colors"
+                className="px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
               </Link>
               <Link
                 href="/waitlist"
-                className="px-4 py-2 text-white hover:text-red-500 transition-colors"
+                className="px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Waitlist
               </Link>
               <Link
                 href="/learn"
-                className="px-4 py-2 text-white hover:text-red-500 transition-colors"
+                className="px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="https://twitter.com/quok_it"
-                className="px-4 py-2 text-white hover:text-red-500 transition-colors"
+                className="px-4 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Twitter
