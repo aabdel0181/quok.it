@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { MetricCounter } from "./MetricCounter";
 import { TabsWithDescription } from "./TabsWithDescription";
+import { CarouselHeader } from "./CarouselHeader";
 
 const words = ["Hosting", "Renting", "Managing"];
 const wordCycleTime = 3500;
@@ -26,7 +27,7 @@ const HomeView: React.FC = () => {
       setWordIndex((prev) => (prev + 1) % words.length);
     }, wordCycleTime);
 
-    // 🔥 Sync glitch effect for all metrics
+    // Sync glitch effect for all metrics
     const triggerGlobalGlitch = () => {
       setGlobalGlitch(true);
       setTimeout(() => setGlobalGlitch(false), 1000); // Glitch lasts 1s
@@ -47,34 +48,7 @@ const HomeView: React.FC = () => {
     <div className="min-h-screen flex flex-col justify-center bg-[var(--background)] pt-24 pb-20">
       <div className="full-width-container flex flex-col items-center text-center">
         
-        {/* ========== HERO SECTION ========== */}
-        <div className="w-full max-w-5xl text-center">
-          <h1 className="text-6xl md:text-7xl font-extrabold leading-tight flex flex-col sm:flex-row items-center justify-center gap-4">
-            <div className="relative flex items-center justify-center min-w-[200px]">
-              <AnimatePresence mode="popLayout">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  exit={{ y: "-100%", opacity: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    ease: "easeInOut",
-                  }}
-                  className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)]"
-                >
-                  {words[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-            <span className="text-[var(--foreground)] whitespace-nowrap sm:ml-6 ml-2">
-              GPUs?
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-[var(--text-secondary)] mt-6 font-medium">
-            The trust layer for decentralized compute
-          </p>
-        </div>
+      <CarouselHeader />
 
         {/* ========== CTA BUTTON (LARGE & ANIMATED BORDER) ========== */}
         <motion.div
