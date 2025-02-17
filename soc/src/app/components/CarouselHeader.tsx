@@ -10,7 +10,7 @@ export const CarouselHeader = () => {
   const [wordIndex, setWordIndex] = useState(0);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // 🔥 Custom spacing per word to balance alignment
+  // Custom spacing per word to balance alignment
   const wordWidths = useMemo(() => {
     return words.map((word) => {
       const baseWidth = 160; // Slightly reduced default width
