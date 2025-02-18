@@ -11,14 +11,14 @@ const waitlistSchema = z.object({
   role: z.enum([
     "Developer",
     "Decentralized Compute Network",
-    "Compute Provider",
+    "GPU Provider",
     "Investor",
     "Other",
   ]),
   projectName: z.string().optional(),
-  projectLink: z.string().url("Enter a valid URL").optional(),
-  networkName: z.string().optional(),
-  numGPUs: z.string().optional(),
+  projectLink: z.string().url("Enter a valid URL").or(z.literal("")).optional(),
+  networkName: z.string(),
+  numGPUs: z.string(),
   hardwareType: z.array(z.string()).optional(),
   twitter: z.string().optional(),
   telegram: z.string().optional(),
@@ -43,6 +43,22 @@ export default function Waitlist() {
     console.log("Submitting:", data);
     setSubmitted(true);
   };
+  const isRequired = (field: keyof WaitlistFormData) => {
+    const fieldSchema = waitlistSchema.shape[field];
+
+    // If the field is optional, it is NOT required
+    if (fieldSchema instanceof z.ZodOptional) {
+      return false;
+    }
+
+    // If the field has a default value, it is NOT required
+    if (fieldSchema instanceof z.ZodDefault) {
+      return false;
+    }
+
+    // Otherwise, it's required
+    return true;
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-[var(--background)] pt-24">
@@ -60,7 +76,8 @@ export default function Waitlist() {
             {/* Name */}
             <div>
               <label className="block text-sm font-medium text-[var(--foreground)]">
-                Name
+                Name{" "}
+                {isRequired("name") && <span className="text-red-500">*</span>}
               </label>
               <input
                 {...register("name")}
@@ -76,7 +93,8 @@ export default function Waitlist() {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-[var(--foreground)]">
-                Email
+                Email{" "}
+                {isRequired("email") && <span className="text-red-500">*</span>}
               </label>
               <input
                 type="email"
@@ -93,7 +111,8 @@ export default function Waitlist() {
             {/* Role Selection */}
             <div>
               <label className="block text-sm font-medium text-[var(--foreground)]">
-                Which best describes you?
+                Which best describes you?{" "}
+                {isRequired("role") && <span className="text-red-500">*</span>}
               </label>
               <select
                 {...register("role")}
@@ -104,7 +123,7 @@ export default function Waitlist() {
                 <option value="Decentralized Compute Network">
                   Decentralized Compute Network
                 </option>
-                <option value="Compute Provider">Compute Provider</option>
+                <option value="GPU Provider">GPU Provider</option>
                 <option value="Investor">Investor</option>
                 <option value="Other">Other</option>
               </select>
@@ -120,7 +139,10 @@ export default function Waitlist() {
               <>
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Project Name
+                    Project Name{" "}
+                    {isRequired("projectName") && (
+                      <span className="text-red-500">*</span>
+                    )}
                   </label>
                   <input
                     {...register("projectName")}
@@ -130,7 +152,10 @@ export default function Waitlist() {
 
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Project Link
+                    Project Link{" "}
+                    {isRequired("projectLink") && (
+                      <span className="text-red-500">*</span>
+                    )}
                   </label>
                   <input
                     type="url"
@@ -150,7 +175,10 @@ export default function Waitlist() {
               <>
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Network Name
+                    Network Name{" "}
+                    {isRequired("networkName") && (
+                      <span className="text-red-500">*</span>
+                    )}
                   </label>
                   <input
                     {...register("networkName")}
@@ -160,7 +188,10 @@ export default function Waitlist() {
 
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Number of GPUs
+                    Number of GPUs{" "}
+                    {isRequired("numGPUs") && (
+                      <span className="text-red-500">*</span>
+                    )}
                   </label>
                   <input
                     {...register("numGPUs")}
@@ -170,11 +201,14 @@ export default function Waitlist() {
               </>
             )}
 
-            {selectedRole === "Compute Provider" && (
+            {selectedRole === "GPU Provider" && (
               <>
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Hardware Types
+                    Hardware Types{" "}
+                    {isRequired("hardwareType") && (
+                      <span className="text-red-500">*</span>
+                    )}
                   </label>
                   <div className="space-y-2">
                     <label className="flex items-center">
@@ -195,7 +229,7 @@ export default function Waitlist() {
                       />
                       Consumer GPUs (e.g., RTX 3090, Radeon)
                     </label>
-                    <label className="flex items-center">
+                    {/* <label className="flex items-center">
                       <input
                         type="checkbox"
                         {...register("hardwareType")}
@@ -203,8 +237,34 @@ export default function Waitlist() {
                         className="mr-2"
                       />
                       CPU Compute
-                    </label>
+                    </label> */}
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[var(--foreground)]">
+                    Number of GPUs{" "}
+                    {isRequired("numGPUs") && (
+                      <span className="text-red-500">*</span>
+                    )}
+                  </label>
+                  <input
+                    {...register("numGPUs")}
+                    className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[var(--foreground)]">
+                    Network Name{" "}
+                    {isRequired("networkName") && (
+                      <span className="text-red-500">*</span>
+                    )}
+                  </label>
+                  <input
+                    {...register("networkName")}
+                    className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
+                  />
                 </div>
               </>
             )}
