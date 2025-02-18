@@ -22,6 +22,10 @@ const waitlistSchema = z.object({
   hardwareType: z.array(z.string()).optional(),
   twitter: z.string().optional(),
   telegram: z.string().optional(),
+  stage: z.string().optional(),
+  roleDescription: z
+    .string()
+    .min(1, "Please describe your role or interest in Quok.it"),
 });
 
 type WaitlistFormData = z.infer<typeof waitlistSchema>;
@@ -269,6 +273,56 @@ export default function Waitlist() {
               </>
             )}
 
+            {selectedRole === "Investor" && (
+              <div>
+                <label className="block text-sm font-medium text-[var(--foreground)]">
+                  What stage of companies do you typically invest in?{" "}
+                  {isRequired("stage") && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </label>
+                <select
+                  {...register("stage")}
+                  className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
+                >
+                  <option value="">Select a stage</option>
+                  <option value="Angel">Angel</option>
+                  <option value="Pre-seed/Seed">Pre-seed/Seed</option>
+                  <option value="Series A">Series A</option>
+                  <option value="Series B and beyond">
+                    Series B and beyond
+                  </option>
+                  <option value="All stages">All stages</option>
+                </select>
+                {errors.stage && (
+                  <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.stage.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {selectedRole === "Other" && (
+              <div>
+                <label className="block text-sm font-medium text-[var(--foreground)]">
+                  Please describe your role or interest in Quok.it{" "}
+                  {isRequired("roleDescription") && (
+                    <span className="text-red-500">*</span>
+                  )}
+                </label>
+                <input
+                  {...register("roleDescription")}
+                  placeholder="I'm a..."
+                  className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
+                />
+                {errors.roleDescription && (
+                  <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.roleDescription.message}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Twitter/X Handle */}
             <div>
               <label className="block text-sm font-medium text-[var(--foreground)]">
@@ -292,7 +346,6 @@ export default function Waitlist() {
                 className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
               />
             </div>
-
             {/* Submit Button */}
             <div className="flex justify-center">
               <button
