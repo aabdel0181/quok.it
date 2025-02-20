@@ -15,7 +15,7 @@ export const baseSchema = z.object({
   projectLink: z.string().optional(),
   numGPUs: z.coerce.number().optional(),
   networkName: z.string().optional(),
-  hardwareType: z.string().optional(),
+  hardwareType: z.array(z.string()).optional(),
   stage: z.string().optional(),
   roleDescription: z.string().optional(),
   twitter: z.string().optional(),
