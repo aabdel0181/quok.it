@@ -4,74 +4,69 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
 
-const waitlistSchema = z
-  .object({
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Enter a valid email"),
-    role: z.enum([
-      "Developer",
-      "Decentralized Compute Network",
-      "GPU Provider",
-      "Investor",
-      "Other",
-    ]),
-    projectName: z.string().optional(),
-    projectLink: z
-      .string()
-      .url("Enter a valid URL")
-      .or(z.literal(""))
-      .optional(),
-    networkName: z.string().optional(),
-    numGPUs: z.string().optional(),
-    hardwareType: z.array(z.string()).optional(),
-    twitter: z.string().optional(),
-    telegram: z.string().optional(),
-    stage: z.string().optional(),
-    roleDescription: z.string().optional(), // Set as optional initially
-  })
-  .superRefine((data, ctx) => {
-    // ✅ Require `networkName` and `numGPUs` only if `role` is "Decentralized Compute Network"
-    if (data.role === "Decentralized Compute Network") {
-      if (!data.networkName) {
-        ctx.addIssue({
-          path: ["networkName"],
-          message: "Network Name is required",
-          code: z.ZodIssueCode.custom,
-        });
-      }
-      if (!data.numGPUs) {
-        ctx.addIssue({
-          path: ["numGPUs"],
-          message: "Number of GPUs is required",
-          code: z.ZodIssueCode.custom,
-        });
-      }
-    }
+// Base schema for all roles
+const baseSchema = z.object({
+  name: z.string().trim().min(3, "Name must be at least 3 characters"),
+  email: z.string().email("Please enter a valid email"),
+  role: z.enum([
+    "Developer",
+    "Decentralized Compute Network",
+    "GPU Provider",
+    "Investor",
+    "Other",
+  ]),
+});
 
-    // ✅ Require `hardwareType` only if `role` is "GPU Provider"
-    if (
-      data.role === "GPU Provider" &&
-      (!data.hardwareType || data.hardwareType.length === 0)
-    ) {
-      ctx.addIssue({
-        path: ["hardwareType"],
-        message: "At least one hardware type must be selected",
-        code: z.ZodIssueCode.custom,
-      });
-    }
+// Schema for Developers (Project Details Required)
+const developerSchema = baseSchema.extend({
+  role: z.literal("Developer"),
+  projectLink: z
+    .string()
+    .trim()
+    .regex(
+      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
+      "Enter a valid URL"
+    )
+    .or(z.literal(""))
+    .optional(),
+});
 
-    // ✅ Require `roleDescription` only for "Other"
-    if (
-      data.role === "Other" &&
-      (!data.roleDescription || data.roleDescription.trim() === "")
-    ) {
-      ctx.addIssue({
-        path: ["roleDescription"],
-        message: "Please describe your role",
-        code: z.ZodIssueCode.custom,
-      });
-    }
-  });
+// Schema for Decentralized Compute Networks (GPUs & Network Info Required)
+const computeNetworkSchema = baseSchema.extend({
+  role: z.literal("Decentralized Compute Network"),
+  networkName: z.string().trim().min(2, "Network Name is required"),
+  numGPUs: z.coerce.number().min(1, "Number of GPUs is required"),
+});
+
+// Schema for GPU Providers (Hardware Selection Required)
+const gpuProviderSchema = baseSchema.extend({
+  role: z.literal("GPU Provider"),
+  hardwareType: z
+    .array(z.string())
+    .min(1, "At least one hardware type must be selected")
+    .default([]),
+  numGPUs: z.coerce.number().min(1, "Number of GPUs is required"),
+});
+
+// Schema for Investors (Stage Selection Required)
+const investorSchema = baseSchema.extend({
+  role: z.literal("Investor"),
+});
+
+// Schema for Other (Role Description Required)
+const otherSchema = baseSchema.extend({
+  role: z.literal("Other"),
+  roleDescription: z.string().trim().min(5, "Please describe your role"),
+});
+
+// Combine all schemas into a union
+export const waitlistSchema = z.discriminatedUnion("role", [
+  developerSchema,
+  computeNetworkSchema,
+  gpuProviderSchema,
+  investorSchema,
+  otherSchema,
+]);
 
 type WaitlistFormData = z.infer<typeof waitlistSchema>;
 
@@ -82,9 +77,11 @@ export default function Waitlist() {
     watch,
     reset,
     formState: { errors, isSubmitting },
+    setValueAs,
     trigger, // ADD trigger for dynamic validation
   } = useForm<WaitlistFormData>({
     resolver: zodResolver(waitlistSchema),
+    defaultValues: { hardwareType: [] },
     mode: "onBlur",
   });
 
@@ -130,23 +127,38 @@ export default function Waitlist() {
   };
 
   const isRequired = (field: keyof WaitlistFormData) => {
-    let schemaObject: any = waitlistSchema; // Allow unwrapping without TypeScript errors
-
-    // Unwrap ZodEffects layers until we reach a ZodObject
-    while (schemaObject instanceof z.ZodEffects) {
-      schemaObject = schemaObject._def.schema;
+    let selectedSchema;
+    switch (selectedRole) {
+      case "Developer":
+        selectedSchema = developerSchema;
+        break;
+      case "Decentralized Compute Network":
+        selectedSchema = computeNetworkSchema;
+        break;
+      case "GPU Provider":
+        selectedSchema = gpuProviderSchema;
+        break;
+      case "Investor":
+        selectedSchema = investorSchema;
+        break;
+      case "Other":
+        selectedSchema = otherSchema;
+        break;
+      default:
+        selectedSchema = baseSchema;
     }
 
-    // Ensure the final schema is a ZodObject
-    if (!(schemaObject instanceof z.ZodObject)) {
-      console.error("Schema is not a valid ZodObject:", schemaObject);
+    // 2️⃣ Ensure we are working with a valid ZodObject
+    if (!(selectedSchema instanceof z.ZodObject)) {
+      console.error("Invalid schema:", selectedSchema);
       return false;
     }
 
-    // Extract the field schema
-    const fieldSchema = schemaObject.shape[field];
+    // 3️⃣ Check if the field is defined in the schema
+    const fieldSchema = selectedSchema.shape[field];
+    if (!fieldSchema) return false;
 
-    // Check if the field is optional (wrapped in ZodOptional)
+    // 4️⃣ If the field is optional, it's not required
     return !(fieldSchema instanceof z.ZodOptional);
   };
 
@@ -218,7 +230,7 @@ export default function Waitlist() {
                 {...register("role")}
                 className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
               >
-                <option value="">Select a role</option>
+                <option value="" disabled>Select a role</option>
                 <option value="Developer">Developer</option>
                 <option value="Decentralized Compute Network">
                   Decentralized Compute Network
@@ -258,8 +270,11 @@ export default function Waitlist() {
                     )}
                   </label>
                   <input
-                    type="url"
-                    {...register("projectLink")}
+                    type="string"
+                    {...register("projectLink", {
+                      setValueAs: (value) =>
+                        value && !value.startsWith("http") ? `https://${value.trim()}` : value.trim(),
+                    })}
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
                   {errors.projectLink && (
@@ -284,6 +299,11 @@ export default function Waitlist() {
                     {...register("networkName")}
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
+                  {errors.networkName && (
+                  <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.networkName.message}
+                  </p>
+                  )}
                 </div>
 
                 <div>
@@ -297,6 +317,11 @@ export default function Waitlist() {
                     {...register("numGPUs")}
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
+                  {errors.numGPUs && (
+                  <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.numGPUs.message}
+                  </p>
+                  )}
                 </div>
               </>
             )}
@@ -338,6 +363,11 @@ export default function Waitlist() {
                       />
                       CPU Compute
                     </label> */}
+                    {errors.hardwareType && (
+                    <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.hardwareType.message}
+                  </p>
+                  )}
                   </div>
                 </div>
 
@@ -352,6 +382,11 @@ export default function Waitlist() {
                     {...register("numGPUs")}
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
+                  {errors.numGPUs && (
+                  <p className="text-[var(--primary)] text-sm mt-1">
+                    {errors.numGPUs.message}
+                  </p>
+                  )}
                 </div>
 
                 <div>
