@@ -3,72 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-
-// Base schema for all roles
-const baseSchema = z.object({
-  name: z.string().trim().min(3, "Name must be at least 3 characters"),
-  email: z.string().email("Please enter a valid email"),
-  role: z.enum([
-    "Developer",
-    "Decentralized Compute Network",
-    "GPU Provider",
-    "Investor",
-    "Other",
-  ]),
-});
-
-// Schema for Developers (Project Details Required)
-const developerSchema = baseSchema.extend({
-  role: z.literal("Developer"),
-  projectLink: z
-    .string()
-    .trim()
-    .regex(
-      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
-      "Enter a valid URL"
-    )
-    .or(z.literal(""))
-    .optional(),
-});
-
-// Schema for Decentralized Compute Networks (GPUs & Network Info Required)
-const computeNetworkSchema = baseSchema.extend({
-  role: z.literal("Decentralized Compute Network"),
-  networkName: z.string().trim().min(2, "Network Name is required"),
-  numGPUs: z.coerce.number().min(1, "Number of GPUs is required"),
-});
-
-// Schema for GPU Providers (Hardware Selection Required)
-const gpuProviderSchema = baseSchema.extend({
-  role: z.literal("GPU Provider"),
-  hardwareType: z
-    .array(z.string())
-    .min(1, "At least one hardware type must be selected")
-    .default([]),
-  numGPUs: z.coerce.number().min(1, "Number of GPUs is required"),
-});
-
-// Schema for Investors (Stage Selection Required)
-const investorSchema = baseSchema.extend({
-  role: z.literal("Investor"),
-});
-
-// Schema for Other (Role Description Required)
-const otherSchema = baseSchema.extend({
-  role: z.literal("Other"),
-  roleDescription: z.string().trim().min(5, "Please describe your role"),
-});
-
-// Combine all schemas into a union
-export const waitlistSchema = z.discriminatedUnion("role", [
-  developerSchema,
+import { WaitlistFormData, waitlistSchema, developerSchema,
   computeNetworkSchema,
   gpuProviderSchema,
   investorSchema,
-  otherSchema,
-]);
-
-type WaitlistFormData = z.infer<typeof waitlistSchema>;
+  otherSchema,baseSchema } from "../../lib/validation"; // Import schema here
 
 export default function Waitlist() {
   const {
@@ -77,7 +16,6 @@ export default function Waitlist() {
     watch,
     reset,
     formState: { errors, isSubmitting },
-    setValueAs,
     trigger, // ADD trigger for dynamic validation
   } = useForm<WaitlistFormData>({
     resolver: zodResolver(waitlistSchema),
@@ -101,9 +39,9 @@ export default function Waitlist() {
       console.log("Submitting data to /api/waitlist:", data); // Debug log
 
       setError(null);
-      if (data.role !== "Other") {
-        delete data.roleDescription;
-      }
+      // if (data.role !== "Other") {
+      //   delete data.roleDescription;
+      // }
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: {
@@ -148,17 +86,17 @@ export default function Waitlist() {
         selectedSchema = baseSchema;
     }
 
-    // 2️⃣ Ensure we are working with a valid ZodObject
+    // Ensure we are working with a valid ZodObject
     if (!(selectedSchema instanceof z.ZodObject)) {
       console.error("Invalid schema:", selectedSchema);
       return false;
     }
 
-    // 3️⃣ Check if the field is defined in the schema
+    // Check if the field is defined in the schema
     const fieldSchema = selectedSchema.shape[field];
     if (!fieldSchema) return false;
 
-    // 4️⃣ If the field is optional, it's not required
+    // If the field is optional, it's not required
     return !(fieldSchema instanceof z.ZodOptional);
   };
 
