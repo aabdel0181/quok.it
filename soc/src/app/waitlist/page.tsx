@@ -2,31 +2,76 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-//  Validation Schema (with Twitter/X & Telegram)
-const waitlistSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Enter a valid email"),
-  role: z.enum([
-    "Developer",
-    "Decentralized Compute Network",
-    "GPU Provider",
-    "Investor",
-    "Other",
-  ]),
-  projectName: z.string().optional(),
-  projectLink: z.string().url("Enter a valid URL").or(z.literal("")).optional(),
-  networkName: z.string(),
-  numGPUs: z.string(),
-  hardwareType: z.array(z.string()).optional(),
-  twitter: z.string().optional(),
-  telegram: z.string().optional(),
-  stage: z.string().optional(),
-  roleDescription: z
-    .string()
-    .min(1, "Please describe your role or interest in Quok.it"),
-});
+const waitlistSchema = z
+  .object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Enter a valid email"),
+    role: z.enum([
+      "Developer",
+      "Decentralized Compute Network",
+      "GPU Provider",
+      "Investor",
+      "Other",
+    ]),
+    projectName: z.string().optional(),
+    projectLink: z
+      .string()
+      .url("Enter a valid URL")
+      .or(z.literal(""))
+      .optional(),
+    networkName: z.string().optional(),
+    numGPUs: z.string().optional(),
+    hardwareType: z.array(z.string()).optional(),
+    twitter: z.string().optional(),
+    telegram: z.string().optional(),
+    stage: z.string().optional(),
+    roleDescription: z.string().optional(), // Set as optional initially
+  })
+  .superRefine((data, ctx) => {
+    // ✅ Require `networkName` and `numGPUs` only if `role` is "Decentralized Compute Network"
+    if (data.role === "Decentralized Compute Network") {
+      if (!data.networkName) {
+        ctx.addIssue({
+          path: ["networkName"],
+          message: "Network Name is required",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+      if (!data.numGPUs) {
+        ctx.addIssue({
+          path: ["numGPUs"],
+          message: "Number of GPUs is required",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+    }
+
+    // ✅ Require `hardwareType` only if `role` is "GPU Provider"
+    if (
+      data.role === "GPU Provider" &&
+      (!data.hardwareType || data.hardwareType.length === 0)
+    ) {
+      ctx.addIssue({
+        path: ["hardwareType"],
+        message: "At least one hardware type must be selected",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // ✅ Require `roleDescription` only for "Other"
+    if (
+      data.role === "Other" &&
+      (!data.roleDescription || data.roleDescription.trim() === "")
+    ) {
+      ctx.addIssue({
+        path: ["roleDescription"],
+        message: "Please describe your role",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 type WaitlistFormData = z.infer<typeof waitlistSchema>;
 
@@ -35,33 +80,74 @@ export default function Waitlist() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
+    trigger, // ADD trigger for dynamic validation
   } = useForm<WaitlistFormData>({
     resolver: zodResolver(waitlistSchema),
+    mode: "onBlur",
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const selectedRole = watch("role");
+  const selectedRole = watch("role"); // Watch role changes
 
-  const onSubmit = async (data: WaitlistFormData) => {
-    console.log("Submitting:", data);
-    setSubmitted(true);
+  useEffect(() => {
+    console.log("Role changed:", selectedRole);
+    trigger(); // Force revalidation when role changes
+  }, [selectedRole, trigger]);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Function to handle API submission
+  const handleSubmitForm = async (data: WaitlistFormData) => {
+    try {
+      console.log("Submitting data to /api/waitlist:", data); // Debug log
+
+      setError(null);
+      if (data.role !== "Other") {
+        delete data.roleDescription;
+      }
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      console.log("API Response:", response.status, response.statusText); // Debug response
+
+      const result = await response.json();
+      console.log("API Response Data:", result); // Debug response data
+
+      if (!response.ok) throw new Error(result.error || "Failed to submit");
+
+      setIsSubmitted(true); // Show success message
+    } catch (err) {
+      console.error("Submission error:", err); // Debug errors
+      setError(err instanceof Error ? err.message : "Submission failed");
+    }
   };
+
   const isRequired = (field: keyof WaitlistFormData) => {
-    const fieldSchema = waitlistSchema.shape[field];
+    let schemaObject: any = waitlistSchema; // Allow unwrapping without TypeScript errors
 
-    // If the field is optional, it is NOT required
-    if (fieldSchema instanceof z.ZodOptional) {
+    // Unwrap ZodEffects layers until we reach a ZodObject
+    while (schemaObject instanceof z.ZodEffects) {
+      schemaObject = schemaObject._def.schema;
+    }
+
+    // Ensure the final schema is a ZodObject
+    if (!(schemaObject instanceof z.ZodObject)) {
+      console.error("Schema is not a valid ZodObject:", schemaObject);
       return false;
     }
 
-    // If the field has a default value, it is NOT required
-    if (fieldSchema instanceof z.ZodDefault) {
-      return false;
-    }
+    // Extract the field schema
+    const fieldSchema = schemaObject.shape[field];
 
-    // Otherwise, it's required
-    return true;
+    // Check if the field is optional (wrapped in ZodOptional)
+    return !(fieldSchema instanceof z.ZodOptional);
   };
 
   return (
@@ -71,12 +157,22 @@ export default function Waitlist() {
           Join the Waitlist
         </h2>
 
-        {submitted ? (
+        {isSubmitted ? (
           <p className="text-center text-[var(--primary)] mt-4">
             Thank you for signing up! 🎉
           </p>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
+          <form
+            onSubmit={(e) => {
+              console.log("Form submit event triggered!"); // Debug
+              handleSubmit((data) => {
+                console.log("handleSubmit is working, data:", data); // Debug
+                handleSubmitForm(data);
+              })(e);
+              console.log("Validation Errors Before Submit:", errors); // Debug validation errors
+            }}
+            className="space-y-6 mt-4"
+          >
             {/* Name */}
             <div>
               <label className="block text-sm font-medium text-[var(--foreground)]">
@@ -305,7 +401,7 @@ export default function Waitlist() {
             {selectedRole === "Other" && (
               <div>
                 <label className="block text-sm font-medium text-[var(--foreground)]">
-                  Please describe your role or interest in Quok.it{" "}
+                  Please describe your role or interest in Quok.it
                   {isRequired("roleDescription") && (
                     <span className="text-red-500">*</span>
                   )}
@@ -356,6 +452,10 @@ export default function Waitlist() {
                 {isSubmitting ? "Submitting..." : "Join Waitlist"}
               </button>
             </div>
+
+            {error && (
+              <p className="text-center text-[var(--primary)] mt-4">{error}</p>
+            )}
           </form>
         )}
       </div>
