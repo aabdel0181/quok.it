@@ -329,7 +329,7 @@ export default function Waitlist() {
 
                 <div>
                   <label className="block text-sm font-medium text-[var(--foreground)]">
-                    Network Name{" "}
+                    What networks do you provide compute for?{" "}
                     {isRequired("networkName") && (
                       <span className="text-red-500">*</span>
                     )}
