@@ -77,7 +77,7 @@ export default function BetaPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[var(--background)]">
+    <div className="flex min-h-screen bg-[var(--background)] pt-[80px]">
       {/* Sidebar */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
@@ -105,7 +105,6 @@ export default function BetaPage() {
             </div>
           </div>
         </div>
-
         {/* Navigation Tabs */}
         <nav className="flex-1 p-4 space-y-2">
           {tabs.map((tab) => (
@@ -113,19 +112,22 @@ export default function BetaPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
-                         transition-all duration-200 text-left
-                ${
-                  activeTab === tab.id
-                    ? "bg-[var(--primary)] bg-opacity-10 text-[var(--primary)]"
-                    : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
-                }`}
+                 transition-all duration-200 text-left font-medium
+        ${
+          activeTab === tab.id
+            ? "bg-[var(--primary)] text-white" // Changed from bg-opacity-10 and text-[var(--primary)]
+            : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
+        }`}
             >
-              <tab.icon className="w-5 h-5" />
+              <tab.icon
+                className={`w-5 h-5 ${
+                  activeTab === tab.id ? "text-white" : "text-current"
+                }`}
+              />
               <span>{tab.label}</span>
             </button>
           ))}
         </nav>
-
         {/* Beta Badge */}
         <div className="p-4 border-t border-[var(--border-light)]">
           <div
