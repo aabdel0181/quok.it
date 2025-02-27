@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   HiOutlineTrophy,
   HiOutlineChartBar,
@@ -86,7 +87,7 @@ export const LeaderboardPanel = () => {
            relative"
       >
         {/* Add glowing border overlay */}
-        <div className="absolute inset-0 rounded-2xl border-border-transparent animate-glowTrail pointer-events-none" />
+        {/* <div className="absolute inset-0 rounded-2xl border-border-transparent animate-glowTrail pointer-events-none" /> */}
 
         {/* Rest of your first place content */}
         <div className="flex items-center justify-between relative z-10">
@@ -94,14 +95,20 @@ export const LeaderboardPanel = () => {
             <div className="relative">
               <div
                 className="w-16 h-16 rounded-full bg-[var(--primary)] bg-opacity-10 
-                            flex items-center justify-center"
+                  flex items-center justify-center overflow-hidden"
               >
-                <HiOutlineTrophy className="w-8 h-8 text-[var(--primary)]" />
+                <Image
+                  src="/hyperbolic-logo.png" // Make sure to add this image to your public folder
+                  alt="Hyperbolic Logo"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
               </div>
               <div
                 className="absolute -top-2 -right-2 w-6 h-6 rounded-full 
-                            bg-[var(--primary)] text-white flex items-center 
-                            justify-center text-sm font-bold"
+                  bg-[var(--primary)] text-white flex items-center 
+                  justify-center text-sm font-bold"
               >
                 1
               </div>
