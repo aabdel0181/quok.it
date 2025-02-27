@@ -181,8 +181,8 @@ export const LeaderboardPanel = () => {
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-8 h-8 rounded-full bg-[var(--primary)] bg-opacity-10 
-                                  flex items-center justify-center text-[var(--primary)] font-medium"
+                      className="w-8 h-8 rounded-full bg-[var(--primary)] 
+                    flex items-center justify-center text-white font-medium"
                     >
                       #{runner.rank}
                     </div>
