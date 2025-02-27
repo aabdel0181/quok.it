@@ -3,12 +3,14 @@ import {
   HiOutlineTrophy,
   HiOutlineChartBar,
   HiOutlineClock,
+  HiOutlineBolt,
 } from "react-icons/hi2";
 
 interface LeaderStats {
   gpuCount: number;
   uptime: string;
   efficiency: string;
+  score: number;
 }
 
 interface LeaderData {
@@ -25,6 +27,7 @@ const leaderboardData: LeaderData[] = [
       gpuCount: 1250,
       uptime: "99.99%",
       efficiency: "98.5%",
+      score: 985,
     },
   },
   {
@@ -34,9 +37,39 @@ const leaderboardData: LeaderData[] = [
       gpuCount: 850,
       uptime: "99.95%",
       efficiency: "97.8%",
+      score: 942,
     },
   },
-  // Add more dummy data for ranks 3-5
+  {
+    rank: 3,
+    name: "Quantum Grid",
+    stats: {
+      gpuCount: 720,
+      uptime: "99.92%",
+      efficiency: "97.1%",
+      score: 928,
+    },
+  },
+  {
+    rank: 4,
+    name: "Atlas Networks",
+    stats: {
+      gpuCount: 680,
+      uptime: "99.90%",
+      efficiency: "96.8%",
+      score: 915,
+    },
+  },
+  {
+    rank: 5,
+    name: "Vertex Cloud",
+    stats: {
+      gpuCount: 590,
+      uptime: "99.88%",
+      efficiency: "96.5%",
+      score: 908,
+    },
+  },
 ];
 
 export const LeaderboardPanel = () => {
@@ -76,7 +109,12 @@ export const LeaderboardPanel = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-4 gap-8">
+            <StatCard
+              icon={<HiOutlineBolt />}
+              value={firstPlace.stats.score.toString()}
+              label="Trust Score"
+            />
             <StatCard
               icon={<HiOutlineChartBar />}
               value={firstPlace.stats.gpuCount.toString()}
@@ -113,6 +151,9 @@ export const LeaderboardPanel = () => {
                 Network
               </th>
               <th className="px-6 py-4 text-right text-sm font-semibold text-[var(--foreground)]">
+                Trust Score
+              </th>
+              <th className="px-6 py-4 text-right text-sm font-semibold text-[var(--foreground)]">
                 GPUs
               </th>
               <th className="px-6 py-4 text-right text-sm font-semibold text-[var(--foreground)]">
@@ -125,15 +166,28 @@ export const LeaderboardPanel = () => {
           </thead>
           <tbody className="divide-y divide-[var(--border-light)]">
             {runners.map((runner) => (
-              <tr
+              <motion.tr
                 key={runner.rank}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: runner.rank * 0.1 }}
                 className="hover:bg-[var(--surface-dark)] transition-colors"
               >
-                <td className="px-6 py-4 text-[var(--text-secondary)]">
-                  #{runner.rank}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-8 h-8 rounded-full bg-[var(--primary)] bg-opacity-10 
+                                  flex items-center justify-center text-[var(--primary)] font-medium"
+                    >
+                      #{runner.rank}
+                    </div>
+                  </div>
                 </td>
                 <td className="px-6 py-4 font-medium text-[var(--foreground)]">
                   {runner.name}
+                </td>
+                <td className="px-6 py-4 text-right font-medium text-[var(--primary)]">
+                  {runner.stats.score}
                 </td>
                 <td className="px-6 py-4 text-right text-[var(--text-secondary)]">
                   {runner.stats.gpuCount}
@@ -144,7 +198,7 @@ export const LeaderboardPanel = () => {
                 <td className="px-6 py-4 text-right text-[var(--text-secondary)]">
                   {runner.stats.efficiency}
                 </td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
         </table>
