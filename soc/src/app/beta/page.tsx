@@ -31,21 +31,51 @@ export default function BetaPage() {
       case "Home":
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-bold text-[var(--foreground)]">
-                  Network Performance Rankings
-                </h2>
-                <p className="text-[var(--text-secondary)] mt-2">
-                  Real-time analytics of top-performing compute networks
-                </p>
+            <div className="flex justify-between items-start">
+              {" "}
+              {/* Changed items-center to items-start */}
+              <div className="max-w-2xl -mt-2">
+                {" "}
+                {/* Added negative margin to counteract any remaining space */}
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-xl text-[var(--text-secondary)] leading-relaxed tracking-wide"
+                >
+                  Real-time analytics
+                  <span className="text-[var(--primary)] font-semibold">
+                    {" "}
+                    powered by Quokka Agent (QA)
+                  </span>
+                </motion.p>
+                {/* Live Updates Badge */}
+                <div className="flex items-center gap-2 px-4 py-2 mt-4">
+                  <div className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+                  <span className="text-sm font-medium text-[var(--primary)]">
+                    Live Updates
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-[var(--primary)] animate-pulse" />
-                <span className="text-sm font-medium text-[var(--primary)]">
-                  Live Updates
-                </span>
-              </div>
+              {/* Stats Card */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-[var(--surface)] p-6 rounded-xl shadow-lg 
+                             border border-[var(--border-light)]"
+              >
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-[var(--primary)]">
+                      25k+
+                    </div>
+                    <div className="text-sm text-[var(--text-secondary)]">
+                      GPUs Tracked
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
             <LeaderboardPanel />
           </div>
@@ -193,12 +223,8 @@ export default function BetaPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-center"
             >
-              <h1
-                className="text-3xl font-bold text-[var(--foreground)] 
-                         bg-clip-text text-transparent bg-gradient-to-r 
-                         from-[var(--primary)] to-[var(--primary-dark)]"
-              >
-                Welcome to Quok.it Beta
+              <h1 className="text-4xl font-bold text-[var(--foreground)]">
+                Quok.it Beta
               </h1>
               <p className="text-[var(--text-secondary)] mt-2">
                 Bringing Transparency & Reliability to Decentralized Compute
@@ -206,7 +232,6 @@ export default function BetaPage() {
               </p>
             </motion.div>
           </div>
-
           {/* Tab Content */}
           <motion.div
             key={activeTab}

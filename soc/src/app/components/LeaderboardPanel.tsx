@@ -82,9 +82,14 @@ export const LeaderboardPanel = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-gradient-to-br from-[var(--surface)] to-[var(--surface-dark)] 
-                   rounded-2xl p-6 shadow-lg border border-[var(--border-light)]"
+           rounded-2xl p-6 shadow-lg border border-[var(--border-light)]
+           relative"
       >
-        <div className="flex items-center justify-between">
+        {/* Add glowing border overlay */}
+        <div className="absolute inset-0 rounded-2xl border-2 border-transparent animate-glowTrail pointer-events-none" />
+
+        {/* Rest of your first place content */}
+        <div className="flex items-center justify-between relative z-10">
           <div className="flex items-center gap-4">
             <div className="relative">
               <div
