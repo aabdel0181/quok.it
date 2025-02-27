@@ -86,7 +86,7 @@ export const LeaderboardPanel = () => {
            relative"
       >
         {/* Add glowing border overlay */}
-        <div className="absolute inset-0 rounded-2xl border-2 border-transparent animate-glowTrail pointer-events-none" />
+        <div className="absolute inset-0 rounded-2xl border-border-transparent animate-glowTrail pointer-events-none" />
 
         {/* Rest of your first place content */}
         <div className="flex items-center justify-between relative z-10">
@@ -176,7 +176,7 @@ export const LeaderboardPanel = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: runner.rank * 0.1 }}
-                className="hover:bg-[var(--surface-dark)] transition-colors"
+                className="hover:bg-[var(--surface-dark)] transition-colors backdrop-blur-sm bg-opacity-50"
               >
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
@@ -188,20 +188,20 @@ export const LeaderboardPanel = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 font-medium text-[var(--foreground)]">
-                  {runner.name}
+                <td className="px-6 py-4 font-medium text-[var(--foreground)] blur-[6px]">
+                  Coming Soon
                 </td>
-                <td className="px-6 py-4 text-right font-medium text-[var(--primary)]">
-                  {runner.stats.score}
+                <td className="px-6 py-4 text-right font-medium text-[var(--primary)] blur-[6px]">
+                  Coming Soon
                 </td>
-                <td className="px-6 py-4 text-right text-[var(--text-secondary)]">
-                  {runner.stats.gpuCount}
+                <td className="px-6 py-4 text-right text-[var(--text-secondary)] blur-[6px]">
+                  Coming Soon
                 </td>
-                <td className="px-6 py-4 text-right text-[var(--text-secondary)]">
-                  {runner.stats.uptime}
+                <td className="px-6 py-4 text-right text-[var(--text-secondary)] blur-[6px]">
+                  Coming Soon
                 </td>
-                <td className="px-6 py-4 text-right text-[var(--text-secondary)]">
-                  {runner.stats.efficiency}
+                <td className="px-6 py-4 text-right text-[var(--text-secondary)] blur-[6px]">
+                  Coming Soon
                 </td>
               </motion.tr>
             ))}
