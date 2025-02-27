@@ -83,7 +83,7 @@ export default function BetaPage() {
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         className="w-64 bg-[var(--surface)] border-r border-[var(--border-light)] 
-                   flex flex-col fixed h-screen"
+                     flex flex-col fixed h-[calc(100vh-80px)] top-[80px]"
       >
         {/* Logo Section */}
         <div className="p-6 border-b border-[var(--border-light)]">
@@ -105,6 +105,7 @@ export default function BetaPage() {
             </div>
           </div>
         </div>
+
         {/* Navigation Tabs */}
         <nav className="flex-1 p-4 space-y-2">
           {tabs.map((tab) => (
@@ -112,12 +113,12 @@ export default function BetaPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
-                 transition-all duration-200 text-left font-medium
-        ${
-          activeTab === tab.id
-            ? "bg-[var(--primary)] text-white" // Changed from bg-opacity-10 and text-[var(--primary)]
-            : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
-        }`}
+                           transition-all duration-200 text-left font-medium
+                  ${
+                    activeTab === tab.id
+                      ? "bg-[var(--primary)] text-white"
+                      : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
+                  }`}
             >
               <tab.icon
                 className={`w-5 h-5 ${
@@ -128,11 +129,29 @@ export default function BetaPage() {
             </button>
           ))}
         </nav>
+
+        {/* Action Buttons */}
+        <div className="p-4 space-y-2 border-t border-[var(--border-light)]">
+          <button
+            className="w-full px-4 py-2.5 bg-[var(--primary)] text-white rounded-lg 
+                       hover:bg-[var(--primary-dark)] transition-colors text-sm font-medium"
+          >
+            Share Feedback
+          </button>
+          <button
+            className="w-full px-4 py-2.5 border border-[var(--border-light)] rounded-lg
+                       hover:bg-[var(--surface-dark)] transition-colors
+                       text-[var(--foreground)] text-sm font-medium"
+          >
+            View Documentation
+          </button>
+        </div>
+
         {/* Beta Badge */}
-        <div className="p-4 border-t border-[var(--border-light)]">
+        <div className="p-4">
           <div
             className="flex items-center gap-2 px-4 py-2 bg-[var(--primary)] 
-                          bg-opacity-10 rounded-lg"
+                            bg-opacity-10 rounded-lg"
           >
             <div className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
             <span className="text-sm font-medium text-[var(--primary)]">
@@ -150,29 +169,24 @@ export default function BetaPage() {
         className="flex-1 ml-64 p-8"
       >
         <div className="max-w-6xl mx-auto">
-          {/* User Welcome Section */}
+          {/* Streamlined Header */}
           <div className="mb-8">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex justify-between items-center"
+              className="text-center"
             >
-              <div>
-                <h1 className="text-3xl font-bold text-[var(--foreground)]">
-                  Welcome to Quok.it Beta
-                </h1>
-                <p className="text-[var(--text-secondary)] mt-2">
-                  Explore the future of decentralized compute
-                </p>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-4 py-2 bg-[var(--primary)] text-white rounded-lg 
-                           hover:bg-[var(--primary-dark)] transition-colors"
+              <h1
+                className="text-3xl font-bold text-[var(--foreground)] 
+                             bg-clip-text text-transparent bg-gradient-to-r 
+                             from-[var(--primary)] to-[var(--primary-dark)]"
               >
-                Share Feedback
-              </motion.button>
+                Welcome to Quok.it Beta
+              </h1>
+              <p className="text-[var(--text-secondary)] mt-2">
+                Bringing Transparency & Reliability to Decentralized Compute
+                Networks
+              </p>
             </motion.div>
           </div>
 
