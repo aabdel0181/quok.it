@@ -224,7 +224,7 @@ export default function BetaPage() {
               className="text-center"
             >
               <h1 className="text-4xl font-bold text-[var(--foreground)]">
-                Quok.it Beta
+                Quok.it Closed Beta
               </h1>
               <p className="text-[var(--text-secondary)] mt-2">
                 Bringing Transparency & Reliability to Decentralized Compute
