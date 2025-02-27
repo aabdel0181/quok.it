@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi"; // Add this import
+
 import { LeaderboardPanel } from "../components/LeaderboardPanel";
 import {
   HiHome,
@@ -14,6 +16,7 @@ import {
 
 export default function BetaPage() {
   const [activeTab, setActiveTab] = useState("Home");
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const tabs = [
     { id: "Home", icon: HiHome, label: "Home" },
@@ -81,10 +84,24 @@ export default function BetaPage() {
       {/* Sidebar */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        animate={{ x: isSidebarOpen ? 0 : -256, opacity: 1 }}
         className="w-64 bg-[var(--surface)] border-r border-[var(--border-light)] 
-                 flex flex-col fixed h-screen"
+                 flex flex-col fixed h-screen z-20"
       >
+        {/* Toggle Button (outside sidebar) */}
+        <button
+          onClick={() => setSidebarOpen(!isSidebarOpen)}
+          className="absolute -right-12 top-4 bg-[var(--primary)] p-2.5 rounded-r-lg 
+                   text-white hover:bg-[var(--primary-dark)] transition-colors
+                   shadow-md"
+          aria-label="Toggle Sidebar"
+        >
+          {isSidebarOpen ? (
+            <HiX className="w-6 h-6" />
+          ) : (
+            <HiMenu className="w-6 h-6" />
+          )}
+        </button>
         {/* Logo Section */}
         <div className="p-6 border-b border-[var(--border-light)]">
           <div className="flex items-center gap-3">
@@ -161,9 +178,12 @@ export default function BetaPage() {
       {/* Main Content */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="flex-1 ml-64 p-8"
+        animate={{
+          opacity: 1,
+          marginLeft: isSidebarOpen ? "16rem" : "0",
+        }}
+        transition={{ duration: 0.3 }}
+        className="flex-1 p-8"
       >
         <div className="max-w-6xl mx-auto">
           {/* Streamlined Header */}
