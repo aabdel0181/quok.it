@@ -3,11 +3,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-import { WaitlistFormData, waitlistSchema, developerSchema,
+import {
+  WaitlistFormData,
+  waitlistSchema,
+  developerSchema,
   computeNetworkSchema,
   gpuProviderSchema,
   investorSchema,
-  otherSchema,baseSchema } from "../../lib/validation"; // Import schema here
+  otherSchema,
+  baseSchema,
+} from "../../../lib/validation"; // Import schema here
 
 export default function Waitlist() {
   const {
@@ -168,7 +173,9 @@ export default function Waitlist() {
                 {...register("role")}
                 className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
               >
-                <option value="" disabled>Select a role</option>
+                <option value="" disabled>
+                  Select a role
+                </option>
                 <option value="Developer">Developer</option>
                 <option value="Decentralized Compute Network">
                   Decentralized Compute Network
@@ -211,7 +218,9 @@ export default function Waitlist() {
                     type="string"
                     {...register("projectLink", {
                       setValueAs: (value) =>
-                        value && !value.startsWith("http") ? `https://${value.trim()}` : value.trim(),
+                        value && !value.startsWith("http")
+                          ? `https://${value.trim()}`
+                          : value.trim(),
                     })}
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
@@ -238,9 +247,9 @@ export default function Waitlist() {
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
                   {errors.networkName && (
-                  <p className="text-[var(--primary)] text-sm mt-1">
-                    {errors.networkName.message}
-                  </p>
+                    <p className="text-[var(--primary)] text-sm mt-1">
+                      {errors.networkName.message}
+                    </p>
                   )}
                 </div>
 
@@ -256,9 +265,9 @@ export default function Waitlist() {
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
                   {errors.numGPUs && (
-                  <p className="text-[var(--primary)] text-sm mt-1">
-                    {errors.numGPUs.message}
-                  </p>
+                    <p className="text-[var(--primary)] text-sm mt-1">
+                      {errors.numGPUs.message}
+                    </p>
                   )}
                 </div>
               </>
@@ -302,10 +311,10 @@ export default function Waitlist() {
                       CPU Compute
                     </label> */}
                     {errors.hardwareType && (
-                    <p className="text-[var(--primary)] text-sm mt-1">
-                    {errors.hardwareType.message}
-                  </p>
-                  )}
+                      <p className="text-[var(--primary)] text-sm mt-1">
+                        {errors.hardwareType.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -321,9 +330,9 @@ export default function Waitlist() {
                     className="w-full mt-1 p-3 border border-[var(--border-light)] rounded-lg bg-[var(--surface-dark)] text-[var(--foreground)]"
                   />
                   {errors.numGPUs && (
-                  <p className="text-[var(--primary)] text-sm mt-1">
-                    {errors.numGPUs.message}
-                  </p>
+                    <p className="text-[var(--primary)] text-sm mt-1">
+                      {errors.numGPUs.message}
+                    </p>
                   )}
                 </div>
 

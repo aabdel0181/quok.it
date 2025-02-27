@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import HomeView from "./components/HomeView";
+import HomeView from "../components/HomeView";
 // import { fetchGPUMetrics } from "./lib/db";
 
 export default async function Home() {

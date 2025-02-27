@@ -1,14 +1,13 @@
-"use client"; // Add this at the top since we're using hooks
+"use client";
 
 import { useRouter } from "next/navigation";
+
 export default function LearnPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-[var(--background)] pt-24">
-      {" "}
-      {/* Added pt-24 for navbar spacing */}
-      <div className="container-fluid py-12">
+    <div className="w-full min-h-screen bg-[var(--background)]">
+      <div className="container-fluid py-12 pt-24">
         <header className="mb-16 text-center">
           <div className="max-w-2xl mx-auto space-y-4 animate-fadeIn">
             <h1 className="text-[var(--foreground)] font-bold leading-relaxed tracking-wide">

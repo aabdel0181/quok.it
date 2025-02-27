@@ -77,13 +77,13 @@ export default function BetaPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[var(--background)] pt-[80px]">
+    <div className="flex min-h-screen bg-[var(--background)]">
       {/* Sidebar */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         className="w-64 bg-[var(--surface)] border-r border-[var(--border-light)] 
-                     flex flex-col fixed h-[calc(100vh-80px)] top-[80px]"
+                 flex flex-col fixed h-screen"
       >
         {/* Logo Section */}
         <div className="p-6 border-b border-[var(--border-light)]">
@@ -91,8 +91,8 @@ export default function BetaPage() {
             <Image
               src="/logo.png"
               alt="Quok.it Logo"
-              width={40}
-              height={40}
+              width={100}
+              height={100}
               className="object-contain"
             />
             <div className="flex flex-col">
@@ -113,12 +113,12 @@ export default function BetaPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
-                           transition-all duration-200 text-left font-medium
-                  ${
-                    activeTab === tab.id
-                      ? "bg-[var(--primary)] text-white"
-                      : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
-                  }`}
+                       transition-all duration-200 text-left font-medium
+              ${
+                activeTab === tab.id
+                  ? "bg-[var(--primary)] text-white"
+                  : "text-[var(--foreground)] hover:bg-[var(--primary)] hover:bg-opacity-5"
+              }`}
             >
               <tab.icon
                 className={`w-5 h-5 ${
@@ -134,14 +134,14 @@ export default function BetaPage() {
         <div className="p-4 space-y-2 border-t border-[var(--border-light)]">
           <button
             className="w-full px-4 py-2.5 bg-[var(--primary)] text-white rounded-lg 
-                       hover:bg-[var(--primary-dark)] transition-colors text-sm font-medium"
+                   hover:bg-[var(--primary-dark)] transition-colors text-sm font-medium"
           >
             Share Feedback
           </button>
           <button
             className="w-full px-4 py-2.5 border border-[var(--border-light)] rounded-lg
-                       hover:bg-[var(--surface-dark)] transition-colors
-                       text-[var(--foreground)] text-sm font-medium"
+                   hover:bg-[var(--surface-dark)] transition-colors
+                   text-[var(--foreground)] text-sm font-medium"
           >
             View Documentation
           </button>
@@ -149,10 +149,7 @@ export default function BetaPage() {
 
         {/* Beta Badge */}
         <div className="p-4">
-          <div
-            className="flex items-center gap-2 px-4 py-2 bg-[var(--primary)] 
-                            bg-opacity-10 rounded-lg"
-          >
+          <div className="flex items-center gap-2 px-4 py-2 bg-[var(--primary)] bg-opacity-10 rounded-lg">
             <div className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
             <span className="text-sm font-medium text-[var(--primary)]">
               BETA Version 0.1
@@ -178,8 +175,8 @@ export default function BetaPage() {
             >
               <h1
                 className="text-3xl font-bold text-[var(--foreground)] 
-                             bg-clip-text text-transparent bg-gradient-to-r 
-                             from-[var(--primary)] to-[var(--primary-dark)]"
+                         bg-clip-text text-transparent bg-gradient-to-r 
+                         from-[var(--primary)] to-[var(--primary-dark)]"
               >
                 Welcome to Quok.it Beta
               </h1>
@@ -196,8 +193,7 @@ export default function BetaPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-[var(--surface)] rounded-xl shadow-sm border 
-                       border-[var(--border-light)] p-6"
+            className="bg-[var(--surface)] rounded-xl shadow-sm border border-[var(--border-light)] p-6"
           >
             {renderContent()}
           </motion.div>
