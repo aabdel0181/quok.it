@@ -13,14 +13,14 @@ const redis = new Redis({
 // Configure rate limiting (3 requests per 24 hours)
 const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(10, '24 h'),
+  limiter: Ratelimit.slidingWindow(5000, '24 h'),
   analytics: true,
 });
 
 // Input validation schema
-const AnswerSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Please enter a valid email address"),
+const baseSchema = z.object({
+  name: z.string().trim().min(3, "Name must be at least 3 characters"),
+  email: z.string().email("Please enter a valid email"),
   role: z.enum([
     "Developer",
     "Decentralized Compute Network",
@@ -28,16 +28,41 @@ const AnswerSchema = z.object({
     "Investor",
     "Other",
   ]),
-  projectName: z.string().optional(),
-  projectLink: z.string().url("Enter a valid URL").or(z.literal("")).optional(),
-  networkName: z.string().optional(),
-  numGPUs: z.string().optional(),
-  hardwareType: z.array(z.string()).optional(),
-  twitter: z.string().optional(),
-  telegram: z.string().optional(),
-  stage: z.string().optional(),
-  roleDescription: z.string().min(1, "Please describe your role or interest in Quok.it"),
-}).passthrough(); // Allow extra fields
+});
+
+// Schema for Developers (Project Details Required)
+const developerSchema = baseSchema.extend({
+});
+
+// Schema for Decentralized Compute Networks (GPUs & Network Info Required)
+const computeNetworkSchema = baseSchema.extend({
+  networkName: z.string().trim().min(2, "Network Name is required"),
+  numGPUs: z.string().trim().min(1, "Number of GPUs is required"),
+});
+
+// Schema for GPU Providers (Hardware Selection Required)
+const gpuProviderSchema = baseSchema.extend({
+  hardwareType: z.array(z.string()).min(1, "At least one hardware type must be selected"),
+});
+
+// Schema for Investors (Stage Selection Required)
+const investorSchema = baseSchema.extend({
+  stage: z.string().trim().min(2, "Investment stage is required"),
+});
+
+// Schema for Other (Role Description Required)
+const otherSchema = baseSchema.extend({
+  roleDescription: z.string().trim().min(5, "Please describe your role"),
+});
+
+// Combine all schemas into a union
+export const AnswerSchema = z.union([
+  developerSchema,
+  computeNetworkSchema,
+  gpuProviderSchema,
+  investorSchema,
+  otherSchema,
+]);
 
 export async function POST(request: Request) {
   try {
